@@ -1,0 +1,120 @@
+\documentclass[a4paper, 12pt]{amsart}
+\usepackage{amsfonts,enumerate,array,amsmath,xcolor}
+\usepackage{psfrag,graphicx,float}
+\usepackage{enumerate}
+\usepackage[english]{babel}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+
+
+
+%Theorem environments
+
+\newtheorem{defn0}{Definition}[section]
+\newtheorem{prop0}[defn0]{Proposition}
+\newtheorem{thm0}[defn0]{Theorem}
+\newtheorem{lemma0}[defn0]{Lemma}
+\newtheorem{corollary0}[defn0]{Corollary}
+\newtheorem{example0}[defn0]{Example}
+\newtheorem{remark0}[defn0]{Remark}
+\newtheorem{conjecture0}[defn0]{Conjecture}
+
+\newenvironment{definition}{ \begin{defn0}}{\end{defn0}}
+\newenvironment{proposition}{\bigskip \begin{prop0}}{\end{prop0}}
+\newenvironment{theorem}{\bigskip \begin{thm0}}{\end{thm0}}
+\newenvironment{lemma}{\bigskip \begin{lemma0}}{\end{lemma0}}
+\newenvironment{corollary}{\bigskip \begin{corollary0}}{\end{corollary0}}
+\newenvironment{example}{ \begin{example0}\rm}{\end{example0}}
+\newenvironment{remark}{ \begin{remark0}\rm}{\end{remark0}}
+\newenvironment{conjecture}{\begin{conjecture0}}{\end{conjecture0}}
+
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+\newcommand{\propref}[1]{Proposition~\ref{#1}}
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\corref}[1]{Corollary~\ref{#1}}
+\newcommand{\exref}[1]{Example~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\remref}[1]{Remark~\ref{#1}}
+\newcommand{\conjref}[1]{Conjecture~\ref{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+	%\frontmatter
+	\thispagestyle{empty}
+	\pagenumbering{roman} \setcounter{page}{0}
+	\begin{figure}[ht]
+		\centering\hbox{
+			\includegraphics[width=0.6\textwidth]{marca_pos_rgb.png}\hspace{2cm}
+			\includegraphics[width=0.4\textwidth]{Logo_uab.png}}
+	\end{figure}
+	\vglue 2truecm
+	\centerline{\bf \large ADVANCED MATHEMATICS}
+	\vglue 0.1truecm
+	\centerline{\bf  MASTER'S FINAL PROJECT}
+	\vglue 2truecm
+	\hrule
+	\vglue 1truecm
+	\centerline{\bf \Large ON THE MORDELL - WEIL RANK}
+	\vspace{0.4cm}
+	\centerline{\bf \Large OF HYPERELLIPTIC CURVES}
+	\vglue 1truecm
+	\hrule
+	\vglue 1truecm
+	\noindent {\it Author:} \hfill {\it Supervisor:}
+	\newline
+	\noindent {\color{red}{Guillem Mata Carmona}} \hfill {\color{red}{Marc Masdeu Sabaté}}
+	\vglue 3truecm
+	\centerline{\bf \Large Facultat de Matemàtiques i Informàtica}
+	\vglue 2truecm \hfill{February 28th, 2026}
+	
+	\newpage
+	
+	\tableofcontents
+	
+	\newpage
+	\thispagestyle{empty}
+	\section*{Abstract}
+	Lorem ipsum
+	
+	
+	
+	\newpage
+	\pagenumbering{arabic}
+	\pagestyle{fancy}
+	
+	\section{Introduction}
+	
+	\newpage
+	\section{Silverman's method}
+	Let us explain in detail the method described in Silverman's book \cite{Silverman_2009} to compute the rank of an elliptic curve. Let $E/K$ be an elliptic curve defined over some number field $K$. By the Mordell-Weil theorem, the group of $K$-rational points of $E$, $E(K)$, is finitely generated.
+	
+	\newpage
+	\section{Jacobians of curves}
+	
+	\newpage
+	\section{The Mordell-Weil theorem}
+	
+	\newpage
+	\section{Computing the Selmer group}
+	
+	\newpage
+	\section{A concrete example}
+	
+	\newpage
+	\section{Families}
+	\cite{Silverman_2009}, \cite{Cornell_Silverman_Artin_1986}
+	
+	\newpage
+	\pagestyle{empty}
+	\bibliographystyle{amsplain}
+	\bibliography{refs}
+
+\end{document}
+
+
+
+
