@@ -90,7 +90,101 @@
 	
 	\newpage
 	\section{Silverman's method}
+	
+	%The following is just a copy of a draft
 	Let us explain in detail the method described in Silverman's book \cite{Silverman_2009} to compute the rank of an elliptic curve. Let $E/K$ be an elliptic curve defined over some number field $K$. By the Mordell-Weil theorem, the group of $K$-rational points of $E$, $E(K)$, is finitely generated.
+	
+	%The following is also a copy of a (longer) draft
+	
+	We begin by recalling the following classical situation: let $K$ be a number field, and $E/K$ some elliptic curve defined over $K$. The set of $K$-rational points, denoted by $E(K)$ has a structure of abelian group, and moreover we have:
+	\begin{theorem}[Mordell-Weil]
+		The group of $K$-rational points of an elliptic curve is finitely generated. Therefore, we have an isomorphism:
+		\begin{equation*}
+			E(K)\cong \mathbb Z^r\oplus E(K)_{tors},
+		\end{equation*}
+		where $r\in\mathbb{Z}_{\ge 0}$ is called the rank of $E$ and $E(K)_{tors}$ is the torsion subgroup of $E(K)$, which is a finite abelian group.
+	\end{theorem}
+	It is well known that in order to prove the Mordell-Weil theorem, one can use the theory of height functions to reduce to proving the fact that the group $E(K)/mE(K)$ is finite for $m\ge 2$, which is known as the weak Mordell-Weil theorem. We describe in this section the method for computing the rank of an elliptic curve explained in J. Silverman's book. Essentially, the method consists on proving the weak Mordell-Weil theorem by embedding the group $E(K)/mE(K)$ into a certain (finite) cohomology group which allows explicit computations to be done.
+	
+	From a theoretical point of view, it is possible (and necessary) to make the assumption that $E[m]\subseteq E(K)$ without loss of generality when proving the WMW theorem, due to the following fact: if $L/K$ is a finite extension and we know that $E(L)/mE(L)$ is finite, then $E(K)/mE(K)$ is finite. If we instead want to compute explicitly the rank of $E$, we have to take the assumption $(*)$ in order for our method to work, but if sdñlkjañd
+	
+	Thus we make the assumption that $E[m]\subseteq E(\mathbb{Q})$. Let us recall some basic constructions for elliptic curves.
+	
+	Fix once and for all an algebraic closure of $K$, $\overline{K}$. We denote the absolute Galois group of $K$ by $G_{\overline{K}/K}:=\text{Gal}(\overline{K}/K)$, which acts on $Q\in E(\overline{K})$ by applying $\sigma\in G_{\overline{K}/K}$ to the coordinates of $Q$. Given $P\in E(K)$ and $\sigma\in G_{\overline{K}/K}$, we can find $Q\in E(\overline{K})$ such that $mQ=P$, and thus we obtain a pairing, called the Kummer pairing:
+	\begin{align*}
+		\kappa:E(K)\times G_{\overline{K}/K}&\longrightarrow E[m]\\
+		(P,\sigma)&\mapsto \kappa(P,\sigma)=Q^{\sigma}-Q
+	\end{align*}
+	which is bilinear and its left kernel is $mE(K)$. Therefore we obtain a homomorphism:
+	\begin{align*}
+		\delta_E:E(K)/mE(K)&\hookrightarrow\text{Hom}(G_{\overline{K}/K},E[m])\\
+		[P]&\mapsto \delta_E(P)=\kappa(P,\cdot\ )
+	\end{align*}
+	We also have the Weil pairing $e_m:E[m]\times E[m]\rightarrow \mu_m$ defined as follows: let $T\in E[m]$, and take a function $f\in \overline{K}(E)$ such that:
+	\begin{equation*}
+		\text{div}(f)=m(T)-m(O).
+	\end{equation*}
+	
+	
+	
+	asdf
+	
+	There is a bilinear pairing
+	\begin{equation*}
+		b:E(K)/mE(K)\times E[m]\rightarrow K^*/(K^*)^m,
+	\end{equation*}
+	such that
+	\begin{equation*}
+		e_m(\delta_E(P),T)=\delta_K(b(P,T))
+	\end{equation*}
+	as elements in $\text{Hom}(G_{\overline{K}/K},\mu_m)$, so that for every $P,T\in E[m]$ and every $\sigma\in G_{\overline{K}/K}$ we have $e_m(\delta_E(P)(\sigma),T)=\delta_K(b(P,T))(\sigma)$. The following properties of the pairing $b$ will allow us to prove the WMW theorem explicitly:
+	\begin{theorem}
+		\phantom{a}
+		
+		\begin{itemize}
+			\item The pairing $b$ is non degenerate on the left.
+			\item K(S,m)
+			\item computation
+		\end{itemize}
+	\end{theorem}
+	The fact that $b$ is non degenerate on the left means that there is an injective homomorphism
+	\begin{equation*}
+		E(K)/mE(K)\hookrightarrow \text{Hom}(E[m],K^*/(K^*)^m).
+	\end{equation*}
+	This is the kind of embedding that we would like to use in order to deduce that $E(K)/mE(K)$ is finite. However, $K^*/(K^*)^m$ is not finite so we cannot conclude. However, by part $b)$ of the previous theorem we find that we actually have an injective homomorphism
+	\begin{equation*}
+		E(K)/mE(K)\hookrightarrow \text{Hom}(E[m],K(S,m)),
+	\end{equation*}
+	and since both $E[m]$ and $K(S,m)$ are finite groups, we conclude that $E(K)/mE(K)$ is finite. Since we have an explicit way of computing $b$, we can try to determine the image of $E(K)/mE(K)$ in $\text{Hom}(E[m],K(S,m))$ where, as we will see, computations are easier.
+	
+	First of all, we know that
+	\begin{equation*}
+		E[m]\cong \mathbb{Z}/m\mathbb{Z}\times\mathbb{Z}/m\mathbb{Z},
+	\end{equation*}
+	so we begin by choosing a pair of generators $T_1$, $T_2$ of $E[m]$. An element $\varphi\in \text{Hom}(E[m],K(S,m))$ is determined by its values at $T_1$ and $T_2$, which is a pair of elements in $K(S,m)$ so we have an isomorphism:
+	\begin{align*}
+		\text{Hom}(E[m],K(S,m))&\rightarrow K(S,m)\times K(S,m)\\
+		\varphi&\mapsto(\varphi(T_1),\varphi(T_2))
+	\end{align*}
+	The conclusion of this discussion is that we have a well defined injective homomorphism
+	\begin{align*}
+		\psi:E(K)/mE(K)&\hookrightarrow K(S,m)\times K(S,m)\\
+		[P]&\mapsto(b(P,T_1),b(P,T_2))
+	\end{align*}
+	With these identifications, we want to check for each of the (finitely many) pairs $(b_1,b_2)\in K(S,m)\times K(S,m)$, whether they come from an element in $E(K)/mE(K)$, i.e., if they lie in the image of $\psi$. This will happen if and only if there exists some $P\in E(K)$ such that $b_1=b(P,T_1)$, $b_2=b(P,T_2)$. Since we know how to compute $b(P,T)$ up to $m$-th powers, this is equivalent to the existence of $P\in E(K)$ and $z_1,z_2\in K^*$ such that
+	\begin{equation*}
+		b_1z_1^m=f(P,T_1),\ b_2z_2^m=f(P,T_2).
+	\end{equation*}
+	\subsection{Example}
+	We use the method described above to compute the group of rational points of the curve:
+	\begin{equation*}
+		E:y^2=x^3-21x-20=(x+1)(x-5)(x+4)
+	\end{equation*}
+	First of all, we note that the 2-torsion is defined over $\mathbb{Q}$, since:
+	\begin{equation*}
+		E[2]\cong \mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}=\{\infty,(-1,0),(5,0),(-4,0)\}
+	\end{equation*}
+	The discriminant of this curve is $\Delta=419904=2^63^8$, so the curve has bad reduction at $2$ and $3$. A quick computation shows that 
 	
 	\newpage
 	\section{Jacobians of curves}
