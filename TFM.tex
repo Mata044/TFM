@@ -1,4 +1,5 @@
 \documentclass[a4paper, 12pt]{amsart}
+\usepackage[T1]{fontenc}
 \usepackage{amsfonts,enumerate,array,amsmath,xcolor}
 \usepackage{graphicx,float}
 \usepackage{enumerate}
@@ -9,9 +10,17 @@
 
 
 
-%Theorem environments
+%Margins
 
+\setlength{\textwidth}{\paperwidth}
+\addtolength{\textwidth}{-2in}
+\calclayout
+
+%Theorem environments
+\theoremstyle{definition}
 \newtheorem{defn0}{Definition}[section]
+
+\theoremstyle{theorem}
 \newtheorem{prop0}[defn0]{Proposition}
 \newtheorem{thm0}[defn0]{Theorem}
 \newtheorem{lemma0}[defn0]{Lemma}
@@ -39,8 +48,26 @@
 \newcommand{\remref}[1]{Remark~\ref{#1}}
 \newcommand{\conjref}[1]{Conjecture~\ref{#1}}
 
+%Commands
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Zmod}[1]{\mathbb{Z}/#1\mathbb{Z}}
+\renewcommand{\P}{\mathfrak{P}}
+\newcommand{\Div}{\text{Div}}
+\newcommand{\GF}[1]{\mathbb{F}_{#1}}
+\newcommand{\Jac}{\text{Jac}}
+\DeclareFontFamily{U}{wncy}{}
+\DeclareFontShape{U}{wncy}{m}{n}{<->wncyr10}{}
+\DeclareSymbolFont{mcy}{U}{wncy}{m}{n}
+\DeclareMathSymbol{\Sh}{\mathord}{mcy}{"58}
+\newcommand{\Gal}{\text{Gal}}
+\newcommand{\Ker}{\text{Ker}}
+\renewcommand{\Im}{\text{Im}}
+\newcommand{\Hom}{\text{Hom}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \begin{document}
 	%\frontmatter
@@ -69,7 +96,7 @@
 	\noindent {\color{red}{Guillem Mata Carmona}} \hfill {\color{red}{Marc Masdeu Sabaté}}
 	\vglue 3truecm
 	\centerline{\bf \Large Facultat de Matemàtiques i Informàtica}
-	\vglue 2truecm \hfill{February 28th, 2026}
+	\vglue 2truecm \hfill{\today}
 	
 	\newpage
 	
@@ -87,9 +114,7 @@
 	\pagestyle{fancy}
 	
 	\section{Introduction}
-	
-	\newpage
-	\section{Silverman's method}
+		\cite{Silverman_2009}, \cite{Cornell_Silverman_Artin_1986}, \cite{milneAV}, \cite{Mumford_1970}, \cite{Cantor_1987}
 	
 	%The following is just a copy of a draft
 	Let us explain in detail the method described in Silverman's book \cite{Silverman_2009} to compute the rank of an elliptic curve. Let $E/K$ be an elliptic curve defined over some number field $K$. By the Mordell-Weil theorem, the group of $K$-rational points of $E$, $E(K)$, is finitely generated.
@@ -143,7 +168,7 @@
 		
 		\begin{itemize}
 			\item The pairing $b$ is non degenerate on the left.
-			\item K(S,m)
+			\item $K(S,m)$
 			\item computation
 		\end{itemize}
 	\end{theorem}
@@ -184,7 +209,7 @@
 	\begin{equation*}
 		E[2]\cong \mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}=\{\infty,(-1,0),(5,0),(-4,0)\}
 	\end{equation*}
-	The discriminant of this curve is $\Delta=419904=2^63^8$, so the curve has bad reduction at $2$ and $3$. A quick computation shows that 
+	The discriminant of this curve is $\Delta=419904=2^6 3^8$, so the curve has bad reduction at $2$ and $3$. A quick computation shows that 
 	
 	\newpage
 	\section{Jacobians of curves}
@@ -192,17 +217,475 @@
 	\newpage
 	\section{The Mordell-Weil theorem}
 	
+	In this chapter, we 
+	
+	\textcolor{red}{IMPORTANT DIR QUE EL GRUP QUOCIENT LI DIEM WEAK MORDELL WEIL GROUP}
+	
+	\begin{theorem}\label{mordellweiltheorem}
+		mordell weil
+	\end{theorem}
+	
+	\begin{theorem}\label{torsioninjects}
+		teorema de que la torsió s'injecta a la bona reducció
+	\end{theorem}
+	
 	\newpage
 	\section{Computing the Selmer group}
 	
-	In this section, we are going to explain an explicit method for the computation of the Selmer group, given by Schaefer in \cite{Schaefer_1995}
-	\newpage
-	\section{A concrete example}
+	We have proved in the previous chapter the Mordell Weil theorem for abelian varieties over number fields, so in particular we will turn our attention first to Jacobians of hyperelliptic curves over number fields, and then to Jacobians of hyperelliptic curves over the rational numbers. Given a hyperelliptic curve $C$, we know then that there exists a finite set of points $P_1,\ldots,P_r\in\Jac(C)$ such that every point in $\Jac(C)$ is, up to torsion, a linear combinations of the points $P_i$. However, the proof of this theorem does not give any bound on the rank $r$, nor does it yield any method to find these points.
 	
+	In this section, we are going to explain a general construction from group cohomology called the Selmer group that allows, in some cases, to compute explicitly (or bound) the rank of a Jacobian variety. Then, we will describe a method for the computation of this group, given by Schaefer in \cite{Schaefer_1995}. This will make it possible for us to bound the Mordell Weil rank of a large amount of (Jacobians of) hyperelliptic curves, in the next chapter.
+	
+	\subsection{The Selmer group of a hyperelliptic curve}
+	
+	Let $J$ be a Jacobian variety over a number field $K$. When we proved \thmref{mordellweiltheorem}, we showed that using the theory of height functions it suffices to prove that the weak Mordell Weil group
+	\begin{equation*}
+		J(K)/mJ(K)
+	\end{equation*}
+	is finite, for some $m>1$. Moreover, the cardinality of this group gives the rank of $J(K)$: suppose that
+	\begin{equation*}
+		J(K)\cong\Z^r\oplus J(K)_{\text{tors}},
+	\end{equation*}
+	where $J(K)_{\text{tors}}$ is the torsion subgroup, which is finite. Then we have
+	\begin{equation*}
+		mJ(K)=(m\Z)^r\oplus J(K)[m'],
+	\end{equation*}
+	where $J(K)[m']$ is the subgroup of prime to $m$ torsion. Finally, we obtain that
+	\begin{equation*}
+		J(K)/mJ(K)\cong (\Zmod{m})^r\oplus J(K)[m].
+	\end{equation*}
+	Since the torsion is in general easy to compute, being able to determine (the cardinal of) the quotient group $J(K)/mJ(K)$ would give us the exact value of the rank. Unfortunately, it is difficult to work in this quotient group without knowing the group structure of $J(K)$.
+	
+	Instead, the standard approach is to use the Galois cohomology of the curve to embed the weak Mordell Weil group into a cohomology group, which is finite and effectively computable, and thus provides explicit bounds on the Mordell Weil rank.
+	
+	The construction is the following: let $J$ be a Jacobian variety over a number field $K$, and let $m>1$ be an integer. Fix once and for all an algebraic closure $\overline{K}$ of $K$. Consider the isogeny:
+	\begin{equation*}
+		[m]:J\rightarrow J
+	\end{equation*}
+	given by multiplication by $m$. We denote by $J[m]$ the kernel of this map. Then we have the following short exact sequence:
+	\begin{equation*}
+		\begin{tikzcd}
+			0\arrow{r}
+			&J[m]\arrow{r}
+			&J(\overline{K})\arrow{r}{[m]}
+			&J(\overline{K})\arrow{r}
+			&0.
+		\end{tikzcd}
+	\end{equation*}
+	We denote by $G_K$ the absolute Galois group of $K$, that is, the group $\Gal(\overline{K}/K)$. Note that the above exact sequence of abelian groups is actually an exact sequence of $G_K$ modules, where the action of $G_K$ is the usual one on the coordinates of the points in $J$. Note that the elements that are fixed by $G_K$ are precisely:
+	\begin{align*}
+		J[m]^{G_K}&=J(K)[m],\\
+		J(\overline{K})^{G_K}&=J(K),
+	\end{align*}
+	so by the usual properties of Galois cohomology we obtain a long exact sequence of the form:
+	\begin{equation*}
+		\begin{tikzcd}
+			0\arrow{r}
+			&J(K)[m]\arrow{r}
+			&J(K)\arrow{r}{[m]}
+			&J(K)\arrow{r}{\delta}
+			&\phantom{ }
+			\\ \arrow{r}{\delta}
+			&H^1(G_K,J[m])\arrow{r}
+			&H^1(G_K,J(\overline{K}))\arrow{r}
+			&H^1(G_K,J(\overline{K}))\arrow{r}
+			& \ldots,
+		\end{tikzcd}
+	\end{equation*}
+	where $\delta$ is the usual connecting homomorphism defined as follows: if $x\in J(K)$ then there exists some $y\in J(\overline{K})$ such that $[m]y=x$. Observe that, since the map $[m]$ is a homomorphism of $G_K$ modules, we have, for each $\sigma\in G_K$:
+	\begin{equation*}
+		[m](y^\sigma-y)=([m]y)^\sigma -[m]y=x^\sigma -x=x-x=0,
+	\end{equation*}
+because $x$ is $G_K$ invariant. Therefore, $y^\sigma-y$ is a point of $m$-torsion. Moreover, note that for any $\sigma,\tau\in G_K$ we have:
+\begin{equation*}
+	y^{\sigma\tau}-y=y^{\sigma\tau}-y^\tau+y^\tau -y=(y^\sigma-y)^\tau + (y^\tau-y),
+\end{equation*}
+so that the assignment $\sigma\mapsto y^\sigma-y$ has the property of a cocycle. It is a standard exercise in homological algebra to check that this assignment is well defined and does not depend on the choice of $y$, up to coboundaries, so it defines an element in $H^1(G_K, J[m])$, which we define to be $\delta(x)$.
+
+By exactness of the long exact sequence, the kernel of $\delta$ is the image of $[m]:J(K)\rightarrow J(K)$, which is denoted by $mJ(K)$. Therefore, the map $\delta$ induces an injective map 
+\begin{equation*}
+	\overline{\delta}:J(K)/mJ(K)\hookrightarrow H^1(G_K,J[m]),
+\end{equation*}
+which we also call $\delta$, by abuse of notation. In addition, the homomorphism $H^1(G_K,J(\overline{K}))\rightarrow H^1(G_K,J(\overline{K}))$ induced by the map $[m]$ can be identified with the multiplication-by-$m$ morphism of the abelian group $H^1(G_K,J(\overline{K}))$, so the kernel of this map, which is the image of the map $H^1(G_K,J[m])\rightarrow H^1(G_K,J(\overline{K}))$, is just $H^1(G_K,J(\overline{K}))[m]$, the $m$ torsion of this group. The above discussion can be summarized by stating that we have a short exact sequence of $G_K$ modules of the form:
+\begin{equation}
+	\begin{tikzcd}
+		0\arrow{r}
+		&J(K)/mJ(K)\arrow{r}{\delta}
+		&H^1(G_K,J[m])\arrow{r}
+		&H^1(G_K,J(\overline{K}))[m]\arrow{r}
+		&0.
+	\end{tikzcd}\label{funses}
+\end{equation}
+
+Since the homomorphism $H^1(G_K,J[m])\rightarrow H^1(G_K,J(\overline{K}))[m]$ is the one induced by the inclusion $J[m]\subset J(\overline{K})$, we will refer to it when needed as $\iota$. Now let $\P$ be a prime of $K$. Denote by $K_\P$, $\overline{K_\P}$ and $G_\P$ the completion of $K$ at $\P$, an algebraic closure of this field and the group $\Gal(\overline{K_\P}/K_\P)$, respectively. Restricting a morphism $\sigma\in G_\P$ to $\overline{K}$ yields an element in $G_K$, and since $\sigma$ fixes $K_\P$, its restriction fixes the prime ideal $\P$. We therefore find that the restriction sends $G_\P$ to the decomposition group $D_\P:=\{\sigma\in G_K: \sigma(\P)=\P\}\subset G_K$. It is easy to see that this is in fact an isomorphism (see \cite{Janusz_1973}), so we can regard the group $G_\P$ as a subgroup of $G_K$. If $M$ is any $G_K$ module, restricting the domain of a 1-cochain $\xi:G_K\rightarrow M$ to $G_\P$ yields the restriction map:
+\begin{align*}
+	res_\P:H^1(G_K,M)&\rightarrow H^1(G_\P,M)\\
+	[\xi]&\mapsto [\xi|_{G_\P}]
+\end{align*}
+Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$, we can form an analogous short exact sequence to \eqref{funses}, considering $K_\P$ instead of $K$. Taking the product over all primes of $K$ of these exact sequences and using the restriction maps from above, we obtain the following commutative diagram of abelian groups:
+\small
+	\begin{equation}
+		\begin{tikzcd}
+			0\arrow[r]
+			&J(K)/mJ(K)\arrow{r}{\delta}\arrow{d}
+			&H^1(G_K, J[m])\arrow{r}\arrow{d}{\prod\text{res}_\P}
+			&H^1(G_K,J(\overline{K}))[m]\arrow{r}\arrow{d}{\prod\text{res}_\P}
+			&0
+			\\
+			0\arrow[r]
+			&\displaystyle \prod_\P J(K_\P)/mJ(K_\P)\arrow{r}{\delta_\P}
+			&\displaystyle \prod_\P H^1(G_\P, J[m])\arrow{r}
+			&\displaystyle \prod_\P H^1(G_\P,J(\overline{K}_\P))[m]\arrow{r}
+			&0
+		\end{tikzcd}\label{seldiag}
+	\end{equation}
+\normalsize
+	As before, we refer to the homomorphisms $H^1(G_\P,J[m])\rightarrow H^1(G_\P,J)[m]$ as $\iota_\P$ when needed. Now we make the following important observation: let $x\in J(K)/mJ(K)$. Then by commutativity of the above diagram, we have that $\iota_\P\circ\text{res}_\P(\delta(x))$ is equal to $\text{res}_\P\circ \iota(\delta(x))$. Moreover, since the first row is exact, we have that $\iota\circ\delta=0$, so $\text{res}_\P(\delta(x))\in \Im(\delta_\P)$ by exactness of the second row. This motivates the following
+	\begin{definition}
+		Let $J$ be a Jacobian variety over a number field $K$. The $m$-Selmer group of $J(K)$ is the subgroup of $H^1(G_K,J[m])$ defined as:
+		\begin{equation*}
+			S^m(J/K)=\{\phi\in H^1(G_K,J[m]):\text{res}_\P(\phi)\in \Im(\delta_\P), \ \forall \P\in\text{Spec}(\mathcal{O}_K)\}
+		\end{equation*}
+		By exactness of the second row in \eqref{seldiag}, the $m$-Selmer group admits the following equivalent description:
+		\begin{equation*}
+			S^m(J/K)=\{\phi\in H^1(G_K,J[m]):\text{res}_\P(\phi)\in \Ker(\iota_\P), \ \forall \P\in\text{Spec}(\mathcal{O}_K)\}
+		\end{equation*}
+	\end{definition}
+	As we have explained above, the weak Mordell-Weil group injects in $S^m(J/K)$ through the map $\delta$. The advantage of working in this smaller group is that we have methods to compute the groups $J(K_\P)/mJ(K_\P)$ for any prime $\P$, so knowing that the restrictions of a 1-cocycle $\phi\in S^m(J/K)$ lie in the image of $\delta_\P$ gives us local conditions that allow the computation of the $m$-Selmer group.
+	
+	Knowing how to compute the $m$-Selmer group is not enough: in order to produce bounds on the order of the Weak Mordell-Weil group we must also show that it is a finite group. We will do so by explaining how the $m$-Selmer group is contained in a finite cohomology group inside $H^1(G_K,J[m])$, essentially repeating the proof of the weak Mordell-Weil theorem in the language of Galois cohomology. We first translate the property of a finite extension being unramified.
+	\begin{definition}
+		Let $\P$ be a prime of $K$, let $I_\P\subset G_K$ be an inertia subgroup for $\P$ and let $M$ be a $G_K$-module. We say that a cohomology class $\phi\in H^1(G_K,M)$ is unramified at $\P$ if its restriction to $H^1(I_\P, M)$ is the trivial cohomology class.
+		
+		If $S$ is a finite set of primes of $K$, we denote by $H^1_S(G_K,M)$ the subgroup of cohomology classes that are unramified at all primes except possibly those in $S$.
+	\end{definition} 
+	
+	
+	
+	Now we can proof a result similar to \textcolor{red}{l'equivalent pel mordell weil} that will show that $S^m(J/K)$ is a finite group.
+	
+	\begin{proposition}\label{selfinite}Let $K$ be a number field.
+		\begin{enumerate}
+			\item Let $S$ be a finite set of primes of $K$. If $M$ is a finite $G_K$-module, then the group $H^1_S(G_K,M)$ is finite.
+			\item Let $J$ be a Jacobian variety defined over $K$, and $m\ge 2$ an integer. Let $S$ be a set of primes of $K$ containing the archimedean primes of $K$, the primes dividing $m$ and the primes of bad reduction of $J$. Then the $m$-Selmer group $S^m(J/K)$ is contained in $H^1_S(G_K,J[m])$.
+		\end{enumerate}
+	\end{proposition}
+	\begin{remark}
+		Since the $m$-torsion of $J$ is a finite $G_K$ module and the set of primes described in part (2) is finite, the two parts of \propref{selfinite} combined imply that the $m$-Selmer group is contained in a finite group so it is finite.
+	\end{remark}
+	\begin{proof} \phantom{}
+		\begin{enumerate}
+			\item By definition, the action of $G_K$ on $M$ is continuous when $G_K$ has the Krull topology and $M$ has the discrete topology. Hence, if we fix $m\in M$, the map
+			\begin{align*}
+				G_K\times \{m\}&\rightarrow M\\
+				(\sigma,m)&\mapsto m^\sigma
+			\end{align*}
+			is continuous. Since $M$ is discrete, the stabilizer of $m$ in $G_K$, denoted by $G_m$, is an open subgroup, because it is the preimage of $m$ by this map. Since $M$ is finite, the set
+			\begin{equation*}
+				H:=\cap_{m\in M}G_m
+			\end{equation*}
+			is a subgroup of $G_K$, because it is an intersection of subgroups; and it is open, because it is a finite intersection of open sets. In addition, we have by construction that $m^\sigma=m$ for all $m\in M$ and $\sigma\in H$. 
+			
+			With the Krull topology on $G_K$, an open subgroup is of the form $\Gal(\overline{K}/L)$, where $L/K$ is a finite extension. Therefore, we have that $G_L$ acts trivially on $M$ (identifying $\Gal(\overline{K}/L))$ with $G_L$). We can now use the restriction-inflation sequence (see \cite{Serre_1979}):
+			\begin{equation*}
+				\begin{tikzcd}
+					0\arrow{r}
+					& H^1(G_{L/K},M^{G_L})\arrow{r}
+					& H^1(G_K,M)\arrow{r}
+					& H^1(G_L,M)
+				\end{tikzcd}
+			\end{equation*}
+			to observe that if we know the result for a finite extension of $K$, then it also holds for $K$. Therefore we may assume, by the above argument, that $G_K$ acts trivially on $M$. In this case, a $1$-cocycle satisfies:
+			\begin{equation*}
+				\phi(\sigma\tau)=\phi(\sigma)^\tau+\phi(\tau)=\phi(\sigma)+\phi(\tau),
+			\end{equation*}
+			so cocycles are just group morphisms from $G_K$ to $M$. Moreover, a coboundary has the form:
+			\begin{equation*}
+				\phi(\sigma)=m^\sigma-m=m-m=0,\text{ for some } m\in M,
+			\end{equation*}
+			so there are no nontrivial 1-coboundaries. Therefore, we deduce that $H^1(G_K,M)=\Hom(G_K,M)$. Let $m$ be the exponent of $M$ (that is, the smallest positive integer such that every element in $M$ annihilated by $m$). Then, elements in $\Hom(G_K,M)$ correspond to abelian subgroups of finite index in $G_K$ of exponent $m$. By the Fundamental Theorem of Galois Theory, these subgroups correspond to finite abelian extensions of $K$ of exponent $m$. Moreover, elements in $H^1_S(G_K,M)$ correspond to finite abelian extensions of $K$ of exponent $m$ and unramified outside of $S$.
+			
+			All these extensions lie, by definition, inside the maximal abelian extension of exponent $m$ unramified outside $S$. By \textcolor{red}{teorema de finitesa}, this extension is finite so it has a finite number of subextensions, so we conclude that $H^1_S(G_K,M)$ is finite.
+			
+			\item Let $\phi\in S^m(J/K)$ and let $\P$ be a prime not in $S$, which is then non-archimedean by assumption. By definition of the Selmer group, the cohomology class $\phi_\P:=\text{res}_\P(\phi)$ becomes trivial in cohomology when mapped to $H^1(G_\P,J(\overline{K}_\P))[m]$. Therefore, we can find a point $y\in J(\overline{K}_\P)$ such that $\phi_\P(\sigma)=\sigma(y)-y$, for all $\sigma\in G_\P$. Moreover, the point $y$ satisfies the condition $[m]y\in J(K_\P)$. We want to show that for $\sigma\in I_\P$, $\phi_\P(\sigma)$ is the zero cohomology class. Recall that the elements in the inertia group $I_\P$ are those that act trivially modulo $\P$. Therefore, reducing modulo $\P$, we have the equality:
+			\begin{equation*}
+				\widetilde{\sigma(y)-y}=\widetilde{\sigma(y)}-\widetilde{y}=\widetilde{y}-\widetilde{y}=\widetilde{\mathcal{O}},
+			\end{equation*}
+			so $\phi(\sigma)$ is zero modulo $\P$. Note also that
+			\begin{equation*}
+				[m]\phi(\sigma)=([m]y)^\sigma-[m]y=[m]y-[m]y=0,
+			\end{equation*}
+			because $[m]y$ is invariant by the action of $G_\P$, so $\phi(\sigma)$ is a point of $m$-torsion. By the conditions on $S$, the Jacobian variety $J$ has good reduction at $\P$, and moreover $m$ is coprime to the unique rational prime $p$ lying under $\P$. Therefore, \thmref{torsioninjects} implies that the reduction map
+			\begin{equation*}
+				J[m]\rightarrow \tilde{J}(\widetilde{k}_\P)
+			\end{equation*}
+			is injective, so (the restriction to the inertia subgroup of) $\phi(\sigma)$ is equal to zero. In particular it represents the zero class in cohomology so we are done.
+		\end{enumerate}
+	\end{proof}
+	
+	We will use the $m$-Selmer group (in fact we will only use $m=2$) to bound the Mordell-Weil rank of some Jacobian varieties, but we first digress for a moment to the question on how could one calculate this rank using the $m$-Selmer group. Since we have an injective map
+	\begin{equation*}
+		\delta:J(K)/mJ(K)\rightarrow S^m(J/K),
+	\end{equation*}
+	we are naturally led to ask when is the map $\delta$ an isomorphism, because in that case we could determine the exact rank of $J$ by computing $S^m(J/K)$. To this purpose, we introduce the Tate-Shafarevich group:
+	\begin{definition}
+		Let $J$ be a Jacobian variety defined over a number field $K$. The Tate-Shafarevich group of $J$ is defined as:
+		\begin{equation*}
+			\Sh(J/K)=\Ker(H^1(G_K,J(\overline{K}))\rightarrow \prod_\P H^1(G_\P,J(\overline{K}_\P))),
+		\end{equation*}
+		where the map is the product of the restriction maps in cohomology.
+	\end{definition}
+	
+	By the diagram \eqref{seldiag}, we have that $H^1(G_K,J[m])$ maps surjectively to $\Sh(J/K)[m]$, but in fact it is $S^m(J/K)$ the one that maps surjectively to $\Sh(J/K)[m]$: if $\xi\in\Sh(J/K)[m]$, choose some $\phi\in H^1(G_K,J[m])$ that maps to $\xi$. Then we have, for each prime $\P$:
+	\begin{align*}
+		\iota_\P\circ\text{res}_\P(\phi)=\text{res}_\P(\xi)=0,
+	\end{align*}
+	where the first equality follows from the commutativity of \eqref{seldiag}, and the second equality follows from definition of $\Sh(J/K)$. We then have, by exactness of the second row in \eqref{seldiag}, that $\phi\in S^m(J/K)$, as we claimed. This proves that we have the important short exact sequence:
+	\begin{equation}
+		\begin{tikzcd}
+			0\arrow{r}
+			&J(K)/mJ(K)\arrow{r}{\delta}
+			&S^m(J/K)\arrow{r}
+			&\Sh(J/K)[m]\arrow{r}
+			&0
+		\end{tikzcd}
+	\end{equation}
+	
+	Since we know that $S^m(J/K)$ is finite, this implies that $\Sh(J/K)[m]$ is finite. Now we can restate the problem of $\delta$ being an isomorphism as the group $\Sh(J/K)[m]$ being trivial. If the group $\Sh(J/K)$ were finite, then we could find a large enough $m$ such that $\Sh(J/K)[m]=0$, but to this date this is still an open problem:
+	\begin{conjecture}(Tate-Shafarevich)
+		The group $\Sh(J/K)$ is finite.
+	\end{conjecture}
+	
+	\subsection{An effective algorithm}
+	
+	Now that we have established the Selmer group as the space that we want to compute, we will explain a series of results given by Schaefer in \cite{Schaefer_1995} to translate our computations into the language of linear algebra over a finite field, and also to replace the cohomology groups with certain finite-dimensional algebras. Specifically, we will work from this point on with the weak Mordell-Weil group for $m=2$, that is, $J(K)/2J(K)$.
+	
+	To begin with, consider a curve $C$ defined over a field $K$ of characteristic 0 by the equation $y^2=f(x)$, where $f(x)$ is a monic, separable polynomial of odd degree $2g+1$ and coefficients in $K$, thus the curve $C$ has genus $g$. Fix an algebraic closure of $K$, denoted by $\overline{K}$. Since we want to construct the Jacobian of $C$, we must ensure that $C$ is non-singular. The curve $C$ is only singular at the (unique) point at infinity, so we solve this singularity by taking the normalization of the curve. Explicitly, what we are doing at this point $\infty$ is to take the integral closure of the local ring $K[C]_\infty$. By abuse of notation, we call this normalization again $C$, and consider its Jacobian $J:=\Jac(C)$.
+	
+	Since we are fixing $\infty$ as the base point, the embedding of $C$ into $J$ is given by:
+	\begin{align*}
+		\iota:C&\hookrightarrow J\\
+		P&\mapsto [P-\infty]
+	\end{align*}
+	
+	Let $\{\alpha_1\ldots,\alpha_d\}$ be the $d$ distinct roots of $f(x)$ in $\overline{K}$. Then the divisors including $[(\alpha_i,0)-\infty]$, for $i=1,\ldots,d-1$ form a basis for $J[2]\cong (\Zmod{2})^{d-1}$. The remaining divisor $[(\alpha_d,0)-\infty]$ satisfies:
+	\begin{equation*}
+		[(\alpha_d,0)-\infty]=\sum_{i=1}^{d-1}[(\alpha_i,0)-\infty],
+	\end{equation*}
+	because
+	\begin{equation*}
+		\Div(y)=\sum_{i=1}^{d}[(\alpha_i,0)-\infty]
+	\end{equation*}
+	(and these divisors are points of 2-torsion, so the sign does not matter).
 	\newpage
 	\section{Families}
-	\cite{Silverman_2009}, \cite{Cornell_Silverman_Artin_1986}
 	
+	In this chapter, we will use the theoretical tools that we have developed in the previous chapters to give some bounds on the rank of a family of hyperelliptic curves.
+	
+	
+	Consider the following situation: $r,s$ are distinct odd prime numbers, so we assume without loss of generality that $r>s$, and such that $r+s=2^a\cdot p$ and $r-s=2^b\cdot q$, where $a,b$ are integers and $p,q$ are either odd primes or 1.
+	
+	We then consider the family of hyperelliptic curves:
+	\begin{equation*}
+		C_{r,s}: y^2=x\cdot(x^2-(r+s)^2)\cdot(x^2-(r-s)^2)
+	\end{equation*}
+	
+	Throughout the discussion, we will denote:
+	\begin{equation*}
+		f_{r,s}(x)=x\cdot(x^2-(r+s)^2)\cdot(x^2-(r-s)^2),
+	\end{equation*}
+	
+	so that $C_{r,s}:y^2=f_{r,s}$. We will study the group $J_{r,s}(\Q)$, where $J_{r,s}$ is the Jacobian of the curve $C_{r,s}$. Specifically, we will give bounds for the Mordell-Weil of $J_{r,s}(\Q)$ depending on some congruence relations for $r,s,p,q,a$ and $b$.
+	
+	To begin with, note that the 2-torsion of $J_{r,s}(\Q)$ is isomorphic to $(\Zmod{2})^4$, with a basis given by $(0,0)-\infty$, $(r+s,0)-\infty$, $(-r-s,0)-\infty$ and $(r-s,0)-\infty$. Observe that the 2-torsion point corresponding to the fifth root of $f_{r,s}$ is a linear combination of the other given 2-torsion points, since:
+	\begin{equation*}
+		\Div(y)=\sum_{i=1}^{5}((\alpha_i,0)-\infty),
+	\end{equation*}
+	where the $\alpha_i$ are the distinct roots of $f_{r,s}$.
+	
+	
+	\textcolor{red}{COMENTARI SOBRE LA TORSIÓ}
+	
+	
+	
+	By the Mordell-Weil theorem, \textcolor{red}{FALTA CITAR} we have
+	\begin{equation*}
+		J_{r,s}(\Q)\cong \Z^r\oplus \left( \Zmod{2}\right)^4,
+	\end{equation*}
+	for some $r\ge 0$. Therefore, we have that:
+	\begin{equation*}
+		2J_{r,s}(\Q)\cong (2\Z)^r,
+	\end{equation*}
+	so we find that:
+	\begin{equation*}
+		J_{r,s}/2J_{r,s}\cong (\Zmod{2})^r\oplus(\Zmod{2})^4\cong (\Zmod{2})^{r+4}.
+	\end{equation*}
+	For this reason, in order to calculate the Mordell-Weil rank of $J_{r,s}$ we have to compute 2-dimension of the group $J_{r,s}/2J_{r,s}$.
+	
+	We will first explain some considerations on the parameters $r,s,p,q,a$ and $b$. Since $r$ and $s$ are odd and $r>s$, the values $r+s$ and $r-s$ are even and strictly positive. Since $p$ and $q$ are odd, this forces that $a,b\ge 1$. Next we will show that except for a particular case, the values $r,s,p,q$ are different.
+	
+	If $p$ is equal to $q$, then we have:
+	\begin{equation*}
+		2r=(r+s)+(r-s)=(2^a+2^b)p.
+	\end{equation*}
+	Since $a,b\ge 1$, this implies that $r=(2^{a-1}+2^{b-1})p$. Since $2^{a-1}+2^{b-1}\ge 2$, if we have $p>1$ then $r$ is not a prime, so $p=1$, and thus $q=1$. In this case, if $a=b$ we have $r=2\cdot 2^{a-1}=2^a$, which is only prime if $a=1$. But then $r+s=2=r$, which is impossible. Therefore we must have $a\neq b$, and since $r+s>r-s$, we must have $a>b$. If $b>1$, then $r=2^{a-1}+2^{b-1}>1+1=2$ and it is even, so it cannot be prime. Thus we must have $b=1$ and $a>1$, so $r=2^{a-1}+1$ and $r-s=2$, so $s=2^{a-1}-1$. Observe that then $s$ is a Mersenne prime, so we know that $a-1$ is prime. If $a-1=2$, so $a=3$, we have the specific case:
+	\begin{equation*}
+		\fbox{C1}: r=5,s=3,p=1,q=1,
+	\end{equation*}
+	which will be dealt later. Now if $a-1$ is odd, we have:
+	\begin{gather*}
+		s=2^{a-1}-1\equiv -1\equiv 1\pmod 2,\\
+		s=2^{a-1}-1\equiv (-1)^{a-1}-1\equiv -2\equiv 1\pmod 3,
+	\end{gather*}
+	so $s\equiv 1\pmod 6$. Therefore, $r=s+2\equiv 3\pmod6$, which is only prime if $r=3$ but then $s=1$ which is impossible. In conclusion, except for the case $C1$, $p$ and $q$ are different. Now we rule out every other possibility:
+	
+	Assume that $p$ is equal to $r$. Then $2r>r+s=2^ar$, so $1>2^{a-1}\ge 1$, which is impossible.
+	
+	Assume that $p$ is equal to $s$. Then $r+s=2^as$, so $r=s(2^a-1)$. If $a>1$, then $2^a-1>1$, so $r$ is not prime. If $a=1$, then $r=s$ which is also impossible.
+	
+	Assume that $q$ is equal to $s$. Then $r-s=2^bs$, so $r=(2^b+1)s$. Note that $s>1$ and, for every $b\ge 1$, $2^b+1>1$, so $r$ cannot be prime, which is impossible.
+	
+	Finally, assume that $q$ is equal to $r$. Then $2^br=r-s<r<2^br$, which is impossible.
+	
+	
+	Now our choice for the pairs $r$ and $s$ will become clear: we want to determine the prime of bad reduction for $J_{r,s}$, which correspond to the primes dividing the discriminant of $f_{r,s}(x)$, so we compute it:
+	\begin{equation*}
+		\Delta_{r,s}=(r+s)^6\cdot(r-s)^6\cdot s^4\cdot r^4\cdot 2^{12}.
+	\end{equation*}
+	
+	From our initial assumption on the values of $r+s$ and $r-s$, we find that the only primes dividing $\Delta_{r,s}$ are $r,s,p,q$ and $2$. From our previous discussion, except for a specific case these five numbers are distinct from each other. Therefore our family of hyperelliptic curves has a uniform bound on the number of primes of bad reduction, which will be useful for our computations.
+	
+	We now will deal with the specific case $C1$: $r=5$, $s=3$, so that the curve becomes:
+	\begin{equation*}
+		C_{5,3}: y^2=x\cdot(x^2-8^2)\cdot(x^2-2^2).
+	\end{equation*}
+	Since $p=q=1$, the primes of bad reduction for $J_{r,s}$ are just $2,3$ and $5$. In the notation of the previous chapter, we take $S=\{\infty,2,3,5\}$ and $H=\langle -1,2,3,5\rangle$, which is isomorphic to $\GF2^4$. We will work in the vector space $H^5\cong \GF2^{20}$, specifically in the subgroup $G$ which is the kernel of the norm function. Since we are working with a specific equation, we can find an extra point of the curve: when $x=-4$, the equation becomes $y^2=2304$, which has two solutions $y=\pm 48$ in $\Q$. We will be able to see that $J_{5,3}$ has rank 1 and that the point $(-4,48)-\infty$ is a generator.
+	
+	We now compute the image of the known rational points inside $H^5$, and present the results in a table. Since we have the natural decomposition:
+	\begin{equation*}
+		L=\Q[T]/(f_{r,s}(T))\cong \Q^5
+	\end{equation*}
+	which descends to a decomposition
+	\begin{equation*}
+		L^*/(L^*)^2\cong \Q^*/(\Q^*)^2\oplus \overset{(5}{\ldots}\oplus \Q^*/(\Q^*)^2,
+	\end{equation*}
+	we can compute the map $X-T$ from Chapter \textcolor{red}{NUMERO DEL CAPITOL ANTERIOR}
+	
+	
+	Rational points
+	
+	
+	{
+		\centering
+		\begin{tabular}{c|c|c|c|c|c}
+			 & $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
+			$(-8,0)-\infty$&$30$ & $-6$ & $-2$ & $-10$ & $-1$\\ \hline
+			$(-2,0)-\infty$&$6$ & $-30$ & $-2$ & $-1$ & $-10$\\ \hline
+			$(0,0)-\infty$&$2$ & $2$ & $1$ & $-2$ & $-2$\\ \hline
+			$(2,0)-\infty$&$10$ & $1$ & $2$ & $-30$ & $-6$\\ \hline
+			$(-4,48)-\infty$&$1$ & $-2$ & $-1$ & $-6$ & $-3$
+		\end{tabular}\par
+	}
+	
+	Real points
+	
+	
+	{
+	\centering
+	\begin{tabular}{c|c|c|c|c|c}
+		& $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
+		$(-2,0)-\infty$&$1$ & $-1$ & $-1$ & $-1$ & $-1$\\ \hline
+		$(0,0)-\infty$&$1$ & $1$ & $1$ & $-1$ & $-1$\\ \hline
+	\end{tabular}\par
+}	
+	
+	$\Q_2$ points
+	
+	
+{
+	\centering
+	\begin{tabular}{c|c|c|c|c|c}
+		& $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
+		$(-8,0)-\infty$&$-2$ & $-6$ & $-2$ & $6$ & $-1$\\ \hline
+		$(-2,0)-\infty$&$6$ & $2$ & $-2$ & $-1$ & $6$\\ \hline
+		$(0,0)-\infty$&$2$ & $2$ & $1$ & $-2$ & $-2$\\ \hline
+		$(2,0)-\infty$&$-6$ & $1$ & $2$ & $2$ & $-6$\\ \hline
+		$(-4,48)-\infty$&$1$ & $-2$ & $-1$ & $-6$ & $-3$\\ \hline
+		$(-3,\varepsilon)-\infty$ &$-3$ & $-1$ & $-3$ & $3$ & $-3$
+	\end{tabular}\par
+}
+
+	$\Q_3$ points
+
+{
+	\centering
+	\begin{tabular}{c|c|c|c|c|c}
+		& $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
+		$(-8,0)-\infty$&$3$ & $3$ & $1$ & $-1$ & $-1$\\ \hline
+		$(-2,0)-\infty$&$-3$ & $-3$ & $1$ & $-1$ & $-1$\\ \hline
+		$(0,0)-\infty$&$-1$ & $-1$ & $1$ & $1$ & $1$\\ \hline
+		$(2,0)-\infty$&$1$ & $1$ & $-1$ & $-3$ & $3$\\ \hline
+		$(-4,48)-\infty$&$1$ & $1$ & $-1$ & $3$ & $-3$
+	\end{tabular}\par
+}
+
+	$\Q_5$ points
+
+{
+	\centering
+	\begin{tabular}{c|c|c|c|c|c}
+		& $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
+		$(-8,0)-\infty$&$5$ & $1$ & $2$ & $10$ & $1$\\ \hline
+		$(-2,0)-\infty$&$1$ & $5$ & $2$ & $1$ & $10$\\ \hline
+		$(0,0)-\infty$&$2$ & $2$ & $1$ & $2$ & $2$\\ \hline
+		$(2,0)-\infty$&$10$ & $1$ & $2$ & $5$ & $1$\\ \hline
+		$(-4,48)-\infty$&$1$ & $2$ & $1$ & $1$ & $2$
+	\end{tabular}\par
+}
+
+Basis for $\Q$ points that begin with 1:
+
+{
+	\centering
+	\begin{tabular}{c c c c c}
+		$1$ & $10$ & $2$ & $-6$ & $30$\\ \hline
+		$1$ & $-2$ & $-1$ & $6$ & $-3$
+	\end{tabular}\par
+}
+
+Basis for $\Q_3$ points that begin with 1:
+
+{
+	\centering
+	\begin{tabular}{c c c c c}
+		$1$ & $1$ & $-1$ & $-3$ & $3$\\ \hline
+		$1$ & $1$ & $-1$ & $3$ & $-3$
+	\end{tabular}\par
+}
+
+note that second entry is 1 in $\Q_3^*/(\Q_3^*)^2$, so second entry is contained in $\langle -2,10\rangle$. In the basis of the known points that begin with 1, we have all the possibilities so we must show that there is only $2^{2-2}=1$ element that begins with $1,1$, namely the identity. Also note that the third entry is in $\langle -1\rangle$ of $\Q_3$, so it is in $\langle -1,2,5\rangle$.
+
+Basis for $\Q_2$ points that begin with 1,1:
+
+{
+	\centering
+	\begin{tabular}{c c c c c}
+		$1$ & $1$ & $6$ & $2$ & $3$
+	\end{tabular}\par
+}
+
+so third entry is contained in $\langle 6\rangle$ of $\Q_2$, and thus third entry in $\Q$ is contained in $\langle 6,-15\rangle$.
+
+so fourth entry is contained in $\langle 2\rangle$ of $\Q_2$, and thus fourth entry in $\Q$ is contained in $\langle 2,-15\rangle$.
+
+so fifth entry is contained in $\langle 3\rangle$ of $\Q_2$, and thus fifth entry in $\Q$ is contained in $\langle 3,-15\rangle$.
+
+
+
+Basis for $\Q_5$ points that begin with 1,1: just the identity, so a points that begins with $1,1$ has the other three entries in $\langle -1,6\rangle$.
+
+Comparing with $\Q_2$, we see that fourth entry is in $\langle 2,-15\rangle\cap \langle -1,6\rangle= 1$ and fifth entry is in $\langle 3,-15\rangle\cap \langle -1,6\rangle= 1$ so fourth and fifth are 1. Third entry is in $\langle 6,-15\rangle\cap \langle 6,-1\rangle=\langle 6\rangle$, but also in $\langle -1,2,5\rangle$ from $\Q_3$, so it is one, and we are done.
+
 	\newpage
 	\pagestyle{empty}
 	\bibliographystyle{amsplain}
