@@ -1,1 +1,275 @@
-Hello
+In this appendix, we will make a brief survey on the definitions and fundamental results for abelian varieties. Some of the theorems presented here will be used in Chapters 1 and 2. We will follow \cite{Cornell_Silverman_Artin_1986}, \cite{Hartshorne_1977}, and \cite{Hindry_Silverman_2000}.
+
+Throughout the exposition, $K$ will denote a field of characteristic zero, and $\overline{K}$ will denote its algebraic closure.
+\begin{definition}
+	A \emph{group variety} defined over $K$ is a variety $V$ defined over $K$, together with a point $\varepsilon\in V(K)$ and morphisms $\mu:V\times V\rightarrow V$, $i:V\rightarrow V$ such that the following diagrams
+	\begin{equation*}
+		\begin{tikzcd}
+			V\times V\times V\arrow{r}{(\mu,\text{Id})}\arrow{d}[left]{(\text{Id},\mu)}
+			&V\times V\arrow{d}{\mu}\\
+			V\times V\arrow{r}{\mu}
+			& V
+		\end{tikzcd}\text{(Associativity)},
+	\end{equation*}
+	\vspace{20pt}
+	\begin{equation*}
+		\begin{tikzcd}
+				V\arrow{r}{(\text{Id},e)}\arrow[bend right]{dr}[below]{\text{Id}}
+				&V\times V\arrow{d}{\mu}
+				&V\arrow{l}[above]{(e,\text{Id})}\arrow[bend left]{dl}{\text{Id}}\\
+				&V
+		\end{tikzcd}\text{(Identity)},
+	\end{equation*}
+	and
+		\vspace{15pt}
+	\begin{equation*}
+		\begin{tikzcd}
+			V\arrow{r}{(\text{Id},i)}\arrow[bend right]{dr}[below]{e}
+			&V\times V\arrow{d}{\mu}
+			&V\arrow{l}[above]{(i,\text{Id})}\arrow[bend left]{dl}{e}\\
+			&V
+		\end{tikzcd}\text{(Inverse)}
+	\end{equation*}
+	commute, where $e:V\rightarrow V$ is the constant map that sends every point $P\in V$ to $\varepsilon$. This means that the pair $(V,\mu)$ is a group.
+\end{definition}
+In a more abstract language, we say that a group variety over $K$ is a group object in the category of varieties over $K$.
+
+\begin{example}
+	The affine line $\mathbb{A}^1(K)$, together with the usual sum on $K$, is a group variety.
+\end{example}
+
+If $V$ is a group variety over $K$, we can define, for any point $P\in V(K)$, the \emph{left (resp. right) translate by $P$} as the maps:
+\begin{alignat*}{2}
+	L_P:V&\rightarrow V \qquad\qquad R_P:V&&\rightarrow V\\
+	Q&\mapsto \mu(P,Q),\qquad\qquad Q&&\mapsto \mu(Q,P),
+\end{alignat*}
+which are defined over $K$. Using the definitions, we can see that the translation maps are isomorphisms of varieties (with the inverse given by $L_{i(P)}$ and $R_{i(P)}$, respectively). From this, we can see that any group variety is smooth: any variety has some non-singular point $P$ (in fact it has an open subset consisting of non-singular points). If $Q$ were a singular point in $V$, then the point $L_{\mu(P,i(Q))}(Q)$ would also be singular, but
+\begin{equation*}
+	L_{\mu(P,i(Q))}(Q)=\mu(\mu(P,i(Q)),Q)=\mu(P,\mu(i(Q),Q))=\mu(P,\varepsilon)=P.
+\end{equation*}
+
+\begin{lemma}[Rigidity lemma]\label{rigidity}
+	Let $X$ be a projective variety, let $Y$ and $Z$ be any varieties, and let $f:X\times Y\rightarrow Z$ be a morphism. Suppose that there is some point $y_0\in Y$ such that $f$ is constant on $X\times\{y_0\}$. Then, $f$ is constant on every set of the form $X\times\{y\}$, $y\in Y$. Furthermore, if $f$ is also constant on some $\{x_0\}\times Y$, then it is constant on all $X\times Y$.
+\end{lemma}
+\begin{proof}
+	The proof relies on the crucial fact that projective varieties are complete (see \cite{Hartshorne_1977}). Consider the projection $p:X\times Y\rightarrow Y$, which is closed. Let $z_0$ be the constant value of $f$ on the set $X\times\{y_0\}$. Let $U$ be an affine open neighborhood of $z_0$ in $Z$. Therefore, $Z\setminus U$ is closed, so $f^{-1}(Z\setminus U)$ is closed. Hence, the set $W=p(f^{-1}(Z\setminus U))$ is closed in $Y$. Since $y_0\not\in W$ (otherwise some $x\in X$ would satisfy $f(x,y_0)\neq z_0$), we have that $Y\setminus W$ is a nonempty open subset of $Y$, so it is dense. Now if $y$ is any point in $Y\setminus W$, we have that $f(x,y)$ is in $U$ for all $x\in X$, so $f(X\times\{y\})$ is contained in $U$. Since $X\times\{y\}\cong X$ is complete and $U$ is affine, we must have that $f(X\times\{y\})$ is constant. As $Y\setminus W$ is dense, the same holds for any $y\in Y$, so we are done. The second assertion follows clearly from the first one.
+\end{proof}
+\begin{definition}
+	An \emph{abelian variety} $A$ is a projective group variety.
+\end{definition}
+\begin{example}
+	An elliptic curve $E$, together with its usual group structure, is an abelian variety.
+\end{example}
+Note that in our definition of group variety we have not assumed the group law to be commutative. Using the rigidity lemma and the fact that abelian varieties are projective, we will be able to show that the group of an abelian variety is an abelian group. For now, we write the group law multiplicatively.
+\begin{proposition}\label{morphism}
+	Let $A,B$ be abelian varieties, and let $\phi:A\rightarrow B$ be a morphism. Then $\phi$ is the composition of a translation and an homomorphism.
+\end{proposition}
+\begin{proof}
+	Denote by $\varepsilon_A$ and $\varepsilon_B$ the identity element of $A$ and $B$, respectively. After a possible translation, we may assume that $\phi(\varepsilon_A)=\varepsilon_B$. Consider the function
+	\begin{align*}
+		f:A\times A&\rightarrow B\\
+		(x,y)&\mapsto \phi(xy)\phi(y)^{-1}\phi(x)^{-1}.
+	\end{align*}
+	Observe that $f(x,\varepsilon_A)=\phi(x)\phi(\varepsilon_A)^{-1}\phi(x)^{-1}=\varepsilon_B$ for all $x\in A$. Similarly, $f(\varepsilon_A,y)=\phi(y)\phi(y)^{-1}\phi(\varepsilon_A)^{-1}=\varepsilon_B$ for all $y\in A$, so \lemref{rigidity} implies that $f$ is constant (with constant value $\varepsilon_B$). Hence, we have for all $x,y\in A$:
+	\begin{equation*}
+		\varepsilon_B=\phi(xy)\phi(y)^{-1}\phi(x)^{-1},
+	\end{equation*}
+	so
+	\begin{equation*}
+		\phi(xy)=\phi(x)\phi(y),
+	\end{equation*}
+	i.e., $\phi$ is a homomorphism.
+\end{proof}
+
+\begin{corollary}
+	The group law of an abelian variety $A$ is commutative.
+\end{corollary}
+\begin{proof}
+	By assumption, the inversion map $i:A\rightarrow A$ is a morphism. By \propref{morphism}, it is the composition of a translation and a homomorphism, say $i=\varphi\circ\tau$. Since $i(\varepsilon_A)=\varepsilon_A$, the translation $\tau$ is the identity. Therefore, $i$ is a homomorphism, which is equivalent to $A$ being an abelian group.
+\end{proof}
+From this point on, we will write the group law of an abelian variety additively. The right notion of morphism of abelian varieties is that of an isogeny.
+\begin{definition}
+	Let $A$, $B$ be abelian varieties of the same dimension. A morphism of varieties $\phi\in\Hom(A,B)$ is an \emph{isogeny} if it maps the identity element of $A$ to the identity element of $B$, and is either constant or surjective with finite kernel. The degree of $\phi$ is defined to be the cardinality of $\ker(\phi)$. (This definition of degree is not the general one, but in characteristic zero it coincides with the usual definition)
+\end{definition}
+Note that the fact that isogenies preserve the identity, together with \propref{morphism}, implies that isogenies are group morphisms. If an isogeny $\phi:A\rightarrow B$ is constant, then it must be the constant map to the identity of $B$. If it is surjective, observe that there exists a nonempty open subset $U$ of $B$ such that $\dim{\phi^{-1}}(\{p\})=\dim A-\dim B=0$, for all $p\in U$, by the theorem on the dimension of the fibers. Choose any $p\in U$, and find a point $a_0\in A$ such that $\phi(a_0)=p$ (note that $\phi$ is surjective). Then, we have the equality of sets
+\begin{equation*}
+	\phi^{-1}(\{p\})-a_0=\{a-a_0\in A:\phi(a)=p\}=\{a\in A:\phi(a)=0\}=\ker\phi,
+\end{equation*}
+because $\phi$ is a group morphism. Since translate maps are bijective, we find that $\dim(\ker\phi)=\dim(\phi^{-1}(\{p\}))=0$. Zero dimensional subvarieties are finite sets of points, so we find that the kernel is finite (so we do not need that condition on the definition of isogeny).
+
+For any abelian variety $A$ and any integer $n$, we can consider the multiplication by $n$ map which we denote by $[n]$. We will study these maps later, but they constitute the most important examples of isogenies of an abelian variety.
+
+We want to study divisors on abelian varieties, in a way to obtain relations among them that exhibit the group structure of $A$. The fundamental result in this line, which once more reflects the rigidity of abelian varieties, is the theorem of the cube.
+
+\begin{theorem}[Theorem of the cube]\label{thmcube}
+	Let $X$, $Y$ and $Z$ be projective varieties, and let $(x_0,y_0,z_0)\in X\times Y\times Z$. Let $D$ be a divisor that is linearly equivalent to the trivial class on the sides:
+	\begin{equation*}
+		X\times Y\times\{z_0\},\quad X\times\{y_0\}\times Z,\quad\text{and } \{x_0\}\times Y\times Z.
+	\end{equation*}
+	Then $D$ is linearly equivalent to the trivial class on $X\times Y\times Z$.
+\end{theorem}
+\begin{proof}
+	See \cite{Cornell_Silverman_Artin_1986}, Chapter 5 or \cite{Mumford_1970}.
+\end{proof}
+In the case of abelian varieties, the theorem of the cube has a more particular expression. We fix some useful notation. For any nonempty subset $I\subset\{1,2,3\}$, we define a map
+\begin{equation*}
+	s_I:A\times A\times A\rightarrow A,\quad s_I(x_1,x_2,x_3)=\sum_{i\in I}x_i.
+\end{equation*}
+With this notation, we have the following theorem.
+\begin{theorem}[Theorem of the cube for abelian varieties]\label{thmcubeabelian}
+	Let $A$ be an abelian variety, and let $D\in\Div(A)$ be a divisor. Then
+	\begin{equation*}
+		s_{123}^*D-s_{12}^*D-s_{13}^*D-s_{23}^*D+s_1^*D+s_2^*D+s_3^*D\sim 0.
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	Define $\text{cube}(D)$ as the left hand side of the expression in the theorem, and note that we have
+	\begin{equation*}
+		\text{cube}(D)=-\sum_{I\subset\{1,2,3\}}(-1)^{|I|}s_I^*(D).
+	\end{equation*}
+	We want to apply \thmref{thmcube} to the divisor $\text{cube}(D)\in\Div(A\times A\times A)$. By symmetry, it suffices to show that it becomes trivial when restricted to some $A\times A\times\{z_0\}$, so we choose $z_0=0$. Therefore, consider the injection $i:A\times A\rightarrow A\times A\times A$ given by $i(x,y)=(x,y,0)$, so we have to show that $i^*(\text{cube}(D))\sim 0$. We have the following equalities:
+	\begin{align*}
+		s_{123}\circ i(x,y)&=x+y=s_{12}\circ i(x,y),\\
+		s_{23}\circ i(x,y)&=y=s_2\circ i(x,y),\\
+		s_{13}\circ i(x,y)&=x=s_1\circ i(x,y), \text{ and}\\
+		s_3\circ i(x,y)&=0.
+	\end{align*}
+	Therefore, observe that
+	\begin{equation*}
+		i^*(\text{cube}(D))=-\sum_{I\subset\{1,2,3\}}(-1)^{|I|}(s_I\circ i)^*(D)\sim 0,
+	\end{equation*}
+	because the pairs corresponding to $(s_{123},s_{12})$, $(s_{23},s_2)$, and $(s_{13},s_1)$ cancel each other out, and the term corresponding to $s_3$ is zero,	so we get the result.
+\end{proof}
+We will also need an important result, which is a version of the theorem of the cube for two varieties.
+\begin{theorem}[Seesaw principle]
+	Let $X$ and $Y$ be two varieties, and let $D\in\Div(X\times Y)$ be a divisor. For $x_0\in X,y_0\in Y$, define the maps $i_{x_0}:Y\rightarrow X\times Y$ and $i_{y_0}:X\rightarrow X\times Y$ as $i_{x_0}(y)=(x_0,y)$ and $i_{y_0}(x)=(x,y_0)$. Suppose that the following conditions hold:
+	\begin{itemize}
+		\item[(a)] $D$ becomes linearly equivalent to zero when restricted to $\{x\}\times Y$ for each $x\in X$, that is, the pullback $i_x^*D$ is linearly equivalent to zero for all $x\in X$, and
+		\item[(b)] $D$ becomes linearly equivalent to zero when restricted to $X\times\{y_0\}$, for some $y_0\in Y$, that is, the pullback $i_{y_0}^*D$ is linearly equivalent to zero for some $y_0\in Y$.
+	\end{itemize}
+	Then, $D$ is linearly equivalent to zero.
+\end{theorem}
+For proofs of the general theorem of the cube and the seesaw principle, we refer to \cite{Mumford_1970}.
+Now we can deduce some relations between divisors of an abelian variety.
+\begin{corollary}\label{threemorphisms}
+	Let $A$ be an abelian variety, $V$ an arbitrary variety, and $f,g,h:V\rightarrow A$ three morphisms. Then for any divisor $D\in\Div(A)$, we have:
+	\begin{equation*}
+		(f+g+h)^*D-(f+g)^*D-(f+h)^*D-(h+g)^*D+f^*D+g^*D+h^*D\sim 0
+	\end{equation*}
+	in $\Div(V)$.
+\end{corollary}
+Note that the above relation is in $V$, and the sum of maps is considered pointwise.
+\begin{proof}
+	Let $(f,g,h):V\rightarrow A\times A\times A$ be the map $(f,g,h)(x)=(f(x),g(x),h(x))$. In the notation of the theorem of the cube for abelian varieties, observe that:
+	\begin{gather*}
+		(f,g,h)^*(\text{cube}(D))=-\sum_{I\subset\{1,2,3\}}(-1)^{|I|}(s_I\circ(f,g,h))^*(D)\\
+		=(f+g+h)^*D-(f+g)^*D-(f+h)^*D-(h+g)^*D+f^*D+g^*D+h^*D.
+	\end{gather*}
+	But $\text{cube}(D)\sim 0$ by \thmref{thmcubeabelian}, so the result follows.
+\end{proof}
+
+\begin{corollary}\label{mumfordformula}
+	Let $D$ be a divisor on an abelian variety $A$, and let $[m]:A\rightarrow A$ be the multiplication by $m$ map. Then, we have
+	\begin{equation*}
+		[m]^*D\sim\frac{m^2+m}{2}D+\frac{m^2-m}{2}[-1]^*D.
+	\end{equation*}
+	In particular, if $D$ is symmetric, we have $[m]^*D\sim m^2D$.
+\end{corollary}
+\begin{proof}
+	Observe that the formula is trivial for $m=-1,0$ and $1$. Now, use \corref{threemorphisms} with $f=[m]$, $g=[1]$ and $h=[-1]$ to obtain:
+	\begin{align}\label{mumfordinduction}
+		[m]^*D-[m+1]^*D-[m-1]^*D+[m]^*D+D+[-1]^*D\\
+		=2[m]^*D-[m+1]^*D-[m-1]*D+D+[-1]^*D\sim 0.
+	\end{align}
+	Now we can do induction on $m$: assume that we know the result for $m\ge1$ and $m-1$. Observe the following identities:
+	\begin{align*}
+		\frac{(m-1)^2+(m-1)}{2}&=\frac{m^2-m}{2},\\
+		\frac{(m-1)^2-(m-1)}{2}&=\frac{m^2-3m+2}{2},\\
+		(m^2+m)-\frac{m^2-m}{2}+1&=\frac{(m^2+3m+2)}{2}=\frac{(m+1)^2+(m+1)}{2}, \text{ and}\\
+		(m^2-m)-\frac{m^2-3m+2}{2}+1&=\frac{m^2+m}{2}=\frac{(m+1)^2-(m+1)}{2}.
+	\end{align*}
+	
+	Now use these identities and the relation \eqref{mumfordinduction} to compute:
+	\begin{align*}
+		&[m+1]^*D\sim2[m]^*D-[m+1]^*D+D+[-1]^*D\\
+		&\sim(m^2+m)D+(m^2-m)[-1]^*D-\frac{m^2-m}{2}D-\frac{m^2-3m+2}{2}[-1]^*D+D+[-1]^*D\\
+		&\sim\frac{(m+1)^2+(m+1)}{2}D+\frac{(m+1)^2-(m+1)}{2}[-1]^*D,
+	\end{align*}
+	as we wanted. Induction for negative integers is analogous, and the assertion on symmetric divisors now follows trivially.
+\end{proof}
+
+Additionally, we can deduce an important fact about translation maps $t_a$ for any $a\in A$ (note that since abelian varieties are abelian group, we do not need to make a distinction between right and left translates). This theorem can also be proved independently and then used to prove the theorem of the cube.
+\begin{theorem}[Theorem of the square]\label{thmsquare}
+	Let $A$ be an abelian variety and consider, for any $a\in A$, the translate map $t_a:A\rightarrow A$. Then for any divisor $D\in\Div(A)$, we have:
+	\begin{equation*}
+		t_{a+b}^*(D)+D\sim t_a^*D+t_b^*D\text{ for all }a,b\in A.
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	Consider the morphisms $f,g,h:A\rightarrow A$ given by $f(x)=x$, $g(x)=a$ and $h(x)=b$. Then, \corref{threemorphisms} yields:
+	\begin{align*}
+		(x+a+b)^*D&-(x+a)^*D-(x+b)^*D-(a+b)^*D+x^*D+a^*D+b^*D\\
+		&\sim (t_{a+b})^*D-t_a^*D-t_b^*D+D\sim 0,
+	\end{align*}
+	which is what we wanted.
+\end{proof}
+
+As we claimed earlier, the maps $[m]$ are isogenies. We study them in the next theorem.
+\begin{theorem}\label{isogenymult}
+	Let $A$ be an abelian variety of dimension $g$ over an algebraically closed $K$. Then the multiplication by $m$ map $[m]:A\rightarrow A$ is an isogeny of degree $n^{2g}$, and
+	\begin{equation*}
+		A[m]=\ker[m]\cong\left(\Zmod{m}\right)^{2g}.
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	The multiplication map $\mu:A\times A\rightarrow A$ induces a linear map on the tangent space of $A$ at $(0,0)$, $\mu_*:T_0(A)\times T_0(A)\rightarrow T_0(A)$, which corresponds to addition on the vector space $T_0(A)$. Therefore the map $[m]:A\rightarrow A$ induces the multiplication by $m$ on $T_0(A)$. Since we are working in characteristic zero, this map is an isomorphism. Thus, we have that $\dim(A)=\dim([m]A)$, so $A=[m]A$, i.e., it is surjective. Since $[m]0=0$, we conclude that $[m]$ is an isogeny. The degree of the maps $[m]$ and the structure of the $m$-torsion can be studied in $\mathbb{C}$ from the theory of complex tori, and then use the Lefschetz principle to obtain the result in any algebraically closed field of characteristic zero. Instead, we give an independent proof here. We will use the following fact on intersection indices of divisors: if $A$ is an abelian variety of dimension $g$ over an algebraically closed field $\overline{K}$, and $\phi:A\rightarrow A$ is an isogeny, then
+	\begin{equation*}
+		(\phi^*D_1,\ldots,\phi^*D_g)_A=\deg(\phi)(D_1,\ldots,D_g)_A,
+	\end{equation*}
+	for any divisors $D_1,\ldots,D_g\in\Div(A)$, and if $D$ is an ample divisor, then $D^g=(D,\ldots,D)$ is effective. For a proof, see \cite{Hindry_Silverman_2000}.
+	To use this fact, take any symmetric ample divisor on $A$, and compute:
+	\begin{equation*}
+		\deg([m])D^g=([m]^*D)^g=(m^2D)^g=m^{2g}D^g.
+	\end{equation*}
+	Since $D^g>0$, we deduce that $\deg([m])=m^{2g}$, as we wanted. In characteristic zero, we have then that $|\ker([m])|=m^{2g}$. But the same argument works for any integer, in particular for those dividing $m$. Using elementary group theory, it can be seen that a finite abelian group whose order is a perfect power $m^r$, and with $n$ torsion of order $n^r$, for any integer $n$ dividing $m$, must be isomorphic to $(\Zmod{m})^r$. In our case we find that $\ker([m])\cong(\Zmod{m})^{2g}$, as we wanted.
+\end{proof}
+In abelian varieties, symmetric divisors can be characterized by the following result.
+\begin{proposition}\label{abeliansymmetric}
+	Let $A$ be an abelian variety, and let $D\in\Div(A)$ be a divisor. Then $D$ is symmetric if, and only if,
+	\begin{equation}\label{parallelogramequation}
+		s_{12}^*D+d_{12}^*D\sim2p_1^*D+2p_2^*D,
+	\end{equation}
+	where $s_{12}:A\times A\rightarrow A$ is $s_{12}(x,y)=x+y$, $d_{12}:A\times A\rightarrow A$ is $d_{12}(x,y)=x-y$ and the $p_i:A\times A\rightarrow A$ are the natural projections.
+\end{proposition}
+\begin{proof}
+	Let $j:A\rightarrow A\times A$ be the map $j(x)=(0,x)$. We have:
+	\begin{align*}
+		s_{12}\circ j(x)&=x,\\
+		d_{12}\circ j(x)&=-x,\\
+		p_1\circ j(x)&=0,\text{ and}\\
+		p_2\circ j(x)&=x.
+	\end{align*}
+	Therefore, we have:
+	\begin{align*}
+		j^*(s_{12}^*D+d_{12}^*D-2p_1^*D-2p_2^*D)&=(s_{12}\circ j)^*D+(d_{12}\circ j)^*D-2(p_1\circ j)^*D-2(p_2\circ j)^*D\\
+		&=D+[-1]^*D-2D^*\\
+		&=[-1]^*D-D.
+	\end{align*}
+	From this equality, we see that if \eqref{parallelogramequation} holds, then $[-1]^*D-D\sim 0$, so $D$ is symmetric.
+	
+	Conversely, assume that $D$ is symmetric. For any fixed $a\in A$, consider the map $i:A\rightarrow A\times A$ given by $i_a(x)=(x,a)$. Also consider the translate by $a$ map $t_a$. Then, we have:
+	\begin{align*}
+		s_{12}\circ i_a(x)=x+a&=t_a(x),\\
+		d_{12}\circ i_a(x)=x-a&=t_{-a}(x),\\
+		p_1\circ i_a(x)&=x,\text{ and}\\
+		p_2\circ i_a(x)&=a.
+	\end{align*}
+	Using the theorem of the square, we can compute:
+	\begin{align*}
+		i_a^*(s_{12}^*D+d_{12}^*D-2p_1^*D-2p_2^*D)&=(s_{12}\circ i_a)^*D+(d_{12}\circ i_a)^*D-2(p_1\circ i_a)^*D-2(p_2\circ i_a)^*D\\
+		&=t_a^*D+t_{-a}^*D-2D\\
+		&\sim t_{a-a}^*D+D-2D\\
+		&=2D-2D=0.
+	\end{align*}
+	We want to apply the seesaw principle to $s_{12}^*D+d_{12}^*D-2p_1^*D-2p_2^*D$ in order to conclude that it is trivial. The above shows that the first property required is fulfilled. Now we want to see that this divisor is trivial on some set $A\times\{y_0\}$, with $y_0\in A$. Choose $0\in A$, and consider the injection $j$ from before. We have to check that $j^*(s_{12}^*D+d_{12}^*D-2p_1^*D-2p_2^*D)$ is trivial. We have seen that it is linearly equivalent to $[-1]^*D-D$, so by our assumption on $D$ being symmetric, we conclude that $s_{12}^*D+d_{12}^*D-2p_1^*D-2p_2^*D$ is trivial when restricted to $A\times\{0\}$, so it is trivial.
+\end{proof}

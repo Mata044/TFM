@@ -1,37 +1,76 @@
 \documentclass[a4paper, 12pt]{amsart}
 \usepackage[T1]{fontenc}
-\usepackage{amsfonts,enumerate,array,amsmath,xcolor}
+\usepackage{amsfonts,enumerate,array,amsmath,xcolor,hyperref}
 \usepackage{graphicx,float}
 \usepackage[english]{babel}
 \usepackage{fancyhdr}
 \usepackage{tikz}
 \usepackage{tikz-cd}
-
+\usepackage{setspace}
 
 %Margins
 
 \setlength{\textwidth}{\paperwidth}
 \addtolength{\textwidth}{-2in}
+\setlength{\textheight}{\paperheight}
+\addtolength{\textheight}{-2in}
+
+
 \calclayout
+
+\setstretch{1.1}
+\setlength{\footskip}{35pt}
+
+
+%Little trick to make the abstract in amsart
+\title{}
+\author{}
+
+
+%Header
+
+\makeatletter
+
+\def\ps@sectionhead{%
+	\def\@oddhead{}%
+	\def\@evenhead{\hfil\rightmark\hfil}%
+	\def\@oddfoot{\hfil\thepage\hfil}%
+	\def\@evenfoot{\hfil\thepage\hfil}%
+}
+
+\makeatother
+
 
 %Theorem environments
 \theoremstyle{definition}
 \newtheorem{defn0}{Definition}[section]
 
-\theoremstyle{theorem}
+\theoremstyle{plain}
 \newtheorem{prop0}[defn0]{Proposition}
+
+\theoremstyle{plain}
 \newtheorem{thm0}[defn0]{Theorem}
+
+\theoremstyle{plain}
 \newtheorem{lemma0}[defn0]{Lemma}
+
+\theoremstyle{plain}
 \newtheorem{corollary0}[defn0]{Corollary}
+
+\theoremstyle{remark}
 \newtheorem{example0}[defn0]{Example}
+
+\theoremstyle{remark}
 \newtheorem{remark0}[defn0]{Remark}
+
+\theoremstyle{plain}
 \newtheorem{conjecture0}[defn0]{Conjecture}
 
 \newenvironment{definition}{ \begin{defn0}}{\end{defn0}}
-\newenvironment{proposition}{\bigskip \begin{prop0}}{\end{prop0}}
-\newenvironment{theorem}{\bigskip \begin{thm0}}{\end{thm0}}
-\newenvironment{lemma}{\bigskip \begin{lemma0}}{\end{lemma0}}
-\newenvironment{corollary}{\bigskip \begin{corollary0}}{\end{corollary0}}
+\newenvironment{proposition}{ \begin{prop0}}{\end{prop0}}
+\newenvironment{theorem}{ \begin{thm0}}{\end{thm0}}
+\newenvironment{lemma}{ \begin{lemma0}}{\end{lemma0}}
+\newenvironment{corollary}{ \begin{corollary0}}{\end{corollary0}}
 \newenvironment{example}{ \begin{example0}\rm}{\end{example0}}
 \newenvironment{remark}{ \begin{remark0}\rm}{\end{remark0}}
 \newenvironment{conjecture}{\begin{conjecture0}}{\end{conjecture0}}
@@ -52,18 +91,27 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Zmod}[1]{\mathbb{Z}/#1\mathbb{Z}}
 \renewcommand{\P}{\mathfrak{P}}
-\newcommand{\Div}{\text{Div}}
+\DeclareMathOperator{\Div}{Div}
+\DeclareMathOperator{\Pic}{Pic}
+%\newcommand{\Div}{\text{Div}}
 \newcommand{\GF}[1]{\mathbb{F}_{#1}}
-\newcommand{\Jac}{\text{Jac}}
+\DeclareMathOperator{\Jac}{Jac}
 \DeclareFontFamily{U}{wncy}{}
 \DeclareFontShape{U}{wncy}{m}{n}{<->wncyr10}{}
 \DeclareSymbolFont{mcy}{U}{wncy}{m}{n}
 \DeclareMathSymbol{\Sh}{\mathord}{mcy}{"58}
-\newcommand{\Gal}{\text{Gal}}
-\newcommand{\Ker}{\text{Ker}}
-\renewcommand{\Im}{\text{Im}}
-\newcommand{\Hom}{\text{Hom}}
-
+%canviar
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Ker}{Ker}
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Spec}{Spec}
+%\newcommand{\Gal}{\text{Gal}}
+%\newcommand{\Ker}{\text{Ker}}
+%\renewcommand{\Im}{\text{Im}}
+%\newcommand{\Hom}{\text{Hom}}
+\DeclareRobustCommand{\SkipTocEntry}[5]{}
 
 %Fixing bibliography
 %\DeclareUnicodeCharacter{202F}{FIX ME!!!!}
@@ -71,14 +119,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \begin{document}
 	%\frontmatter
 	\thispagestyle{empty}
 	\pagenumbering{roman} \setcounter{page}{0}
 	\begin{figure}[ht]
 		\centering\hbox{
-			\includegraphics[width=0.6\textwidth]{marca_pos_rgb.png}\hspace{2cm}
+			\includegraphics[width=0.4\textwidth]{marca_pos_rgb.png}\hspace{2cm}
 			\includegraphics[width=0.4\textwidth]{Logo_uab.png}}
 	\end{figure}
 	\vglue 2truecm
@@ -102,130 +149,220 @@
 	\vglue 2truecm \hfill{\today}
 	
 	\newpage
+	\addtocontents{toc}{\SkipTocEntry}
+	\section*{Acknowledgements}
+	\thispagestyle{empty}
 	
-	\tableofcontents
+	I would like to thank the Autonomous University of Barcelona and the University of Barcelona for providing the necessary tools, resources, facilities and support that allowed the development of this project.
+	
+	I would also like to thank my family and friends, whose warm presence and emotional support was of utmost help during difficult times.
+	
+	Finally, I would like to give special thanks to Marc, my advisor. Working with him the last two years has been a fantastic and enriching experience. Without his knowledge, patience and dedication, I could not have written this thesis. Most of all, I thank him for transmitting me his passion for mathematics.
+	
+	\clearpage
+	
 	
 	\newpage
 	\thispagestyle{empty}
-	\section*{Abstract}
-	Lorem ipsum
+	\begin{abstract}
+		The Jacobian of an algebraic curve C defined over a number field K is an abelian variety whose group of K-rational points has finite rank, by the Mordell-Weil theorem. We study the proof of this theorem and the problem of computing the rank. We give some bounds on this rank in a certain family of curves by studying the Selmer group, which is a cohomological device that can be explicitly computed.
+	\end{abstract}
+
+	\maketitle
 	
 	
+	\newpage
+	\thispagestyle{empty}
+	\tableofcontents
 	
 	\newpage
 	\pagenumbering{arabic}
 	\pagestyle{fancy}
-	
+	%\fancyhead[R]{\rightmark}
+	%\fancyfoot[C]{\vspace{2in}\thepage}
+	\thispagestyle{plain}
 	\section{Introduction}
+	\markleft{\thesection. Introduction}
 	
-	%The following is just a copy of a draft
-	Let us explain in detail the method described in Silverman's book \cite{Silverman_2009} to compute the rank of an elliptic curve. Let $E/K$ be an elliptic curve defined over some number field $K$. By the Mordell-Weil theorem, the group of $K$-rational points of $E$, $E(K)$, is finitely generated.
+	In the year 1922, Louis Mordell proved the following theorem (\cite{mordell1922rational}).
+	\begin{theorem}[Mordell]
+		Let $E$ be an elliptic curve defined over $\Q$. Then, the group of $\Q$-rational points of $E$ is finitely generated.
+	\end{theorem}
+	Since the group of points of an elliptic curve is abelian, we obtain a concrete description of the group $E(\Q)$:
+	\begin{equation*}
+		E(\Q)\cong\Z^r\oplus E(\Q)_{\text{tors}},
+	\end{equation*}
+	where $r\ge 0$ is some positive integer, called the rank of $E$ over $\Q$. The torsion subgroup, denoted by $E(\Q)_{\text{tors}}$, is generally well understood and effectively computable. For instance, Barry Mazur proved the following theorem, in \cite{Mazur_Goldfeld_1978} and \cite{PMIHES_1977__47__33_0}.
+	\begin{theorem}[Mazur, 1977]
+		Let $E$ be an elliptic curve defined over $\Q$. Let $\Phi$ be the torsion subgroup of $E(\Q)$. Then $\Phi$ is isomorphic to one of the following groups:
+		\begin{align*}
+			&\Zmod{m},\quad\text{ for }m\le 10 \text{ or } m=12; \text{or}\\
+			&\Zmod{2}\times\Zmod{2n},\quad\text{ for }n\le 4.
+		\end{align*}
+	\end{theorem}
 	
-	%The following is also a copy of a (longer) draft
+	On the other hand, the free part $\Z^r$ of $E(\Q)$ is more difficult to understand. There are still many open problems regarding the rank $r$, such as its possible values, its relation to the geometry of $E$, or the distribution of its values among all elliptic curves. In any case, the theorem of Mordell shows the existence of the rank, but it does not provide any method to compute it.
 	
-	We begin by recalling the following classical situation: let $K$ be a number field, and $E/K$ some elliptic curve defined over $K$. The set of $K$-rational points, denoted by $E(K)$ has a structure of abelian group, and moreover we have:
+	In the first chapter, we explain the general definitions of hyperelliptic curves and we show that over fields of characteristic zero we can define them by certain polynomial equations. Then, we explain the definition and basic properties of Jacobian varieties, associated to smooth curves, which will be the main object of study throughout the thesis. Jacobian varieties lie in a bigger class of objects called abelian varieties, so some of their properties are instances of a more general theory. For the interested reader, we collect some of the basic results of the theory of abelian varieties in a first appendix at the end of this project.
+	
+	Some years after the work of Mordell, André Weil gave, in 1929 (\cite{10.1007/BF02592688}), a twofold generalization of Mordell's theorem: on the one hand, he was able to replace $\Q$ by any number field. On the other hand, he was able to replace elliptic curves by Jacobian varieties.
+	
 	\begin{theorem}[Mordell-Weil]
-		The group of $K$-rational points of an elliptic curve is finitely generated. Therefore, we have an isomorphism:
+		Let $J$ be a Jacobian variety defined over a number field $K$. Then, the group of $K$-rational points of $J$ is finitely generated.
+	\end{theorem}
+	Since the group of points of a Jacobian variety is abelian, we again obtain a concrete description of the group $J(K)$:
+	\begin{equation*}
+		J(K)\cong \mathbb{Z}^r\oplus J(\Q)_{\text{tors}},
+	\end{equation*}
+	where $r\ge 0$ is some positive integer, called the (Mordell-Weil) rank of $J$ over $K$. In fact, the Mordell-Weil theorem admits an even more general formulation, which replaces Jacobian varieties by abelian varieties. Remarkably enough, the proof for abelian varieties requires few additional tools and ideas than the proof for Jacobian varieties.
+	
+	The second chapter is fully devoted to the proof of the Mordell-Weil theorem for abelian varieties $A$ over number fields $K$. The proof is classically divided in two steps. First, using some fundamental finiteness results from algebraic number theory and some properties about ramification, we prove that the quotient group 
+	\begin{equation*}
+		A(K)/mA(K)
+	\end{equation*}
+	 is finite, for some integer $m\ge 2$. In general, this information is not enough to deduce that the group $A(K)$ is finitely generated. In the case of abelian varieties, the geometric and arithmetic properties that they have make it possible to define some functions with desirable properties, called height functions. These properties allow us to deduce the Mordell-Weil theorem.
+	
+	As in the case of Mordell's theorem, the theorem of Mordell and Weil does not provide a method to compute the rank of a Jacobian variety. To achieve this goal, we use the tools of Galois cohomology for Jacobian varieties to define a group, called the Selmer group, which is finite and computable. The idea behind this definition is that equations over complete fields are easier to solve. For instance, over $p$-adic fields we have Hensel's lemma. The Selmer group takes into account this idea by imposing some local conditions on its elements. Its use comes from the fact that it contains the quotient $A(K)/mA(K)$, so it provides bounds on the rank of $A$ over $K$.
+	
+	In the third chapter, we define the Selmer group and prove some of its properties. In addition, we introduce another cohomology group, called the Tate-Shafarevich, which is conjectured to be finite. Later, we transport the Selmer group and the information that it provides into the language of linear algebra.
+	
+	In the fourth and last chapter, we use the tools developed in the previous chapters to
+	bound the rank of a family of hyperelliptic curves parametrized by prime numbers with
+	some imposed conditions. We use the softwares SageMath and Mamga to aid us in our computations. We also compute the torsion of the proposed family using the well developed theory of curves over finite fields. The algorithms that we use are presented in a second appendix at the end of the thesis.
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\newpage
+	\thispagestyle{plain}
+	\section{Hyperelliptic curves and their Jacobians}
+	\markleft{\thesection. Hyperelliptic curves and their Jacobians}
+	
+	In this chapter, we are going to introduce the basic definitions and properties for the theory of hyperelliptic curves and Jacobian varieties. These geometric objects arise as the natural generalization of elliptic curves, in a sense that we will explain later.
+	
+	In all the following, $K$ denotes a field of characteristic zero (usually a number field), with fixed algebraic closure $\overline{K}$.
+	
+	Elliptic curves are classical objects that are defined as smooth projective algebraic curves of genus 1, with a specified point. Therefore, the following definition is a natural way to generalize elliptic curves.
+	\begin{definition}
+		Let $C$ be a smooth, geometrically connected projective curve over a field $K$ of genus $g\ge 1$. We say that $C$ is a \emph{hyperelliptic curve} if there exists a finite separable morphism $X\rightarrow\mathbb{P}^1_K$ of degree $2$.
+	\end{definition}
+	
+	In the case of genus 1, we recover the classical notion of an elliptic curve. In that case, it is standard to see that the curve can be defined by an equation
+	\begin{equation*}
+		y^2=x^3+ax+b,
+	\end{equation*}
+	where $a,b\in K$ satisfy $4a^3+27b^2\neq 0$. It also has a single point at infinity which, together with the roots of $x^3+ax+b$ at $\overline{K}$, form the ramification locus of the projection $C\rightarrow\mathbb{P}^1_K$. The following theorem generalizes this situation to hyperelliptic curves.
+	
+	\begin{theorem}\label{hyperelliptic}
+		Let $C$ be a hyperelliptic curve of genus $g$ over a field $K$, with a finite separable morphism $f:C\rightarrow\mathbb{P}^1_K$ of degree 2. The function field of $C$ is $K(C)=K(t)[y]$, with the relation
+		\begin{equation}\label{hyperellipticequation}
+			y^2=P(t),\quad P(t)\in K[t],
+		\end{equation}
+		where
 		\begin{equation*}
-			E(K)\cong \mathbb Z^r\oplus E(K)_{tors},
+			2g+1\le \deg P(t)\le 2g+2.
 		\end{equation*}
-		where $r\in\mathbb{Z}_{\ge 0}$ is called the rank of $E$ and $E(K)_{tors}$ is the torsion subgroup of $E(K)$, which is a finite abelian group.
-	\end{theorem}
-	It is well known that in order to prove the Mordell-Weil theorem, one can use the theory of height functions to reduce to proving the fact that the group $E(K)/mE(K)$ is finite for $m\ge 2$, which is known as the weak Mordell-Weil theorem. We describe in this section the method for computing the rank of an elliptic curve explained in J. Silverman's book. Essentially, the method consists on proving the weak Mordell-Weil theorem by embedding the group $E(K)/mE(K)$ into a certain (finite) cohomology group which allows explicit computations to be done.
-	
-	From a theoretical point of view, it is possible (and necessary) to make the assumption that $E[m]\subseteq E(K)$ without loss of generality when proving the WMW theorem, due to the following fact: if $L/K$ is a finite extension and we know that $E(L)/mE(L)$ is finite, then $E(K)/mE(K)$ is finite. If we instead want to compute explicitly the rank of $E$, we have to take the assumption $(*)$ in order for our method to work, but if sdñlkjañd
-	
-	Thus we make the assumption that $E[m]\subseteq E(\mathbb{Q})$. Let us recall some basic constructions for elliptic curves.
-	
-	Fix once and for all an algebraic closure of $K$, $\overline{K}$. We denote the absolute Galois group of $K$ by $G_{\overline{K}/K}:=\text{Gal}(\overline{K}/K)$, which acts on $Q\in E(\overline{K})$ by applying $\sigma\in G_{\overline{K}/K}$ to the coordinates of $Q$. Given $P\in E(K)$ and $\sigma\in G_{\overline{K}/K}$, we can find $Q\in E(\overline{K})$ such that $mQ=P$, and thus we obtain a pairing, called the Kummer pairing:
-	\begin{align*}
-		\kappa:E(K)\times G_{\overline{K}/K}&\longrightarrow E[m]\\
-		(P,\sigma)&\mapsto \kappa(P,\sigma)=Q^{\sigma}-Q
-	\end{align*}
-	which is bilinear and its left kernel is $mE(K)$. Therefore we obtain a homomorphism:
-	\begin{align*}
-		\delta_E:E(K)/mE(K)&\hookrightarrow\text{Hom}(G_{\overline{K}/K},E[m])\\
-		[P]&\mapsto \delta_E(P)=\kappa(P,\cdot\ )
-	\end{align*}
-	We also have the Weil pairing $e_m:E[m]\times E[m]\rightarrow \mu_m$ defined as follows: let $T\in E[m]$, and take a function $f\in \overline{K}(E)$ such that:
-	\begin{equation*}
-		\text{div}(f)=m(T)-m(O).
-	\end{equation*}
-	
-	
-	
-	asdf
-	
-	There is a bilinear pairing
-	\begin{equation*}
-		b:E(K)/mE(K)\times E[m]\rightarrow K^*/(K^*)^m,
-	\end{equation*}
-	such that
-	\begin{equation*}
-		e_m(\delta_E(P),T)=\delta_K(b(P,T))
-	\end{equation*}
-	as elements in $\text{Hom}(G_{\overline{K}/K},\mu_m)$, so that for every $P,T\in E[m]$ and every $\sigma\in G_{\overline{K}/K}$ we have $e_m(\delta_E(P)(\sigma),T)=\delta_K(b(P,T))(\sigma)$. The following properties of the pairing $b$ will allow us to prove the WMW theorem explicitly:
-	\begin{theorem}
-		\phantom{a}
+		In addition, the curve $C$ is the union of the affine open schemes
+		\begin{align*}
+			U'=\Spec K[t,Y]/(Y^2-P(t)),\\
+			V'=\Spec K[s,Z]/(Z^2-P_1(s)),
+		\end{align*}
+		where $P_1(s)=P(1/s)s^{2g+2}$, and the two schemes glue along $D(t)\simeq D(s)$ with relations $t=1/s$ and $y=t^{g+1}z$.
 		
-		\begin{itemize}
-			\item The pairing $b$ is non degenerate on the left.
-			\item $K(S,m)$
-			\item computation
-		\end{itemize}
+		Finally, the ramification points of $f$ are those of $V(P(t))\subset U'$, plus the point ${s=0}\in V'$ if $\deg P(t)=2g+1$.
 	\end{theorem}
-	The fact that $b$ is non degenerate on the left means that there is an injective homomorphism
-	\begin{equation*}
-		E(K)/mE(K)\hookrightarrow \text{Hom}(E[m],K^*/(K^*)^m).
-	\end{equation*}
-	This is the kind of embedding that we would like to use in order to deduce that $E(K)/mE(K)$ is finite. However, $K^*/(K^*)^m$ is not finite so we cannot conclude. However, by part $b)$ of the previous theorem we find that we actually have an injective homomorphism
-	\begin{equation*}
-		E(K)/mE(K)\hookrightarrow \text{Hom}(E[m],K(S,m)),
-	\end{equation*}
-	and since both $E[m]$ and $K(S,m)$ are finite groups, we conclude that $E(K)/mE(K)$ is finite. Since we have an explicit way of computing $b$, we can try to determine the image of $E(K)/mE(K)$ in $\text{Hom}(E[m],K(S,m))$ where, as we will see, computations are easier.
+	\begin{proof}
+		Write $\mathbb{P}^1_K$ as the union of the affine schemes $U=\Spec K[t]$ and $V=\Spec K[s]$, with $s=1/t$. Then define $U'=f^{-1}(U)$ and $V'=f^{-1}(V)$, so we have $X=U'\cup V'$. The function field $K(C)$ of the curve $C$ is a quadratic extension of a rational function field $K(t)$. Therefore, it is of the form $K(t)[y]$, where $y^2\in K(t)$. Multiplying $y$ by a non zero element in $K(t)$ yields the same field extension, so we can assume that $y^2=P(t)\in K[t]$. Moreover, we can assume that $P(t)$ has no square factors. An easy computation shows that the ring $K[t,Y]/(Y^2-P(t))$ is normal, so $K[t,y]$ is the integral closure of $\mathcal{O}_{\mathbb{P}^1_K}(U)=K[t]$ inside $K(C)$. Therefore, $\mathcal{O}_{C}(U')=K[t,y]$. Since $C$ is smooth, $P(t)$ has no square factors over $\overline{K}$, by the Jacobian criterion, so $P(t)$ is separable. Let $d=\deg P(t)$ and $r=\lfloor (d+1)/2\rfloor$. Then, $(y/t^r)^2=(y\cdot s^r)^2$ is a polynomial $P_1(s)\in K[s]$, without square factors. Similarly, we find that $\mathcal{O}_C(V')=K[s,z]$, where $y=t^rz$ (note that $z^2=P_1(s)$).
+		
+		We now compute $d$. It is not difficult to see that
+		\begin{equation}\label{H0formula}
+			\dim_K H^0(C,\Omega^1_C)=2g+2,
+		\end{equation}
+		where $\Omega^1_C$ is the sheaf of relative differentials of degree 1 of $C$ over $\mathbb{P}^1_K$ (see \cite{Liu_2002}). We then compute (using the fact that we are working over characteristic zero)
+		\begin{equation*}
+			\Omega^1_{U'/U}=\mathcal{O}_C(U')dy/(2ydy)\cong K[t,y]/(y^2-P(t),y)\cong K[t]/(P(t)),
+		\end{equation*}
+		and
+		\begin{equation*}
+			\Omega^1_{V'/V}=\mathcal{O}_C(V')dz/(2zdz)\cong K[s,z]/(z^2-P_1(s),z)\cong K[s]/(P_1(s)).
+		\end{equation*}
+		Since $\mathbb{P}^1_K=U\cup \{s=0\}$, the above isomorphisms give the following decomposition
+		\begin{equation*}
+			H^0(C,\Omega^1_{C})=K[t]/P(t)\oplus K[s]_{(s)}/(P_1(s)).
+		\end{equation*}
+		If $P_1(0)$ is different from $0$, then $P_1(s)$ has constant term different from zero and so is not in the ideal generated by $s$ in $K[s]$. In this case, $P_1(s)$ is a unit of $K[s]_{(s)}$ and so the ideal $(P_1(s))$ is the total ideal, so the corresponding quotient is zero. Then \eqref{H0formula} implies that $2g+2=\deg P=d$. Note that $P_1(0)\neq 0$ corresponds to $d=2r$, so $r=g+1$. In addition, $f$ is unramified over $\{s=0\}$.
+		
+		In the case $P_1(0)=0$ (so $d+1=2r$), the quotient has dimension $1$, so \eqref{H0formula} implies that $2g+2=\deg P+1=d+1$, so $d=2g+1$. We again observe that $r=g+1$, and moreover $f$ is ramified over $\{s=0\}$, thus concluding the proof.
+	\end{proof}
+	\begin{remark}
+		Since we are working over fields of characteristic zero, the Jacobian criterion implies that the smoothness of $C$ is equivalent to the polynomial $P(t)$ being separable.
+	\end{remark}
+	\begin{definition}
+		An equation such as \ref{hyperellipticequation} from \thmref{hyperelliptic} is called a \emph{hyperelliptic equation} of $C$.
+	\end{definition}
 	
-	First of all, we know that
+	In the case of elliptic curves, it is well known that they can have either a finite number of $K$-rational points or an infinite number of them. For higher genus, the question on the number of $K$-rational points was a conjecture by Louis Mordell, until Gerd Faltings (\cite{Faltings_1983}) proved the following celebrated theorem.
+	\begin{theorem}[Faltings, 1983]
+		Let $K$ be a number field, and let $C$ be a curve of genus $g\ge 2$ defined over $K$. Then $C$ has finitely many $K$-rational points.
+	\end{theorem}
+	
+	For now, it seems as if hyperelliptic curves are the right generalization of elliptic curves. Nevertheless, this is not entirely the case. Elliptic curves have, aside from their geometric structure, a way to add points so that the curve becomes an abelian group. Moreover, the geometric structure and the group structure are compatible. The construction for the addition of points uses the crucial fact that, counting multiplicities, any line that passes through two points of the curve will pass through a third one and no more, because elliptic curves are given by cubic equations. As we have seen, hyperelliptic curves of genus $g\ge 2$ are defined by polynomials of degree $\ge 5$. Thus, a line that passes through two points of the curve will pass through more than one additional point. There is no obvious choice on which point to select in order to define a binary operation on the points of the curve that has the properties of a group law.
+	
+	As opposed to elliptic curves, hyperelliptic curves do not have a geometric group structure, so we look for a geometric object that encodes the geometry of a smooth curve while having a group structure compatible with its geometry. Intuitively, such a group structure should help in the study of the points of the curve. The object that realizes this property is called the Jacobian variety of the curve.
+	
+	In the case of the complex numbers, Jacobian varieties of compact Riemann surfaces (i.e., projective smooth algebraic curves over $\mathbb{C}$) of positive genus are constructed explicitly. The idea is that by integrating holomorphic 1-forms of the curve $C$, one can map divisors of the curve into a complex torus of the same dimension as the genus of the curve, which is the Jacobian variety $\Jac(C)$ of the curve. This map is called the Abel-Jacobi map. Essentially, Abel showed that, when restricting to zero degree divisors of $C$, the kernel of the map is the subgroup of principal divisors. Jacobi, on the other hand, showed that the map is surjective, in what is called Jacobi's inversion theorem.
+	
+	Therefore, it is possible to give an isomorphism
 	\begin{equation*}
-		E[m]\cong \mathbb{Z}/m\mathbb{Z}\times\mathbb{Z}/m\mathbb{Z},
+		u:\Pic^0(C)\rightarrow \Jac(C),
 	\end{equation*}
-	so we begin by choosing a pair of generators $T_1$, $T_2$ of $E[m]$. An element $\varphi\in \text{Hom}(E[m],K(S,m))$ is determined by its values at $T_1$ and $T_2$, which is a pair of elements in $K(S,m)$ so we have an isomorphism:
-	\begin{align*}
-		\text{Hom}(E[m],K(S,m))&\rightarrow K(S,m)\times K(S,m)\\
-		\varphi&\mapsto(\varphi(T_1),\varphi(T_2))
-	\end{align*}
-	The conclusion of this discussion is that we have a well defined injective homomorphism
-	\begin{align*}
-		\psi:E(K)/mE(K)&\hookrightarrow K(S,m)\times K(S,m)\\
-		[P]&\mapsto(b(P,T_1),b(P,T_2))
-	\end{align*}
-	With these identifications, we want to check for each of the (finitely many) pairs $(b_1,b_2)\in K(S,m)\times K(S,m)$, whether they come from an element in $E(K)/mE(K)$, i.e., if they lie in the image of $\psi$. This will happen if and only if there exists some $P\in E(K)$ such that $b_1=b(P,T_1)$, $b_2=b(P,T_2)$. Since we know how to compute $b(P,T)$ up to $m$-th powers, this is equivalent to the existence of $P\in E(K)$ and $z_1,z_2\in K^*$ such that
+	again called the Abel-Jacobi map, which gives an embedding of the curve $C$ into a complex torus. Note that complex tori have a natural group structure, so this is the kind of property that we would expect in general.
+	
+	For arbitrary fields, a more abstract point of view is usually taken, but with the intuition built from the complex case. For an algebraic variety $X$ over a field $K$, $\Pic(X)$ denotes the group $H^1(X,\mathcal{O}_X^*)$ of isomorphism classes of invertible sheaves on $X$, with the tensor product as its operation. The association $X\mapsto\Pic(X)$ is a functor from the category of algebraic varieties over $K$ (in fact from the category of schemes over $K$) to the category of abelian groups. For a smooth projective curve $C$, we canonically identify $\Pic(C)$ with the group of linear equivalence classes of divisors of $C$ modulo principal divisors. We write $\Pic^0(C)$ for the group of linear equivalences of divisors of degree 0 of $C$ modulo principal divisors.
+	
+	The construction of the Jacobian variety can be stated as the representability of the functor $\Pic^0(C)$: the variety $J$ should give an isomorphism between $\Pic^0(C)$ and $\Jac(C)$, mimicking the case of the complex numbers.
+	
+	This notion is formalized with the following theorem.
+	\begin{theorem}
+		Let $C$ be a smooth, geometrically connected, projective curve of genus $g\ge 1$ over a field $K$. Then there exists an abelian variety $J$ of dimension $g$ over $K$ such that $J(K')\cong\Pic^0(C_{K'})$ for any field extension $K'/K$ such that $C(K)\neq \emptyset$. This isomorphism is compatible with field extensions, and $J$ is uniquely determined up to unique isomorphism by this property.
+	\end{theorem}
+	
+	\begin{definition}
+		The abelian variety $J$ above is called the Jacobian of $C$, and it is denoted by $\Jac(C)$.
+	\end{definition}
+	Since Jacobian varieties are abelian varieties, the general theory applies to them so we deduce some important facts. For instance, if $C$ is a smooth, geometrically connected, projective curve of genus $g\ge 1$ and $m$ is a positive integer, then the multiplication by $m$ map is an isogeny and $\Jac(C)[m]\cong\left(\Zmod{m}\right)^{2g}$ (see \ref{isogenymult}). As abelian varieties, Jacobian varieties have a point that is the identity element of the group law. We usually denote this point by $\mathcal{O}$ or $\infty$.
+	
+	For our purposes, we will not be concerned about the Jacobian varieties as functors: we will work with curves $C$ over a field $K$ with $C(K)$, so we will canonically identify $\Jac(C)$ with $\Pic^0(C)$ and work in the latter group instead. For instance, the identity element is the divisor class of principal divisors. In the case of hyperelliptic curves, there are several algorithms that allow computations in the group $\Pic^0(C)$, see for instance \cite{Cantor_1987}. These algorithms rely on the fact that the addition law on $\Pic^0(C)$ is independent of the divisor representative. Thus, if we are given two points $P,T\in\Jac(C)$, the first step is to choose appropriate divisor representatives. This is called the Mumford representation of a divisor. The next step is to add these divisors, which is quickly accomplished by the particular shape of Mumford's representation. This exhibits the fact that the group law of $\Jac(C)$ is defined by morphisms of varieties.
+	
+	Thus, points in the Jacobian of a hyperelliptic curve $C$ will be formal sums of points in $C$, with multiplicities. If $C$ is defined over $K$, then the absolute Galois group of $K$, $G_K=\Gal(\overline{K}/K)$ acts on points by
 	\begin{equation*}
-		b_1z_1^m=f(P,T_1),\ b_2z_2^m=f(P,T_2).
+		\left(\sum_{i=1}^d n_iP_i\right)^\sigma=\sum_{i=1}^dn_iP_i^\sigma,\quad \text{for }\sigma\in G_K.
 	\end{equation*}
-	\subsection{Example}
-	We use the method described above to compute the group of rational points of the curve:
-	\begin{equation*}
-		E:y^2=x^3-21x-20=(x+1)(x-5)(x+4)
-	\end{equation*}
-	First of all, we note that the 2-torsion is defined over $\mathbb{Q}$, since:
-	\begin{equation*}
-		E[2]\cong \mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}=\{\infty,(-1,0),(5,0),(-4,0)\}
-	\end{equation*}
-	The discriminant of this curve is $\Delta=419904=2^6 3^8$, so the curve has bad reduction at $2$ and $3$. A quick computation shows that 
+	Here the action of $G_K$ on points of $C$ is defined coordinate-wise. We say that a point $D\in\Jac(C)$ is defined over $K$ if $D^\sigma=D$, for all $\sigma\in G_K$. Note that this does not necessarily imply that the points $P_i$ appearing in the expression of $D$ are defined over $K$.
+	
+	One of the crucial results that we will use to study hyperelliptic curves and their Jacobians is the Mordell-Weil theorem, which states that the group of points of a Jacobian variety over a number field is finitely generated. In fact, the same is true for abelian varieties. In the next chapter we will prove this theorem.
+	
+	
+	
 	
 	\newpage
-	\section{Jacobians of curves}
-	
-	\newpage
+	\thispagestyle{plain}
 	\section{The Mordell-Weil theorem}
-	
-	In this chapter, we are going to prove the Mordell-Weil theorem for abelian varieties over number fields, which will be crucial for our later work. The theorem states the following:
+	\markleft{\thesection. The Mordell-Weil theorem}
+	In this chapter we are going to prove the Mordell-Weil theorem for abelian varieties over number fields, which will be crucial for our later work. We refer to \ref{appendixA} for some results that we will use on abelian varieties. The theorem states the following:
 	
 	\begin{theorem}\label{mordellweiltheorem}(Mordell-Weil)
-		
-		Let $A$ be an abelian variety defined over a number field $K$. Then the group of $K$-rational points $A(K)$ is finitely generated. In particular, there exists some integer $r\ge 0$ called the Mordell-Weil rank of $A$ over $K$, and integers $n_1,\ldots,n_s\ge 2$ such that:
+		Let $A$ be an abelian variety defined over a number field $K$. Then, the group of $K$-rational points $A(K)$ is finitely generated. In particular, there exists some integer $r\ge 0$ called the \textbf{Mordell-Weil rank} of $A$ over $K$, and integers $n_1,\cdots,n_s\ge 2$ such that:
 		\begin{equation*}
-			A(K)\cong \Z^r\oplus \Zmod{n_1}\oplus\ldots\oplus\Zmod{n_s}
+			A(K)\cong \Z^r\oplus \Zmod{n_1}\oplus\cdots\oplus\Zmod{n_s}.
 		\end{equation*}
 	\end{theorem}
 	In the next chapters we will turn into the problem of computing the Mordell-Weil rank. For now, let us make the following observation: if $A$ is a finitely generated abelian group, then it is easy to see that the quotient group $A/mA$, where $mA$ denotes the image of $A$ under the multiplication-by-$m$ map, is finite. The converse is not true: take the multiplicative abelian group $\mathbb{R}^*$, which is not finitely generated. However, we have:
@@ -235,18 +372,17 @@
 	which is finite. In the particular case of the group $A(K)$, the interplay between the geometry of the variety and the arithmetic of its points allows us to construct certain functions that prove the converse. For this reason, the proof of the Mordell-Weil theorem has two steps: in the first section of this chapter, we will show that the quotient $A(K)/mA(K)$ is finite, by using some results from algebraic number theory. In the second section of this chapter, we will explain the construction of the canonical height functions that encode the structure of $A(K)$ and will use them to deduce \thmref{mordellweiltheorem} from the finiteness of the quotient $A(K)/mA(K)$.
 	
 	\subsection{The Weak Mordell-Weil theorem}
-	
+	\markright{\thesubsection. The Weak Mordell-Weil theorem}
 	As we claimed, in this section we will prove the following key theorem for the proof of \thmref{mordellweiltheorem}:
 	\begin{theorem}\label{weakmordellweil}(Weak Mordell-Weil)
-		
-		Let $A$ be an abelian variety defined over a number field $K$. Let $m\ge 2$ be a positive integer, and denote by $mA(K)$ the image of $A(K)$ by the multiplication-by-$m$ morphism. Then the group
+		Let $A$ be an abelian variety defined over a number field $K$. Let $m\ge 2$ be a positive integer, and denote by $mA(K)$ the image of $A(K)$ by the multiplication-by-$m$ morphism. Then, the group
 		\begin{equation*}
 			A(K)/mA(K)
 		\end{equation*}
 		is finite.
 	\end{theorem}
 	
-	In all the following, we will consider $m$ as being fixed and will call $A(K)/mA(K)$ the weak Mordell-Weil group of $A$ over $K$.
+	In all the following, we will consider $m$ as being fixed and will call $A(K)/mA(K)$ the \emph{weak Mordell-Weil group of $A$ over $K$}.
 	
 	The strategy for the proof of \thmref{weakmordellweil} is to use the structure of $A$ to construct an injective map from $A(K)/mA(K)$ to a set, which will turn out to be finite after some additional work.
 	
@@ -257,7 +393,7 @@
 		\begin{equation*}
 			A(K')/mA(K')
 		\end{equation*}
-		is finite. Then the group $A(K)/mA(K)$ is also finite.
+		is finite. Then, the group $A(K)/mA(K)$ is also finite.
 	\end{lemma}
 	\begin{proof}
 		Let $G$ be the Galois group of $K'$ over $K$. The inclusion $A(K)\subset A(K')$ induces a map $A(K)\rightarrow A(K')/mA(K')$. Note that points in $mA(K)$ go to $mA(K')$, so we have a natural map
@@ -268,7 +404,7 @@
 	\begin{equation*}
 		B:=A(K)\cap mA(K')/mA(K).
 	\end{equation*}
-	We want to show that this kernel is finite. To do so choose, for any class $b\in B$, a point $x\in A(K)\cap mA(K')$ such that $[x]=b$. Then choose a point $y\in A(K')$ such that $[m]y=x$. For any $\sigma\in \Gal(K'/K)$, define $\kappa_x(\sigma)=y^\sigma-y$. Observe that:
+	We want to show that this kernel is finite. To do so choose, for any class $b\in B$, a point $x\in A(K)\cap mA(K')$ such that $[x]=b$. Then, choose a point $y\in A(K')$ such that $[m]y=x$. For any $\sigma\in \Gal(K'/K)$, define $\kappa_x(\sigma)=y^\sigma-y$. Observe that:
 	\begin{equation*}
 		[m]\kappa_x(\sigma)=([m]y)^\sigma-[m]y=x^\sigma-x=x-x=0,
 	\end{equation*}
@@ -289,7 +425,7 @@
 	\end{equation*}
 	and hence we conclude that $y-y'$ is in $A(K)$. But then, observe that $x-x'=[m]y-[m]y'=[m](y-y')$, so $x-x'\in mA(K)$, so $b=b'$ as classes of $B$, which is what we wanted.
 	
-	Since the extension $K'/K$ is finite and the group $A[m]$ is finite (isomorphic to $(\Zmod{m})^{2g}$ where $g$ is the dimension of $A$), we conclude that $B$ is finite from the existence of the map \eqref{homset}.
+	Since the extension $K'/K$ is finite and the group $A[m]$ is finite (isomorphic to $(\Zmod{m})^{2g}$, where $g$ is the dimension of $A$), we conclude that $B$ is finite from the existence of the map \eqref{homset}.
 	
 	The group $A(K)/mA(K)$ fits in the exact sequence:
 	\begin{equation*}
@@ -302,14 +438,14 @@
 	\end{equation*}
 	so we find that $A(K)/mA(K)$ contains a finite subgroup of finite index, so it must be finite.
 	\end{proof}
-	Using this lemma we can assume, extending $K$ by a finite extension if needed, that $A[m]$ is contained in $A(K)$. By the same argument we may also assume that the $m^\text{th}$ roots of unity are in $K$. Actually the assumption on the $m^\text{th}$ roots of unity is automatically satisfied for fields such that $A[m]$ is contained in $A(K)$, which is usually proven using a tool called the Weil pairing. We will discuss the Weil pairing for Jacobian varieties and its properties in the next chapter, so at this point we take these assumptions as if they were independent. In the following, we will refer to these assumptions as $(*)$.
+	Using this lemma we can assume, extending $K$ by a finite extension if needed, that $A[m]$ is contained in $A(K)$. By the same argument we may also assume that the $m^\text{th}$ roots of unity are in $K$. Actually, the assumption on the $m^\text{th}$ roots of unity is automatically satisfied for fields such that $A[m]$ is contained in $A(K)$, which is usually proven using a tool called the Weil pairing. We will discuss the Weil pairing for Jacobian varieties and its properties in the next chapter, so at this point we take these assumptions as if they were independent. In the following, we will refer to these assumptions as $(*)$.
 	
 	Under these assumptions we can define a map with the properties that we want. Fix once and for all an algebraic closure $\overline{K}$ of $K$ and denote by $G_K$ the absolute Galois group $\Gal(\overline{K}/K)$.
 	\begin{definition}
 		Let $x$ be a point in $A(K)$. Choose some $y\in A(\overline{K})$ such that $[m]y=x$. For any $\sigma\in G_K$, define $\kappa(x,\sigma)=y^\sigma-y$. The Kummer pairing is the map:
 		\begin{align*}
 			\kappa:A(K)\times G_K&\rightarrow A[m]\\
-			(x,\sigma)&\mapsto \kappa(x,\sigma)
+			(x,\sigma)&\mapsto \kappa(x,\sigma).
 		\end{align*}
 	\end{definition}
 	We have to check that the Kummer pairing is well defined, i.e., it does not depend on the choice of $y\in A(\overline{K})$ and the image lies in $A[m]$. First, assume that $y,y'$ are two points in $A(\overline{K})$ such that $[m]y=x=[m]y'$. Then, we have:
@@ -337,7 +473,7 @@
 			&=\kappa(x,\sigma)^\tau + \kappa(x,\tau)\\
 			&=\kappa(x,\sigma) + \kappa(x,\tau),
 		\end{align*}
-		where the last equality follows from the fact that $\kappa(x,\sigma)$ is a point of $m$-torsion, which is contained in $A(K)$ This shows linearity on the left. For linearity on the right, we compute:
+		where the last equality follows from the fact that $\kappa(x,\sigma)$ is a point of $m$-torsion, which is contained in $A(K)$. This shows linearity on the left. For linearity on the right, we compute:
 		\begin{align*}
 			\kappa(x_1,\sigma)+\kappa(x_2,\sigma)&=(y_1^\sigma-y_1)+(y_2^\sigma-y_2)\\
 			&=(y_1+y_2)^\sigma - (y_1+y_2)\\
@@ -349,9 +485,9 @@
 		\begin{align*}
 			\kappa(x,\sigma)=y^\sigma-y=y-y=0,
 		\end{align*}
-		which shows that $mA(K)$ is contained in the left kernel. To show the reverse inclusion, assume that $x\in A(K)$ is such that $\kappa(x,\sigma)=0$ for all $\sigma\in G_K$. Choose some $y\in A(\overline{K})$ such that $[m]y=x$, since $\kappa(x,\sigma)=0$, we have that $y^\sigma=y$ for all $\sigma\in G_K$. Therefore, $y$ is in $A(K)$ and thus $x=[m]y$ is in $mA(K)$, as we wanted.
+		which shows that $mA(K)$ is contained in the left kernel. To show the reverse inclusion, assume that $x\in A(K)$ is such that $\kappa(x,\sigma)=0$ for all $\sigma\in G_K$. Choose some $y\in A(\overline{K})$ such that $[m]y=x$. Since $\kappa(x,\sigma)=0$, we have that $y^\sigma=y$ for all $\sigma\in G_K$. Therefore, $y$ is in $A(K)$, and thus $x=[m]y$ is in $mA(K)$, as we wanted.
 		
-		Finally, we compute the right kernel: let $x$ be any point in $A(K)$ and assume that $\sigma\in\Gal(\overline{K}/L)$. Choose some $y\in A(\overline{K})$ such that $[m]y=x$, then we have:
+		Finally, we compute the right kernel: let $x$ be any point in $A(K)$ and assume that $\sigma\in\Gal(\overline{K}/L)$. Choose some $y\in A(\overline{K})$ such that $[m]y=x$. Then we have:
 		\begin{equation*}
 			\kappa(x,\sigma)=y^\sigma-y=y-y=0,
 		\end{equation*}
@@ -364,9 +500,9 @@
 		\end{equation*}
 		We then obtain a morphism
 		\begin{equation*}
-			A(K)/mA(K)\hookrightarrow\Hom(\Gal(L/K),A[m])
+			A(K)/mA(K)\hookrightarrow\Hom(\Gal(L/K),A[m]),
 		\end{equation*}
-		given by fixing the first component of the pairing, which is injective by the nondegeneracy of the pairing. Since $A[m]$ is a finite group, if we can show that the extension $L/K$ described in \propref{kummerproperties} is finite, we will be done. That is exactly what we are going to do for the remain of this section.
+		given by fixing the first component of the pairing, which is injective by the nondegeneracy of the pairing. Since $A[m]$ is a finite group, if we can show that the extension $L/K$ described in \propref{kummerproperties} is finite, we will be done. That is exactly what we are going to do for the remainder of this section.
 	\end{remark}
 	\begin{remark}
 		If we drop our assumptions on the $m$-torsion and the $m^\text{th}$ roots of unity, then the arguments given in \lemref{finitereductionlemma} and \propref{kummerproperties} do not work anymore. Instead, what we obtain are well defined elements in cohomology. We will delve into this situation in the next chapter, where we will translate the arguments given here to the language of Galois cohomology.
@@ -381,13 +517,13 @@
 		Moreover, we have a well defined map
 		\begin{align*}
 			\Gal(K(y)/K)&\rightarrow A[m]\\
-			\sigma &\mapsto y^\sigma-y
+			\sigma &\mapsto y^\sigma-y,
 		\end{align*}
-		which is a group morphism by \propref{kummerproperties}. Observe that any two morphisms $\sigma,\tau$ which map to the same element satisfy $y^\sigma-y=y^\tau-y$, so $y^\sigma=y^\tau$. Since $y$ generates the extension $K(y)$, we have that $\sigma,\tau$ must be equal, so this map is injective. Therefore $\Gal(K(y)/K)$ is isomorphic to a subgroup of $A[m]$, as we wanted.
+		which is a group morphism by \propref{kummerproperties}. Observe that any two morphisms $\sigma,\tau$ which map to the same element satisfy $y^\sigma-y=y^\tau-y$, so $y^\sigma=y^\tau$. Since $y$ generates the extension $K(y)$, we have that $\sigma,\tau$ must be equal, so this map is injective. Therefore, $\Gal(K(y)/K)$ is isomorphic to a subgroup of $A[m]$, as we wanted.
 	\end{proof}
 	Note that we have proved that the extensions $K(y)/K$ are all finite abelian Galois extensions of exponent dividing $m$.
 	
-	We can also study the ramification of such extensions, but to do that we will need a result on the $m$-torsion of an abelian variety.
+	We can also study the ramification of such extensions, but to do that we will need a result on the $m$-torsion of an abelian variety. The proof of the following theorem involves the theory of formal groups, which we will not explain in this thesis for brevity. For a complete proof, see \cite{Hindry_Silverman_2000}, Section C.2.
 	
 	\begin{theorem}\label{torsioninjects}
 		Let $A$ be an abelian variety defined over a number field $K$. Let $\P$ be a non-archimedean prime of $K$ at which $A$ has good reduction. Let $\tilde{k}$ be the residue field of $\P$, with characteristic $p$. Let $m\ge 1$ be an integer coprime with $p$. Then the reduction map
@@ -396,9 +532,6 @@
 		\end{equation*}
 		is injective.
 	\end{theorem}
-	\begin{proof}
-		The proof of this theorem involves the theory of formal groups, which we will not explain in this thesis for brevity. For a complete proof, see \cite{Hindry_Silverman_2000}.
-	\end{proof}
 	
 	With this important fact, we can say some things about the ramification of $K(y)$.
 	\begin{proposition}\label{ramifS}
@@ -422,13 +555,13 @@
 	Note that we automatically have shown that $L$ is unramified outside $S$, because $L$ is the compositum of the extensions $K(y)$.
 	
 	The final step in the proof of \thmref{weakmordellweil} is to prove a finiteness result on extensions satisfying the properties of $K(y)/K$ that we have discussed. From Kummer theory, we know that abelian extensions $K'$ of $K$ of exponent $m$ correspond to subgroups $B$ of $K^*$ containing $(K^*)^m$, and this correspondence is given by
-	\begin{equation*}
+	\begin{equation}\label{correspondence}
 		B\mapsto K(\sqrt[m]{B}),\quad\text{and } K'\mapsto (K'^*)^m\cap K^*,
-	\end{equation*}
+	\end{equation}
 	so we shall study extensions of the form $K(\sqrt[m]{a})$.
 	
-	\begin{lemma}
-		Under the assumption $(*)$, let $\alpha\in K^*$. Let $K'=K(\sqrt[m]{\alpha})$ and let $\P$ be a prime of $K$ not dividing $m$. Then $K'/K$ is unramified at $\P$ if and only if the exact power of $\P$ dividing $\alpha$ is a multiple of $m$.
+	\begin{lemma}\label{orderofP}
+		Assume that $K$ contains a primitive $m^\text{th}$ root of unity, and let $\alpha\in K^*$. Let $K'=K(\sqrt[m]{\alpha})$ and let $\P$ be a prime of $K$ not dividing $m$. Then $K'/K$ is unramified at $\P$ if and only if the exact power of $\P$ dividing $\alpha$ is a multiple of $m$.
 	\end{lemma}
 	\begin{proof}
 		Let $\omega:=\sqrt[m]{\alpha}$. The minimal polynomial for $\omega$ over $K$ is $f(x):=x^m-\alpha$, so we have that $f'(\omega)=m\omega^{m-1}$. The Galois conjugates of an element in $K'$ over $K$ correspond to multiplication by the $m^\text{th}$ roots of unity, so the Galois conjugates of $f'(\omega)$ are:
@@ -439,7 +572,7 @@
 		\begin{equation*}
 			N_{K'/K}(f'(\omega))=\prod_{i=0}^{m-1}m\omega^{m-1}\zeta_m^i=\pm m^m\omega^{m(m-1)}=\pm m^m\alpha^{m-1},
 		\end{equation*}
-		so the discriminant of the order $\mathcal{O}_K[\omega]$ is $\pm m^m\alpha^{m-1}$. Hence, the discriminant of $K'/K$ divides $\pm m^m\alpha^{m-1}$ (it may not be equal because the order $\mathcal{O}_K[\omega]$ may not be maximal) and, since $\P$ does not divide $m$ by assumption, if $\P$ does not divide $\alpha$ (so the exact power of $\P$ dividing $\alpha$ is zero) then $K'/K$ is unramified at $\P$. For this reason, it suffices to show the case where $\P$ divides $\alpha$.
+		so the discriminant of the order $\mathcal{O}_K[\omega]$ is $\pm m^m\alpha^{m-1}$. Hence, the discriminant of $K'/K$ divides $\pm m^m\alpha^{m-1}$ (it may not be equal because the order $\mathcal{O}_K[\omega]$ may not be maximal) and, since $\P$ does not divide $m$ by assumption, if $\P$ does not divide $\alpha$ (so the exact power of $\P$ dividing $\alpha$ is zero), then $K'/K$ is unramified at $\P$. For this reason, it suffices to show the case where $\P$ divides $\alpha$.
 		
 		Assume that the power of $\P$ dividing $\alpha$ is a multiple of $m$, say $mt$. Find an element $\pi\in K$ such that $\text{ord}_\P(\pi)=1$. Then $\P$ does not divide the element $\beta:=\pi^{-mt}\alpha$, but
 		\begin{equation*}
@@ -449,15 +582,15 @@
 		
 		Conversely, assume that the power of $\P$ dividing $\alpha$ is not a multiple of $m$, and call it $r$. We can then write the ideal generated by $\alpha$ as $\alpha\mathcal{O}_K=\P^r\mathfrak{Q}$, where $\mathfrak{Q}$ is coprime to $\P$. Then if we write $\P$ in $K'$ as a product of prime ideals, say $\P\mathcal{O}_{K'}=\P_1^{e_1}\cdot\ldots\cdot\P_s^{e_s}$, we obtain:
 		\begin{equation*}
-			\alpha\mathcal{O}_{K'}=\P_1^{re_1}\cdot\ldots\cdot\P_s^{re_s}\cdot\mathfrak{Q}',
+			\alpha\mathcal{O}_{K'}=\P_1^{re_1}\cdots\P_s^{re_s}\cdot\mathfrak{Q}',
 		\end{equation*}
 		where $\mathfrak{Q}'$ is some prime ideal in $K'$ coprime to the $\P_i$. Since $\alpha=\omega^m$ in $K'$, we have that $\alpha\mathcal{O}_{K'}=(\omega\mathcal{O}_{K'})^m$, so $m$ must divide every $re_i$. Since $m$ does not divide $r$ by assumption, it must divide each $e_i$, so each of the $e_i$ is strictly larger than 1. Thus $K'/K$ is ramified at $\P$, as we wanted.
 	\end{proof}
-	Now we recall a couple fundamental results from algebraic number theory that we will use to finish the proof. Let $K$ be a number field. Then the classes of ideals of $\mathcal{O}_K$ modulo principal ideals form an abelian group.
-	\begin{theorem}
+	Now we recall a couple fundamental results from algebraic number theory that we will use to finish the proof. Let $K$ be a number field. Then, the classes of ideals of $\mathcal{O}_K$ modulo principal ideals form an abelian group.
+	\begin{theorem}\label{finiteidealclasses}
 		The group of ideal classes of $K$ is finite.
 	\end{theorem}
-	Now let $S$ be a finite set of nonarchimedean primes of $K$. Define the ring of $S$-integers as:
+	Now let $S$ be a finite set of non-archimedean primes of $K$. Define the ring of $S$-integers as:
 	\begin{equation*}
 		\mathcal{O}_{K,S}:=\{x\in K: v_\P(x)\ge 0\text{ for all non-archimedean } \P\not\in S\}.
 	\end{equation*}
@@ -465,20 +598,60 @@
 	\begin{equation*}
 		\mathcal{O}_{K,S}^*:=\{x\in K^*: v_\P(x)=0\text{ for all non-archimedean } \P\not\in S\}.
 	\end{equation*}
-	Then we have:
-	\begin{theorem}(Dirichlet's unit theorem)
-		Let $r_1$ be the number of real embeddings of $K$ and $r_2$ the number of pairs of complex embeddings of $K$. Then $\mathcal{O}_{K,S}^*$ is a finitely generated abelian group of rank $r_1+r_2-1+|S|$, and the torsion subgroup corresponds to the roots of unity in $K$.
+	Then, we have:
+	\begin{theorem}(Dirichlet's unit theorem)\label{dirichletunit}
+		Let $r_1$ be the number of real embeddings of $K$ and $r_2$ the number of pairs of complex embeddings of $K$. Then $\mathcal{O}_{K,S}^*$ is a finitely generated abelian group of rank $r_1+r_2-1+|S|$, and the torsion subgroup, which is cyclic, corresponds to the roots of unity in $K$.
 	\end{theorem}
 	\begin{theorem}\label{maxabextension}
 		Let $K$ be a number field, $m$ an integer and $S$ a finite set of non-archimedean primes of $K$. Assume that $K$ contains a primitive $m^{\text{th}}$ root of unity, and that $S$ contains all primes of $K$ dividing $m$. Let $\hat{K}$ be the maximal abelian extension of $K$ of exponent $m$ and unramified outside $S$. Then $\hat{K}$ is a finite Galois extension of $K$.
 	\end{theorem}
 	\begin{proof}
+		First of all, we note that we can assume that $\mathcal{O}_{K,S}$ is a principal ideal domain: by \thmref{finiteidealclasses}, the ideal class group of $K$ is finite, so it is generated by the classes of some primes $\P_1,\ldots,\P_r$. Then, enlarging $S$ by the primes $\P_i$ if needed, we find that $\mathcal{O}_{K,S}$ is a principal ideal domain, and $S$ is still finite and contains the primes of $K$ dividing $m$.
 		
+		Consider the extension
+		\begin{equation*}
+			K'=K\left(\sqrt[m]{\mathcal{O}_{K,S}^*}\right).
+		\end{equation*}
+		We want to see that $K'=\hat{K}$. By definition, $K'$ is generated by extensions of the form $K(\sqrt[m]{\alpha})$, with $\alpha\in\mathcal{O}_{K,S}^*$. If $\P$ is a non-archimedean prime of $K$ not in $S$, then, by definition, $v_\P(\alpha)=0$. Hence, by \lemref{orderofP}, $K(\sqrt[m]{\alpha})$ is unramified at $\P$. Therefore the extension $K'/K$ is unramified outside $S$, and since it is clearly abelian of exponent $m$ (by the correspondence \eqref{correspondence}), we find that $K'\subset\hat{K}$. For the reverse inclusion, using again \lemref{orderofP}, we find that $\hat{K}$ is a compositum of extensions of the form $K(\sqrt[m]{\alpha})$, with $\alpha\in K$. Multiplying by suitable elements in $(K^*)^m$, we may assume that $\alpha$ is in $\mathcal{O}_K$ and that its order at every prime $\P$ not in $S$ is a multiple of $m$, say $mr_\P$. Note that $r_\P=0$ for almost all primes $\P$. Consider the ideal
+		\begin{equation*}
+			\prod_{\P\not\in S}\P^{r_\P}\subset\mathcal{O}_{K,S},
+		\end{equation*}
+		which is in $\mathcal{O}_{K,S}$ by construction. Since $\mathcal{O}_{K,S}$ is a principal ideal domain, the above ideal is principal, generated by an element of $\mathcal{O}_{K,S}$ that we call $\beta$. By the basic properties of valuations, we find that the element $\alpha':=\alpha\beta^{-m}$ satisfies
+		\begin{equation*}
+			v_{\P}(\alpha')=v_{\P}(\alpha)-mv_{\P}(\beta)=,
+		\end{equation*}
+		so $\alpha'$ is an $S$-unit, that is, $\alpha'\in\mathcal{O}^*_{K,S}$. Since $\alpha$ and $\alpha'$ differ by an $m^\text{th}$ power, we have the equality $K(\sqrt[m]{\alpha})=K(\sqrt[m]{\alpha'})$. But by definition, $K(\sqrt[m]{\alpha'})\subset K(\sqrt[m]{\mathcal{O}_{K,S}^*})=K'$, and since the compositum of these fields is $\hat{K}$, we find that $\hat{K}\subset K'$, so we finally obtain $K'=\hat{K}$. Now the description $\hat{K}=K'$ shows that $\hat{K}$ is generated by the $m^\text{th}$ roots of elements in $\mathcal{O}_{K,S}^*$, modulo $(\mathcal{O}_{K,S}^*)^m$. Furthermore, by Kummer theory we know that the Galois group of $\hat{K}$ over $K$ is isomorphic to this quotient
+		\begin{equation*}
+			\mathcal{O}_{K,S}^*/(\mathcal{O}_{K,S}^*)^m.
+		\end{equation*}
+		By \thmref{dirichletunit}, we have that
+		\begin{equation*}
+			\mathcal{O}_{K,S}^*\cong \Z^{r(S)}\oplus (\mathcal{O}_{K,S}^*)_{\text{tors}},
+		\end{equation*}
+		where $r(S)=r_1+r_2-1+|S|$. Moreover, the assumption that $K$ contains a primitive $m^{\text{th}}$ root of unity implies that $(\mathcal{O}_{K,S}^*)_{\text{tors}}$ contains a subgroup isomorphic to $\Zmod{m}$. Since $(\mathcal{O}_{K,S}^*)_{\text{tors}}$ is itself cyclic, we deduce that it must be isomorphic to $\Zmod{M}$, where $m$ divides $M$, say $M=dm$. Thus, $m\Zmod{M}\cong \Zmod{d}$, so
+		\begin{equation*}
+			(\mathcal{O}_{K,S}^*)^m\cong (m\Z)^{r(S)}\oplus m\Zmod{M}\cong (m\Z)^{r(S)}\oplus \Zmod{d}.
+		\end{equation*}
+		We finally deduce that		
+		\begin{equation*}
+			\mathcal{O}_{K,S}^*/(\mathcal{O}_{K,S}^*)^m\cong \left(\Zmod{m}\right)^{r(S)}\oplus \frac{\Zmod{M}}{\Zmod{d}} \cong\left(\Zmod{m}\right)^{1+r(S)},
+		\end{equation*}
+		which is finite.
 	\end{proof}
+	
 	Now we can easily conclude the proof of \thmref{weakmordellweil}. Since the extensions $K(y)/K$ described in \propref{kummerproperties} are abelian, of exponent $m$ and unramified outside $S$, they all lie inside $\hat{K}$. Since the extension $\hat{K}$ is finite by \thmref{maxabextension}, it has a finite number of subextensions, so there is a finite number of extensions $K(y)$. Since $L$ is, by definition, the compositum of these extensions and they are all finite, $L/K$ must be a finite extension, thus concluding the proof of the weak Mordell-Weil theorem.
 	
-	\subsection{Height functions}
+	We remark that not only we have proved that the Galois group is finite, but we have computed its order. This value allows us to bound the rank of the abelian variety by elementary means. We constructed the injection
+	\begin{equation*}
+		A(K)/mA(K)\hookrightarrow\Hom(\Gal(L/K),A[m]).
+	\end{equation*}
+	Since $\Gal(L/K)$ has order $m^{1+r(S)}$ and $A[m]$ has order $m^{2g}$, we find that $m^{2g+\text{rank}A(K)}\le m^{2g(1+r(S))}$, so
+	\begin{equation}\label{naivebound}
+		\text{rank}A(K)\le 2g(r_1+r_2+|S|-1).
+	\end{equation}
 	
+	\subsection{Height functions}
+	\markright{\thesubsection. Height functions}
 	
 	In this section, we will study the so called height functions, which are certain functions constructed for smooth projective varieties that, when defined for an abelian variety, are compatible with its geometry and arithmetics in a way that allows us to measure the complexity of its points. With these functions, we will be able to deduce \thmref{mordellweiltheorem} from \thmref{weakmordellweil}. The use of height functions in the proof of the Mordell-Weil theorem is not entirely necessary in some cases, but since we want to prove the theorem in more generality it is convenient to use them. Furthermore, the theory of height functions is interesting in its own, since it is a key ingredient in many other finiteness theorems from arithmetic geometry.
 	
@@ -488,11 +661,11 @@
 	\begin{itemize}
 		\item $K$ will denote a number field, and $K'$ some finite extension of $K$.
 		\item $\P$ will denote a prime of $K$, with associated absolute value $|\cdot|_\P$.
-		\item An absolute value $|\cdot|$ is called standard if its restriction to $\Q$ is either the absolute value $|\cdot|_\infty$ or one the $p$-adic absolute values $|\cdot|_p$. $M_K$ will denote the set of standard absolute values on $K$, with $M_K^0$ denoting the nonarchimedean ones and $M_K^\infty$ denoting the archimedean ones. 
+		\item An absolute value $|\cdot|$ is called \emph{standard} if its restriction to $\Q$ is either the absolute value $|\cdot|_\infty$ or one the $p$-adic absolute values $|\cdot|_p$. $M_K$ will denote the set of standard absolute values on $K$, with $M_K^0$ denoting the non-archimedean ones and $M_K^\infty$ denoting the archimedean ones. 
 		\item $K_\P$ will denote the completion of $K$ at $\P$.
-		\item If $\P$ lies over the rational prime $p$, the local degree is $n_\P:=[K_\P:\Q_p]$.
-		\item The normalized absolute value associated to $\P$ is $||\cdot||_\P=|\cdot|_\P^{n_\P}$.
-		\item As in last section, if $S$ is a finite set of nonarchimedean primes of $K$, we denote the ring of $S$-integers of $K$ by $\mathcal{O}_{K,S}$.
+		\item If $\P$ lies over the rational prime $p$, the \emph{local degree} is $n_\P:=[K_\P:\Q_p]$.
+		\item The \emph{normalized absolute value} associated to $\P$ is $||\cdot||_\P=|\cdot|_\P^{n_\P}$.
+		\item As in last section, if $S$ is a finite set of non-archimedean primes of $K$, we denote the ring of $S$-integers of $K$ by $\mathcal{O}_{K,S}$.
 	\end{itemize}
 	
 	With this notation, we have the identity
@@ -503,7 +676,7 @@
 	\begin{equation}\label{degreeformula}
 		\sum_{\substack{\P\in M_{K'}\\\P'|\P}}[K'_{\P'}:K_\P]=[K':K],
 	\end{equation}
-	which is called the degree formula.
+	which is called the \emph{degree formula}.
 	
 	To gather some intuition, we will begin by the easiest case: the projective space over the rational numbers. We want to define a function on $\mathbb{P}^n(\Q)$ that measures the size of its points. The first problem that we observe is that we should take into consideration the equivalence relation on $\mathbb{P}^n(\Q)$ to define such a function. For now, we can omit this problem if we consider a special set of homogeneous coordinates for our points, using the fact that $\Z=\mathcal{O}_\Q$ is a principal ideal domain. Observe that any point $P\in\mathbb{P}^n(\Q)$ can be written in the form:
 	\begin{equation}\label{coordinates}
@@ -530,6 +703,7 @@
 		h_K(P):=\log H_K(P).
 	\end{equation*}
 	Note that now we are not making any assumption on the coordinates of $P\in\mathbb{P}^n(K)$, so we should verify that $H$ is well defined. Moreover, we would like to relate the height $H$ to the relative heights $H_K$. The following proposition clears this.
+
 	\begin{proposition}
 		Let $K$ be a number field and let $P\in\mathbb{P}^n(K)$ be a point.
 		\begin{enumerate}
@@ -572,7 +746,7 @@
 	\end{equation*}
 	which motivates the following definition: the \emph{absolute (multiplicative) height} on $\mathbb{P}^n$ is the function
 	\begin{equation*}
-		H:\mathbb{P}^n(\overline{\Q})\rightarrow[1,\infty),\quad H(P)=H_K(P)^{1/[K:\Q]}
+		H:\mathbb{P}^n(\overline{\Q})\rightarrow[1,\infty),\quad H(P)=H_K(P)^{1/[K:\Q]},
 	\end{equation*}
 	where $K$ is any number field such that $P\in\mathbb{P}^n(K)$. Similarly, we define the \emph{absolute (logarithmic) height} on $\mathbb{P}^n$ as the function
 	\begin{equation*}
@@ -584,7 +758,7 @@
 		Let $P$ be a point in $\mathbb{P}^n(\overline{\Q})$ and let $\sigma\in G_\Q$. Then $H(P)=H(P^\sigma)$.
 	\end{lemma}
 	\begin{proof}
-		See \cite{Hindry_Silverman_2000}. The idea for the proof is to use the relations between an absolute value $|\cdot|_\P$ and $|\sigma(\cdot)|_{\sigma(\P)}$, for $\sigma\in G_\Q$.
+		See \cite{Hindry_Silverman_2000}, Proposition B.2.2. The idea for the proof is to use the relations between an absolute value $|\cdot|_\P$ and $|\sigma(\cdot)|_{\sigma(\P)}$, for $\sigma\in G_\Q$.
 	\end{proof}
 	
 	Observe that if $P\in\mathbb{P}^n(\Q)$, then $H(P)=H_\Q(P)$, so the absolute height is the proper generalization of our earlier considerations. To further remark the generalization, we prove a finiteness result for the absolute height function. This will be crucial in our later work, since we will be able to reduce in many cases to this situation. Recall that we define the field of definition of a point $P=[x_0,\ldots,x_n]\in\mathbb{P}^n(\overline{\Q})$ as the field
@@ -593,8 +767,8 @@
 	\end{equation*}
 	for any $j$ such that $x_j\neq 0$. We then have:
 	
-	\begin{proposition}[Northcott property]
-		Let $C$ and $D$ be any two positive numbers. Then the set
+	\begin{proposition}[Northcott property]\label{northcott}
+		Let $C$ and $D$ be any two positive numbers. Then, the set
 		\begin{equation*}
 			\{P\in\mathbb{P}^n(\overline{\Q}): H(P)\le C \text{ and } [\Q(P):\Q]\le D\}
 		\end{equation*}
@@ -611,7 +785,7 @@
 		\end{equation*}
 		is finite. The strategy is to show that such an element $x$ is the root of a polynomial with bounded coefficients, where the bounds are independent of $x$. Let $x\in\overline{\Q}$ be of degree $d$ and such that $H(x)\le C$. Denote by $k$ the field $\Q(x)$. Let $x_1,\ldots,x_d$ be the Galois conjugates of $x$ over $\Q$, and let $F_x(T)$ be the minimal polynomial of $x$ over $\Q$. By elementary Galois theory, we can write $F_x(T)$ as a combination of the elementary symmetric polynomials:
 		\begin{equation*}
-			F_x(T)=\prod_{i=1}^d(T-x_j)=\sum_{r=0}^d(-1)^rs_r(x)T^{d-r},
+			F_x(T)=\prod_{i=1}^d(T-x_i)=\sum_{r=0}^d(-1)^rs_r(x)T^{d-r},
 		\end{equation*}
 		where
 		\begin{equation*}
@@ -623,7 +797,7 @@
 			&\le c(\P,r,d)\max_{1\le i_1\le\ldots\le i_r\le d}|x_{i_1}\cdot\ldots\cdot x_{i_r}|_\P\\
 			&\le c(\P,r,d)\max_{1\le i\le d}|x_i|^r_\P,
 		\end{align*}
-		where $c(\P,r,d)$ is 1 if $\P$ is nonarchimedean, by the ultrametric inequality; and it is ${d\choose r}\le 2^d$ if $\P$ is archimedean. In either case, $c(\P,r,d)$ can be bounded by a value $c(\P,d)$ which is independent of $r$: 1 if $\P$ is nonarchimedean and $2^d$ if it is archimedean. It is clear then that
+		where $c(\P,r,d)$ is 1 if $\P$ is non-archimedean, by the ultrametric inequality; and it is ${d\choose r}\le 2^d$ if $\P$ is archimedean. In either case, $c(\P,r,d)$ can be bounded by a value $c(\P,d)$ which is independent of $r$: 1 if $\P$ is non-archimedean and $2^d$ if it is archimedean. It is clear then that
 		\begin{equation*}
 			\max\{|s_0(x)|_\P,\ldots,|s_d(x)|_\P\}\le c(\P,d)\prod_{i=1}^d\max\{|x_i|_\P,1\}^d.
 		\end{equation*}
@@ -643,7 +817,7 @@
 		\end{equation*}
 		Multiplying over all the relevant absolute values, we obtain an inequality on the relative height functions $H_K(P)\ge H_K(x_i)$, where $K$ is a field in which $P$ is defined. Taking the $[K:\Q]$-th square root of both sides, we obtain the inequality $H(P)\ge H(x_i)$, for all $i$. In addition, we have that $\Q(P)\supset\Q(x_i)$, so $[\Q(P):\Q]\ge [\Q(x_i):\Q]$. Therefore, each of the coordinates of $P$ lies in one of the following finite collection of sets
 		\begin{equation*}
-			\{x\in\overline{\Q}: H(x)\le C\text{ and }[\Q(x):\Q]=d\}, \text{ with } 1\le d\le D
+			\{x\in\overline{\Q}: H(x)\le C\text{ and }[\Q(x):\Q]=d\}, \text{ with } 1\le d\le D,
 		\end{equation*}
 		which we have proven to be finite. Therefore, there is only a finite number of possibilities for the coordinates of $P$, and hence there can only be a finite number of such points $P$.
 	\end{proof}
@@ -656,7 +830,7 @@
 	where $h$ is the absolute logarithmic height on $\mathbb{P}^n$.
 	
 	We will need the following lemma from algebraic geometry.
-	\begin{lemma}
+	\begin{lemma}\label{O1lemma}
 		Let $V$ be a projective variety defined over $\overline{Q}$, let $\phi:V\rightarrow\mathbb{P}^n$ and $\psi:V\rightarrow\mathbb{P}^m$ be morphisms, and let $H$ and $H'$ be hyperplanes in $\mathbb{P}^n$ and $\mathbb{P}^m$, respectively. Assume that $\phi^*H$ and $\psi^*H'$ are linearly equivalent. Then
 		\begin{equation*}
 			h_\phi(P)=h_\psi(P)+O(1), \text{ for all } P\in V(\overline{\Q}),
@@ -664,12 +838,23 @@
 		where the constant from $O(1)$ depends on $V$, $\phi$, and $\psi$, but not on $P$.
 	\end{lemma}
 	\begin{proof}
-		We refer to \cite{Hindry_Silverman_2000}.
+		We refer to \cite{Hindry_Silverman_2000}, Theorem B.3.1.
 	\end{proof}
+	\begin{remark}
+		The term $O(1)$ in the above theorem is the set of bounded functions from $V$ to $\mathbb{R}$. The notation has the following meaning: if $f,g$ are real valued functions, we write $f\le g+O(1)$ to mean that there is some constant $C\in\mathbb{R}$ such that
+		\begin{equation*}
+			f(x)\le g(x)+C, \text{ for all }x\in V.
+		\end{equation*}
+		Then, the notation $f=g+O(1)$ means that both $f\le g+O(1)$ and $g\le f+O(1)$ hold. Equivalently, there exists some constant $C\in\mathbb{R}$ such that
+		\begin{equation*}
+			|f(x)-g(x)|\le C, \text{ for all }x\in V.
+		\end{equation*}
+	\end{remark}
+	
 	
 	With this result, we are going to prove a fundamental theorem, due to André Weil, that assigns height functions to each divisor on a smooth projective variety which is compatible with the different structures of $V,\Div(V)$ and the category of projective varieties.
 	
-	The smoothness assumption is not actually needed, since one can always use Cartier divisors. However, our main objects of study are abelian varieties, which are smooth, so we will explain the theory only for smooth projective varieties since it will allow the use of the simpler language of Weil divisors.
+	The smoothness assumption is not actually needed, since one can always use Cartier divisors. However, our main objects of study are abelian varieties, which are smooth, so we will explain the theory only for smooth projective varieties, since it will allow the use of the simpler language of Weil divisors.
 	
 	We have defined heights relative to morphisms to $\mathbb{P}^n$, but in order to assign heights to divisors, we have to explain how to relate divisors on $V$ with morphisms $\phi:V\rightarrow\mathbb{P}^n$. We will recall some terminology from algebraic geometry.
 	\begin{definition}
@@ -683,20 +868,19 @@
 		
 		The dimension of a linear system is its dimension as a linear projective variety.
 	\end{definition}
-	To any linear system $\mathcal{L}$, we can associate a rational map $\phi_L$ as follows: $\mathcal{L}$ is parametrized by some projective space $\mathbb{P}(E)\subset \mathbb{P}(L(D))$. Choose a basis $f_0,\ldots, f_n$ of $E\subset L(D)$. Then we define
+	To any linear system $\mathcal{L}$, we can associate a rational map $\phi_\mathcal{L}$ as follows: $\mathcal{L}$ is parametrized by some projective space $\mathbb{P}(E)\subset \mathbb{P}(L(D))$. Choose a basis $f_0,\ldots, f_n$ of $E\subset L(D)$. Then we define
 	\begin{align*}
-		\phi_L:V&\dasharrow \mathbb{P}^n\\
+		\phi_\mathcal{L}:V&\dasharrow \mathbb{P}^n\\
 		x&\mapsto (f_0(x),\ldots,f_n(x)),
 	\end{align*}
-	which is a rational map on $X$. A different choice of basis changes the map $\phi_L$ by an automorphism of $\mathbb{P}^n$. Note that in general, $\phi_L$ is not a morphism since it is not defined on the set of common zeros of the $f_i$. The set of base points of $\mathcal{L}$ is the intersection of the supports of all divisors in $\mathcal{L}$. A linear system whose set of base points is empty is called a base point free linear system. We say that a divisor $D$ is base point free if the complete linear system $|D|$ is base point free. The important property of base point free divisors (or linear systems) is that they correspond to morphisms $\phi_L:V\rightarrow\mathbb{P}^n$, so this will be type of divisors that we will use to define heights.
+	which is a rational map on $X$. A different choice of basis changes the map $\phi_\mathcal{L}$ by an automorphism of $\mathbb{P}^n$. Note that in general, $\phi_\mathcal{L}$ is not a morphism since it is not defined on the set of common zeros of the $f_i$. The set of base points of $\mathcal{L}$, also called the \emph{base locus} of $\mathcal{L}$, is the intersection of the supports of all divisors in $\mathcal{L}$. A linear system whose set of base points is empty is called a \emph{base point free} linear system. We say that a divisor $D$ is \emph{base point free} if the complete linear system $|D|$ is base point free. The important property of base point free divisors (or linear systems) is that they correspond to morphisms $\phi_\mathcal{L}:V\rightarrow\mathbb{P}^n$, so this will be type of divisors that we will use to define heights. In this case, we have that $\phi_\mathcal{L}^*H$ is linearly equivalent to $D$, for any hyperplane $H$ in $\mathbb{P}^n$.
 	
-	Observe that we constructed the map $\phi_L$ using global sections of $D$, so it is convenient to work with divisors that have sufficiently many global sections.
+	Observe that we constructed the map $\phi_\mathcal{L}$ using global sections of $D$, so it is convenient to work with divisors that have sufficiently many global sections.
 	\begin{definition}
-		A linear system is very ample if the associated morphism $\phi_L$ is an embedding, that is, if $\phi_L$ 
-		A divisor $D$ is very ample if the linear system $|D|$ is very ample, and it is ample if some positive multiple of $D$ is very ample.
+		A linear system $\mathcal{L}$ is \textbf{very ample} if the associated morphism $\phi_\mathcal{L}$ is an embedding, that is, if $\phi_\mathcal{L}$ is an injective morphism and $V$ is isomorphic to its image in $\mathbb{P}^n$. A divisor $D$ is \textbf{very ample} if the linear system $|D|$ is very ample, and it is \textbf{ample} if some positive multiple of $D$ is very ample.
 	\end{definition}
 	
-	In particular ample and very ample divisors are base point free. It can be seen that ample divisors have, in a sense that can be precisely stated, many global sections. We will use the important fact that any divisor can be written as the difference of two base point free (or even ample) divisors, see \cite{Hartshorne_1977}.
+	In particular, ample and very ample divisors are base point free. It can be seen that ample divisors have, in a sense that can be precisely stated, many global sections. We will use the important fact that any divisor can be written as the difference of two base point free (or even ample) divisors (see \cite{Hartshorne_1977}).
 	
 	\begin{theorem}[Weil's Height Machine]\label{heightmachine}
 		Let $K$ be a number field. For any smooth projective variety $V$ defined over $K$, there is a map
@@ -717,15 +901,15 @@
 			\begin{equation*}
 				h_{V,D+E}(P)=h_{V,D}(P)+h_{V,E}(P)+O(1)\text{ for all }P\in V(\overline{K}).
 			\end{equation*}
-			\item[(d)](Linear Equivalence) Let $D,E\Div(V)$ be linearly equivalent divisors. Then
+			\item[(d)](Linear Equivalence) Let $D,E\in\Div(V)$ be linearly equivalent divisors. Then
 			\begin{equation*}
 				h_{V,D}(P)=h_{V,E}(P)+O(1)\text{ for all }P\in V(\overline{K}).
 			\end{equation*}
-			\item[(e)](Positivity) Let $D\Div(V)$ be an effective divisor, and let $B$ be the base locus of the linear system $|D|$. Then
+			\item[(e)](Positivity) Let $D\in\Div(V)$ be an effective divisor, and let $B$ be the base locus of the linear system $|D|$. Then
 			\begin{equation*}
-				h_{V,D}\ge O(1)\text{ for all }P\in (V\setminus B)(\overline{K}).
+				h_{V,D}(P)\ge O(1)\text{ for all }P\in (V\setminus B)(\overline{K}).
 			\end{equation*}
-			\item[(f)](Finiteness) Let $D\Div(V)$ be ample. Then for every finite extension $K'/K$ and every constant $B$, the set
+			\item[(f)](Finiteness) Let $D\in\Div(V)$ be ample. Then for every finite extension $K'/K$ and every constant $B$, the set
 			\begin{equation*}
 				\{P\in V(K'):h_{V,D}(P)\le B\}
 			\end{equation*}
@@ -734,18 +918,126 @@
 		\end{itemize}
 	\end{theorem}
 	\begin{proof}
+		To begin with, we must give a candidate function $h_{V,D}$, for each divisor $D\in\Div(V)$. There is no obvious choice for such a function, except if $D$ is base point free. In that case, we can choose an associated morphism $\phi_D:=\phi_{|D|}:V\rightarrow \mathbb{P}^n$. Thus, for base point free divisors, we can define $h_{V,D}=h_{\phi_D}=h\circ\phi_D$. We first check that this construction is well defined, i.e., it does not depend on the chosen morphism $\phi_D$, up to bounded functions. Hence, assume that there is another morphism $\psi_D:V\rightarrow\mathbb{P}^m$ associated to $D$. Then, if $H,H'$ are hyperplanes in $\mathbb{P}^n$ and $\mathbb{P}^m$, respectively, we have that $\phi_D^*H$ and $\psi_D^*H'$ are both linearly equivalent to $D$, so they are linearly equivalent. Thus, \lemref{O1lemma} tells us that
+		\begin{equation*}
+			h\circ\phi_D=h\circ \psi_D+O(1),
+		\end{equation*}
+		as we wanted. This means that in the following, we will be able to choose any morphism associated to a base point free divisor $D$ to compute its height function. Now we are going to use the fact that any divisor can be written as a difference of two base point free divisors. If $D\in\Div(V)$ is any divisor, choose $D_1,D_2\in\Div(V)$ base point free divisors such that $D=D_1-D_2$. Then, we define $h_{V,D}=h_{V,D_1}-h_{V,D_2}$. We must show that this definition is independent on the particular decomposition of $D$ as a difference of base point free divisors, up to bounded functions. To do that, we will first prove additivity for base point free divisors. Let $D$ and $E$ be base point free divisors, and take $\phi_D:V\rightarrow \mathbb{P}^n$, $\phi_E:V\rightarrow\mathbb{P}^m$ some associated morphisms. Consider the Segre embedding
+		\begin{align*}
+			S_{n,m}:\mathbb{P}^n\times\mathbb{P}^m&\rightarrow \mathbb{P}^N\\
+			(x,y)&\mapsto (x_iy_j)_{\substack{0\le i\le n\\ 0\le j\le m}},
+		\end{align*}
+		where we have written $x=(x_0,\ldots,x_n)$, $y=(y_0,\ldots,y_m)$ and $N=(n+1)(m+1)-1$. We obtain a morphism $\phi_D\otimes\phi_E:V\rightarrow\mathbb{P}^N$ given by
+		\begin{equation*}
+			\phi_D\otimes\phi_E(P)=S_{n,m}(\phi_D(P),\phi_E(P)).
+		\end{equation*}
+		This morphism is associated to the divisor $D+E$ (so $(\phi_D\otimes\phi_E)^*H\sim D+E$ for any hyperplane $H\subset\mathbb{P}^N$). Since the height for base point free divisors can be computed using any morphism associated to it, we have
+		\begin{align*}
+			h_{V,D+E}&=h\circ(\phi_D\otimes\phi_E)+O(1)\\
+			&=h(S_{n,m}(\phi_D,\phi_E))+O(1)\\
+			&=h\circ\phi_D+h\circ\phi_E+O(1)\\
+			&=h_{V,D}+h_{V,E}+O(1),
+		\end{align*}
+		where the third equality is an easy consequence of the definition of $S_{n,m}$ and $h$. Now we can show that $h_{V,D}$ is independent of the decomposition of $D$. Suppose that we have two decompositions $D=D_1-D_2=E_1-E_2$, where $D_1,D_2,E_1,E_2\in\Div(V)$ are base point free divisors. Then, we have $D_1+E_2=D_2+E_1$, (and this divisor is base point free). Thus, we compute using the definitions and additivity for base point free divisors
+		\begin{align*}
+			h_{V,D_1}+h_{V,E_2}&=h_{V,D_1+E_2}+O(1)\quad\text{(Additivity)}\\
+			&=h_{V,D_2+E_1}+O(1)\\
+			&=h_{V,D_2}+h_{V,E_1}+O(1)\quad\text{(Additivity)},
+		\end{align*}
+		which shows that $h_{V,D_1}-h_{V,D_2}=h_{V,E_1}-h_{V,E_2}+O(1)$. Hence, the functions $h_{V,D}$ are well defined up to bounded functions, and we can use any decomposition of $D$ to compute them. We now show the properties stated in the theorem.
 		
+		(Normalization) Since a hyperplane $H\subset\mathbb{P}^n$ is base point free, we can compute its height using any morphism associated to it. Observe that the identity $\text{Id}:\mathbb{P}^n\rightarrow\mathbb{P}^n$ clearly satisfies $\text{Id}^*H\sim H$, so we find
+		\begin{equation*}
+			h_{\mathbb{P}^n,H}(P)=h\circ\text{Id}(P)+O(1)=h(P)+O(1), \text{ for all }P\in \mathbb{P}^n,
+		\end{equation*}
+		as we wanted.
+		
+		(Functoriality) Let $\phi:V\rightarrow W$ be a morphism and $D\in\Div(W)$ a divisor. Write $D=D_1-D_2$ as the difference of two base point free divisors, and let $\phi_{D_1}$, $\phi_{D_2}$ be the corresponding morphisms into projective space. The divisors $\phi^*D_1$ and $\phi^*D_2$ are base point free, and the associated morphisms are $\phi_{D_1}\circ\phi$ and $\phi_{D_2}\circ\phi$, respectively. Hence, $\phi^*D=\phi^*(D_1-D_2)=\phi^*D_1-\phi^*D_2$ is a decomposition of $\phi^*D$, and we can compute
+		
+		\begin{align*}
+			h_{V,\phi^*D}&=h_{V,\phi^*D_1}-h_{V,\phi^*D_2}+O(1)\\
+			&=h\circ \phi_{D_1}\circ\phi-h\circ\phi_{D_2}\circ\phi+O(1)\\
+			&=h\circ(\phi_{D_1}-\phi_{D_2})\circ\phi+O(1)\\
+			&=(h_{W,D_1}-h_{W,D_2})\circ\phi+O(1)\\
+			&=h_{W,D}\circ\phi +O(1),
+		\end{align*}
+		as we wanted.
+		
+		(Additivity) Let $D,E\in\Div(V)$ be two divisors. Choose decompositions $D=D_1-D_2$ and $E=E_1-E_2$ with base point free divisors. Then, $D+E=D_1-D_2+E_1-E_2=(D_1+E_1)-(D_2+E_2)$ is a decomposition of $D+E$ as a difference of base point free divisors. Thus, we compute
+		\begin{align*}
+			h_{V,D+E}&=h_{V,D_1+E_1}-h_{V,D_2+E_2}+O(1)\\
+			&=h_{V,D_1}+h_{V,E_1}-h_{V,D_2}-h_{V,E_2}+O(1)\\
+			&=h_{V,D_1}-h_{V,D_2}+h_{V,E_1}-h_{V,E_2}+O(1)\\
+			&=h_{V,D}+h_{V,E}+O(1).
+		\end{align*}
+		
+		(Linear Equivalence) Suppose that $D$ and $E$ are two linearly equivalent divisors of $V$. As usual, write $D=D_1-D_2$ and $E=E_1-E_2$. Then the divisors $D_1+E_2$ and $D_2+E_1$ are linearly equivalent. Since they are base point free, we can choose associated morphisms $\phi_{D_1+E_2}:V\rightarrow\mathbb{P}^n$ and $\phi_{D_2+E_1}:V\rightarrow\mathbb{P}^m$. Therefore, if $H$, $H'$ are hyperplanes in $\mathbb{P}^n$, $\mathbb{P}^m$, respectively, we find
+		\begin{equation*}
+			\phi_{D_1+E_2}^*H\sim D_1+E_2\sim D_2+E_1\sim\phi_{D_2+E_1}^*.
+		\end{equation*}
+		Therefore, by \lemref{O1lemma}, we obtain
+		\begin{equation*}
+			h_{V,D_1+E_2}=h_{V,D_2+E_1}+O(1).
+		\end{equation*}
+		Now, using additivity, we compute:
+		\begin{align*}
+			h_{V,D}&=h_{V,D_1}-h_{V,D_2}+O(1)\\
+			&=h_{V,D_1}-h_{V,D_2}+h_{V,E_1}-h_{V,E_1}+h_{V,E_2}-h_{V,E_2}+O(1)\\
+			&=h_{V,E_1}-h_{V,E_2}+h_{V,D_1+E_2}-h_{V,D_2+E_1}+O(1)\\
+			&=h_{V,E_1}-h_{V,E_2}+O(1)\\
+			&=h_{V,E}+O(1).
+		\end{align*}
+		(Positivity) Assume that $D\in\Div(V)$ is a positive divisor. Write $D$ as the difference $D_1-D_2$ of base point free divisors, so $D_1>D_2$. To construct the morphism associated to $D_2$, choose a basis for $L(D_2)$, $\{f_0,\ldots,f_n\}$. Since $D_1>D_2$, we find that
+		\begin{equation*}
+			D_1+\Div(f_i)>D_2+\Div(f_i)\ge 0,
+		\end{equation*}
+		by definition of the $f_i$. Therefore, the global sections $f_i$ are also in $L(D_1)$. Complete the set $\{f_0,\ldots,f_n\}$ to a basis $\{f_0,\ldots,f_n,f_{n+1},\ldots, f_m\}$ of $L(D_1)$. Then we can give morphisms associated to $D_1$ and $D_2$ by
+		\begin{align*}
+			&\phi_{D_1}:V\rightarrow \mathbb{P}^m\\
+			P&\mapsto(f_1(P),\ldots,f_m(P)),
+		\end{align*}
+		and
+		\begin{align*}
+			&\phi_{D_2}:V\rightarrow \mathbb{P}^n\\
+			P&\mapsto(f_1(P),\ldots,f_n(P)).
+		\end{align*}
+		The functions $f_0,\ldots,f_m$ are regular at points $P$ not in the support of $D_1$, so we have, for $P\in V\setminus\text{supp}(D_1)$
+		\begin{align*}
+			h_{V,D}(P)&=h_{V,D_1}(P)-h_{V,D_2}(P)+O(1)\\
+			&=h\circ\phi_{D_1}(P)-h\circ\phi_{D_2}(P)+O(1)\\
+			&=h(f_0(P),\ldots,f_m(P))-h(f_0(P),\ldots,f_n(P))+O(1).
+		\end{align*}
+		Note that since $m\ge n$, we have, for any prime $\P$ in $K$,
+		\begin{equation*}
+			\max_{0\le i\le m}||f_i(P)||_\P\ge\max_{0\le i\le n}||f_i(P)||_\P.
+		\end{equation*}
+		Multiplying over all $\P$ and taking appropriate roots, we deduce
+		\begin{equation*}
+			h(f_0(P),\ldots,f_m(P))\ge h(f_0(P),\ldots,f_n(P)), \text{ for all }P\in V\setminus\text{supp}(D_1),
+		\end{equation*}
+		and hence $h_{V,D}(P)\ge O(1)$ for these points. Now we want to deduce this property for all points not in the support of $D$. To do that, choose very ample divisors $H_1,\ldots, H_r$ on $V$ such that $H_1\cap \cdots H_r=\emptyset$, and $H_i+D$ is very ample. One way to do this is to find a very ample divisor $H$ such that $D+H$ is also very ample (which is always possible), take an embedding $V\hookrightarrow\mathbb{P}^r$ corresponding to $H$, and defining the $H_i$ as the pullbacks of the coordinate hyperplanes in $\mathbb{P}^r$. We now use the above reasoning with $D_1=D+H_i$, $D_2=H_i$ (so $D=D_1-D_2$), to obtain the positivity property for all points not in the support of $D+H_i$. Since the supports of the $H_i$ are disjoint, this yields positivity for all points not in the support of $D$.
+		
+		Finally, varying $D$ in its linear system yields the property for all points not in the base locus of $|D|$.
+		
+		(Finiteness) Assume that $D$ is ample. Then there exists some $n>0$ such that $nD$ is very ample, with associated embedding $\phi$. By additivity, we have that $h_{V,nD}=nh_{V,D}+O(1)$, so it suffices to prove finiteness for very ample divisors. Let $\phi:V\hookrightarrow\mathbb{P}^n$ be an associated embedding to the very ample divisor $D$. Then, for any hyperplane $H\subset \mathbb{P}^n$, we have that $\phi^*H=D$. Thus, by functoriality and normalization, we have that
+		\begin{align*}
+			h_{V,D}&=h_{V,\phi^*H}=h_{\mathbb{P}^n,H}\circ\phi+O(1)\\
+			&=h\circ\phi+O(1).
+		\end{align*}
+		Hence, it suffices to prove finiteness for the absolute logarithmic height function, which follow from the Northcott property (\propref{northcott}).
+		
+		(Uniqueness) We show that normalization, functoriality for embeddings and additivity determine the height functions, up to bounded functions. If $D$ is very ample with associated embedding $\phi:V\hookrightarrow\mathbb{P}^n$, we have that $\phi^*H=D$, for any hyperplane $H\subset\mathbb{P}^n$. Then functoriality implies that $h_{V,D}=h_{V,\phi^*H}=h_{\mathbb{P}^n,H}\circ\phi+O(1)$. Now normalization implies that $h_{\mathbb{P}^n,H}=h+O(1)$, so height functions on very ample divisors are determined by $h_{V,D}=h\circ\phi+O(1)$. Since any divisor $D$ can be written as the difference $D_1-D_2$ of very ample divisors, additivity implies that $h_{V,D}=h_{V,D_1}-h_{V,D_2}$, which determines the height functions for all divisors.
 	\end{proof}
 	In addition to the construction of height functions, the strength of Weil's height machine is that it allows to translate geometric relations of divisors to arithmetic relations on height functions. For example, if $A$ is an abelian variety over a number field $K$ and $m$ is an integer, Mumford's formula explains the behavior of divisors with respect to the map $[m]:A\rightarrow A$:
 	\begin{equation*}
 		[m]^*D\sim\frac{m^2+m}{2}D+\frac{m^2-m}{2}[-1]^*D.
 	\end{equation*}
-	(see appendix). Using the height machine, we can deduce important facts about the height functions of $A$.
+	(See \corref{mumfordformula}). Using the height machine, we can deduce important facts about the height functions of $A$.
 	
 	\begin{corollary}\label{mumfordheight}
-		Let $A$ be an abelian variety defined over a number field $K$, and let $D\Div(A)$ be a divisor.
+		Let $A$ be an abelian variety defined over a number field $K$, and let $D\in\Div(A)$ be a divisor.
 		\begin{itemize}
-			\item[(a)] Let $m$ be an integer. Then for all $P\in A(\overline{K})$, we have
+			\item[(a)] Let $m$ be an integer. Then, for all $P\in A(\overline{K})$, we have
 			\begin{equation*}
 				h_{A,D}([m]P)=\frac{m^2+m}{2}h_{A,D}(P)+\frac{m^2-m}{2}h_{A,D}(-P)+O(1).
 			\end{equation*}
@@ -783,13 +1075,13 @@
 		\end{align*}
 		(b) If $D$ has a symmetric divisor class, consider the maps $s_{12},d_{12},p_1,p_2:A\times A\rightarrow A$ defined as
 		\begin{equation*}
-			s_{12}(P,Q)=P+Q,\quad d_{12}(P,Q)=P-Q,\quad p_1(P,Q)=P,\quad\text{and }p_2(P,Q)=Q.
+			s_{12}(P,Q)=P+Q,\quad d_{12}(P,Q)=P-Q,\quad p_1(P,Q)=P,\quad\text{and }\ p_2(P,Q)=Q.
 		\end{equation*}
-		Then we have the relation
+		Then, we have the relation
 		\begin{equation*}
 			s_{12}^*D+d_{12}^*D=2p_1^*D+2p_2^*D
 		\end{equation*}
-		(see appendix). Using the properties of Weil's height machine, we find:
+		(see \propref{abeliansymmetric}). Using the properties of Weil's height machine, we find:
 		\begin{align*}
 			h_{A,D}(P+Q)+h_{A,D}(P-Q)&=h_{A,D}(s_{12}(P,Q))+h_{A,D}(d_{12}(P,Q))\\
 			&=h_{A,s_{12}^*D}(P,Q)+h_{A,d_{12}^*D}(P,Q)+O(1)\\
@@ -797,19 +1089,19 @@
 			&=h_{A,2p_1^*D+2p_2^*D}(P,Q)+O(1)\\
 			&=h_{A,2p_1^*D}(P,Q)+h_{A,2p_2^*D}(P,Q)+O(1)\\
 			&=2h_{A,D}(p_1(P,Q))+2h_{A,D}(p_2(P,Q))+O(1)\\
-			&=2h_{A,D}(P)+2h_{A,D}(Q)+O(1)
+			&=2h_{A,D}(P)+2h_{A,D}(Q)+O(1),
 		\end{align*}
 		which is what we wanted.
 	\end{proof}
 	
-	The height machine gives us relations between the height functions up to bounded functions. In order to prove deeper results, we would like to get rid of the $O(1)$. André Néron and John Tate studied this problem, and discovered that under certain assumptions on $D$ being an eigenvalue of the pullback of a morphism $\phi:V\rightarrow V$, it is possible to find (and compute) a height function on the $O(1)$ class of $h_{V,D}$ with useful properties.
+	The height machine gives us relations between the height functions up to bounded functions. In order to prove deeper results, we would like to get rid of the $O(1)$ term. André Néron and John Tate studied this problem, and discovered that under certain assumptions on $D$ being an eigendivisor of the pullback of a morphism $\phi:V\rightarrow V$, it is possible to find (and compute) a height function on the $O(1)$ class of $h_{V,D}$ with useful properties.
 	
 	\begin{theorem}[Néron,Tate]\label{canonicalheight}
 		Let $V$ be a smooth variety defined over a number field $K$, let $D\in\Div(A)$ be a divisor, and let $\phi:V\rightarrow V$ be a morphism. Suppose that there exists a number $\alpha>1$ such that
 		\begin{equation*}
 			\phi^*D\sim\alpha D.
 		\end{equation*}
-		Then there is a unique function, called the canonical height on $V$ relative to $\phi$ and $D$,
+		Then, there is a unique function, called the \textbf{canonical height on $V$ relative to $\phi$ and $D$},
 		\begin{equation*}
 			\hat{h}_{V,\phi,D}:V(\overline{K})\rightarrow\mathbb{R},
 		\end{equation*}
@@ -863,7 +1155,7 @@
 		and the last quantity goes to zero as $n$ goes to infinity, so $\hat{h}-\hat{h}'=0$, as we wanted.
 	\end{proof}
 	
-	In order to use \ref{canonicalheight} to produce canonical height functions, we have to find a morphism $\phi:V\rightarrow V$ and a divisor $D$ that is an eigenvalue for $\phi^*$, up to linear equivalence. Recall from \corref{mumfordheight} that in an abelian variety $A$, symmetric divisors are, up to linear equivalence, eigenvalues for all the maps $[m]$: $[m]^*D\sim m^2D$. This will make it possible to find a canonical height on $A$ relative to $D$ and to all the maps $[m]$ simultaneously.
+	In order to use \ref{canonicalheight} to produce canonical height functions, we have to find a morphism $\phi:V\rightarrow V$ and a divisor $D$ that is an eigendivisor for $\phi^*$, up to linear equivalence. Recall from \corref{mumfordheight} that in an abelian variety $A$, symmetric divisors are, up to linear equivalence, eigendivisors for all the maps $[m]$: $[m]^*D\sim m^2D$. This will make it possible to find a canonical height on $A$ relative to $D$ and to all the maps $[m]$ simultaneously.
 	
 	\begin{theorem}\label{nerontate}
 		Let $A$ be an abelian variety defined over some number field $K$, and let $D\in\Div(A)$ be a divisor in a symmetric divisor class. There is a height function
@@ -885,7 +1177,7 @@
 		\end{itemize}
 	\end{theorem}
 	\begin{proof}
-		Recall that for a symmetric divisor $D\Div(A)$ and an integer $r$, we have $[r]^*D\sim r^2D$. Therefore, we may use \thmref{canonicalheight} with any $r\ge 2$, so we will use $r=2$. We thus obtain the canonical height on $A$ relative to $[2]$ and $D$, which we may compute as the limit
+		Recall that for a symmetric divisor $D\in\Div(A)$ and an integer $r$, we have $[r]^*D\sim r^2D$. Therefore, we may use \thmref{canonicalheight} with any $r\ge 2$, so we will use $r=2$. We thus obtain the canonical height on $A$ relative to $[2]$ and $D$, which we may compute as the limit
 		\begin{equation*}
 			\hat{h}_{A,[2],D}(P)=\lim\limits_{n\to\infty}\frac{1}{4^n}h_{A,D}([2^n]P).
 		\end{equation*}
@@ -928,9 +1220,9 @@
 	\begin{proof}
 		Putting $P=Q=0$ in the formula for the parallelogram law we obtain that $2h(0)=4h(0)$, so $h(0)=0$. Now putting $P=0$ in the formula, we obtain $h(Q)+h(-Q)=2h(Q)$, so $h(Q)=h(-Q)$. We now have to show that the associated pairing is bilinear. Since it is symmetric, it suffices to show that it is bilinear in the first component. The equality:
 		\begin{equation*}
-			\langle P+Q,R\rangle=\langle P,R\rangle+\langle Q,R\rangle
+			\langle P+Q,R\rangle=\langle P,R\rangle+\langle Q,R\rangle,
 		\end{equation*}
-		for all $P,Q,R\in A$ translates into the identity:
+		for all $P,Q,R\in A$, translates into the identity:
 		\begin{equation*}
 			h(P+Q+R)-h(P+Q)-h(P+R)-h(Q+R)+h(P)+h(Q)+h(R)=0,
 		\end{equation*}
@@ -981,7 +1273,7 @@
 			\item[(a)] $\hat{h}_{A,D}(P)=h_{A,D}(P)+O(1)$, for all $P\in A(\overline{K})$.
 			\item[(b)] $\hat{h}_{A,D}(P+Q)=\hat{h}_{A,D}(P)+\hat{h}_{A,D}(Q)$, for all $P,Q\in A(\overline{K})$.
 		\end{itemize}
-		And properties $(a),(b)$ uniquely determine $\hat{h}_{A,D}$.
+		Moreover, properties $(a),(b)$ uniquely determine $\hat{h}_{A,D}$.
 	\end{theorem}
 	Note that for antisymmetric classes, instead of a quadratic form we obtain a homomorphism of groups. Since the double of any divisor can be written as the sum of a symmetric divisor and an antisymmetric divisor, a similar theorem can be obtained for arbitrary divisors. The resulting canonical function is then the sum of a quadratic form and a homomorphism of groups.
 		
@@ -1011,33 +1303,32 @@
 			&\le |x_0|+|y_i| \quad(\text{By the triangle inequality})\\
 			&< 2|x_0|\quad(\text{Since } |y_i|\le c_0< |x_0|).
 		\end{align*}
-		Since we are assuming that $m\ge 2$, we find that $|x_1|<|x_0|$. If $x_1$ is in $S$, then we have that $x_0=y_i+mx_1$ is in the group generated by $S$. Otherwise, let $y_j$ be the coset representative for $x_1$ in $A(K)/mA(K)$, so $x_1=y_j+mx_2$, for some $x_2\in A(K)$. By the exact same argument as before, we show that $|x_2|<|x_1|$. Repeating this argument, we obtain a sequence of elements $x_k\in A(K)$ satisfying that $|x_{k+1}|<|x_k|$, and such that $x_k$ is in the group generated by $S$ and $x_{k+1}$. Since there is a finite number of elements with bounded height $\hat{h}$, there exists some $l$ such that $x_l$ is in $S$. Therefore, we find that $x_0$ is in the group generated by $S$. Since $x_0$ was arbitrary, this concludes the proof of the Mordell-Weil theorem.
+		Since we are assuming that $m\ge 2$, we find that $|x_1|<|x_0|$. If $x_1$ is in $S$, then we have that $x_0=y_i+mx_1$ is in the group generated by $S$. Otherwise, let $y_j$ be the coset representative for $x_1$ in $A(K)/mA(K)$, so $x_1=y_j+mx_2$, for some $x_2\in A(K)$. By the exact same argument as before, we show that $|x_2|<|x_1|$.
+		
+		Repeating this argument, we obtain a sequence of elements $x_k\in A(K)$ satisfying that $|x_{k+1}|<|x_k|$, and such that $x_k$ is in the group generated by $S$ and $x_{k+1}$. Since there is a finite number of elements with bounded height $\hat{h}$, there exists some $l$ such that $x_l$ is in $S$. Therefore, we find that $x_0$ is in the group generated by $S$. Since $x_0$ was arbitrary, this concludes the proof of the Mordell-Weil theorem.
 	\end{proof}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	\newpage
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	\thispagestyle{plain}	
 	\section{Computing the Selmer group}
+	\markleft{\thesection. Computing the Selmer group}
 	
-	We have proved in the previous chapter the Mordell Weil theorem for abelian varieties over number fields, so in particular we will turn our attention first to Jacobians of hyperelliptic curves over number fields, and then to Jacobians of hyperelliptic curves over the rational numbers. Given a hyperelliptic curve $C$, we know then that there exists a finite set of points $P_1,\ldots,P_r\in\Jac(C)$ such that every point in $\Jac(C)$ is, up to torsion, a linear combinations of the points $P_i$. However, the proof of this theorem does not give any bound on the rank $r$, nor does it yield any method to find these points.
+	We have proved in the previous chapter the Mordell Weil theorem for abelian varieties over number fields, so in particular we will turn our attention first to Jacobians of hyperelliptic curves over number fields, and then to Jacobians of hyperelliptic curves over the rational numbers. Given a hyperelliptic curve $C$, we know then that there exists a finite set of points $P_1,\ldots,P_r\in\Jac(C)$ such that every point in $\Jac(C)$ is, up to torsion, a linear combination of the points $P_i$. However, the proof of this theorem does not give any bound on the rank $r$, nor does it yield any method to find these points.
 	
 	In this section, we are going to explain a general construction from group cohomology called the Selmer group that allows, in some cases, to compute explicitly (or bound) the rank of a Jacobian variety. Then, we will describe a method for the computation of this group, given by Schaefer in \cite{Schaefer_1995}. This will make it possible for us to bound the Mordell Weil rank of a large amount of (Jacobians of) hyperelliptic curves, in the next chapter.
 	
 	\subsection{The Selmer group of a hyperelliptic curve}
+	\markright{\thesubsection. The Selmer group of a hyperelliptic curve}
 	
 	Let $J$ be a Jacobian variety over a number field $K$. When we proved \thmref{mordellweiltheorem}, we showed that using the theory of height functions it suffices to prove that the weak Mordell Weil group
 	\begin{equation*}
@@ -1047,11 +1338,11 @@
 	\begin{equation*}
 		J(K)\cong\Z^r\oplus J(K)_{\text{tors}},
 	\end{equation*}
-	where $J(K)_{\text{tors}}$ is the torsion subgroup, which is finite. Then we have
+	where $J(K)_{\text{tors}}$ is the torsion subgroup, which is finite. Then, we have
 	\begin{equation*}
-		mJ(K)=(m\Z)^r\oplus J(K)[m'],
+		mJ(K)=(m\Z)^r\oplus mJ(K)_{\text{tors}}.
 	\end{equation*}
-	where $J(K)[m']$ is the subgroup of prime to $m$ torsion. Finally, we obtain that
+	Finally, we obtain that
 	\begin{equation*}
 		J(K)/mJ(K)\cong (\Zmod{m})^r\oplus J(K)[m].
 	\end{equation*}
@@ -1061,7 +1352,7 @@
 	
 	The construction is the following: let $J$ be a Jacobian variety over a number field $K$, and let $m>1$ be an integer. Fix once and for all an algebraic closure $\overline{K}$ of $K$. Consider the isogeny:
 	\begin{equation*}
-		[m]:J\rightarrow J
+		[m]:J\rightarrow J,
 	\end{equation*}
 	given by multiplication by $m$. We denote by $J[m]$ the kernel of this map. Then we have the following short exact sequence:
 	\begin{equation}\label{kummersequence}
@@ -1075,7 +1366,7 @@
 	\end{equation}
 	We denote by $G_K$ the absolute Galois group of $K$, that is, the group $\Gal(\overline{K}/K)$. Note that the above exact sequence of abelian groups is actually an exact sequence of $G_K$ modules, where the action of $G_K$ is the usual one on the coordinates of the points in $J$. Note that the elements that are fixed by $G_K$ are precisely:
 	\begin{align*}
-		J[m]^{G_K}&=J(K)[m],\\
+		J[m]^{G_K}&=J(K)[m],\text{ and}\\
 		J(\overline{K})^{G_K}&=J(K),
 	\end{align*}
 	so by the usual properties of Galois cohomology we obtain a long exact sequence of the form:
@@ -1093,7 +1384,7 @@
 			& \ldots,
 		\end{tikzcd}
 	\end{equation*}
-	where $\delta$ is the usual connecting homomorphism defined as follows: if $x\in J(K)$ then there exists some $y\in J(\overline{K})$ such that $[m]y=x$. Observe that, since the map $[m]$ is a homomorphism of $G_K$ modules, we have, for each $\sigma\in G_K$:
+	where $\delta$ is the usual connecting homomorphism defined as follows: if $x\in J(K)$, then there exists some $y\in J(\overline{K})$ such that $[m]y=x$. Observe that, since the map $[m]$ is a homomorphism of $G_K$ modules, we have, for each $\sigma\in G_K$:
 	\begin{equation*}
 		[m](y^\sigma-y)=([m]y)^\sigma -[m]y=x^\sigma -x=x-x=0,
 	\end{equation*}
@@ -1121,7 +1412,7 @@ which we also call $\delta$, by abuse of notation. In addition, the homomorphism
 Since the homomorphism $H^1(G_K,J[m])\rightarrow H^1(G_K,J(\overline{K}))[m]$ is the one induced by the inclusion $J[m]\subset J(\overline{K})$, we will refer to it when needed as $\iota$. Now let $\P$ be a prime of $K$. Denote by $K_\P$, $\overline{K_\P}$ and $G_\P$ the completion of $K$ at $\P$, an algebraic closure of this field and the group $\Gal(\overline{K_\P}/K_\P)$, respectively. Restricting a morphism $\sigma\in G_\P$ to $\overline{K}$ yields an element in $G_K$, and since $\sigma$ fixes $K_\P$, its restriction fixes the prime ideal $\P$. We therefore find that the restriction sends $G_\P$ to the decomposition group $D_\P:=\{\sigma\in G_K: \sigma(\P)=\P\}\subset G_K$. It is easy to see that this is in fact an isomorphism (see \cite{Janusz_1973}), so we can regard the group $G_\P$ as a subgroup of $G_K$. If $M$ is any $G_K$ module, restricting the domain of a 1-cochain $\xi:G_K\rightarrow M$ to $G_\P$ yields the restriction map:
 \begin{align*}
 	res_\P:H^1(G_K,M)&\rightarrow H^1(G_\P,M)\\
-	[\xi]&\mapsto [\xi|_{G_\P}]
+	[\xi]&\mapsto [\xi|_{G_\P}].
 \end{align*}
 Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$, we can form an analogous short exact sequence to \eqref{funses}, considering $K_\P$ instead of $K$. Taking the product over all primes of $K$ of these exact sequences and using the restriction maps from above, we obtain the following commutative diagram of abelian groups:
 \small
@@ -1137,31 +1428,29 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 			&\displaystyle \prod_\P J(K_\P)/mJ(K_\P)\arrow{r}{\delta_\P}
 			&\displaystyle \prod_\P H^1(G_\P, J[m])\arrow{r}
 			&\displaystyle \prod_\P H^1(G_\P,J(\overline{K}_\P))[m]\arrow{r}
-			&0
+			&0.
 		\end{tikzcd}
 	\end{equation}
 \normalsize
-	As before, we refer to the homomorphisms $H^1(G_\P,J[m])\rightarrow H^1(G_\P,J)[m]$ as $\iota_\P$ when needed. Now we make the following important observation: let $x\in J(K)/mJ(K)$. Then by commutativity of the above diagram, we have that $\iota_\P\circ\text{res}_\P(\delta(x))$ is equal to $\text{res}_\P\circ \iota(\delta(x))$. Moreover, since the first row is exact, we have that $\iota\circ\delta=0$, so $\text{res}_\P(\delta(x))\in \Im(\delta_\P)$ by exactness of the second row. This motivates the following
+	As before, we refer to the homomorphisms $H^1(G_\P,J[m])\rightarrow H^1(G_\P,J)[m]$ as $\iota_\P$ when needed. Now we make the following important observation: let $x\in J(K)/mJ(K)$. Then by commutativity of the above diagram, we have that $\iota_\P\circ\text{res}_\P(\delta(x))$ is equal to $\text{res}_\P\circ \iota(\delta(x))$. Moreover, since the first row is exact, we have that $\iota\circ\delta=0$, so $\text{res}_\P(\delta(x))\in \Im(\delta_\P)$ by exactness of the second row. This motivates the following definition.
 	\begin{definition}
 		Let $J$ be a Jacobian variety over a number field $K$. The $m$-Selmer group of $J(K)$ is the subgroup of $H^1(G_K,J[m])$ defined as:
 		\begin{equation*}
-			S^m(J/K)=\{\phi\in H^1(G_K,J[m]):\text{res}_\P(\phi)\in \Im(\delta_\P), \ \forall \P\in\text{Spec}(\mathcal{O}_K)\}
+			S^m(J/K)=\{\phi\in H^1(G_K,J[m]):\text{res}_\P(\phi)\in \Im(\delta_\P), \ \forall \P\in\text{Spec}(\mathcal{O}_K)\}.
 		\end{equation*}
 		By exactness of the second row in \eqref{seldiag}, the $m$-Selmer group admits the following equivalent description:
 		\begin{equation*}
-			S^m(J/K)=\{\phi\in H^1(G_K,J[m]):\text{res}_\P(\phi)\in \Ker(\iota_\P), \ \forall \P\in\text{Spec}(\mathcal{O}_K)\}
+			S^m(J/K)=\{\phi\in H^1(G_K,J[m]):\text{res}_\P(\phi)\in \Ker(\iota_\P), \ \forall \P\in\text{Spec}(\mathcal{O}_K)\}.
 		\end{equation*}
 	\end{definition}
 	As we have explained above, the weak Mordell-Weil group injects in $S^m(J/K)$ through the map $\delta$. The advantage of working in this smaller group is that we have methods to compute the groups $J(K_\P)/mJ(K_\P)$ for any prime $\P$, so knowing that the restrictions of a 1-cocycle $\phi\in S^m(J/K)$ lie in the image of $\delta_\P$ gives us local conditions that allow the computation of the $m$-Selmer group.
 	
-	Knowing how to compute the $m$-Selmer group is not enough: in order to produce bounds on the order of the Weak Mordell-Weil group we must also show that it is a finite group. We will do so by explaining how the $m$-Selmer group is contained in a finite cohomology group inside $H^1(G_K,J[m])$, essentially repeating the proof of the weak Mordell-Weil theorem in the language of Galois cohomology. We first translate the property of a finite extension being unramified.
+	Knowing how to compute the $m$-Selmer group is not enough: in order to produce bounds on the order of the Weak Mordell-Weil group, we must also show that it is a finite group. We will do so by explaining how the $m$-Selmer group is contained in a finite cohomology group inside $H^1(G_K,J[m])$, essentially repeating the proof of the weak Mordell-Weil theorem in the language of Galois cohomology. We first translate the property of a finite extension being unramified.
 	\begin{definition}
 		Let $\P$ be a prime of $K$, let $I_\P\subset G_K$ be an inertia subgroup for $\P$ and let $M$ be a $G_K$-module. We say that a cohomology class $\phi\in H^1(G_K,M)$ is unramified at $\P$ if its restriction to $H^1(I_\P, M)$ is the trivial cohomology class.
 		
 		If $S$ is a finite set of primes of $K$, we denote by $H^1_S(G_K,M)$ the subgroup of cohomology classes that are unramified at all primes except possibly those in $S$.
 	\end{definition} 
-	
-	
 	
 	Now we can proof a result similar to \propref{ramifS} which will show that $S^m(J/K)$ is a finite group.
 	\begin{proposition}\label{selfinite}Let $K$ be a number field.
@@ -1171,16 +1460,16 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 		\end{enumerate}
 	\end{proposition}
 	\begin{remark}
-		Since the $m$-torsion of $J$ is a finite $G_K$ module and the set of primes described in part (2) is finite, the two parts of \propref{selfinite} combined imply that the $m$-Selmer group is contained in a finite group so it is finite.
+		Since the $m$-torsion of $J$ is a finite $G_K$ module and the set of primes described in part (2) is finite, the two parts of \propref{selfinite} combined imply that the $m$-Selmer group is contained in a finite group, so it is finite.
 	\end{remark}
-	\begin{proof} (1) By definition, the action of $G_K$ on $M$ is continuous when $G_K$ has the Krull topology and $M$ has the discrete topology. Hence, if we fix $m\in M$, the map
+	\begin{proof} (Of \propref{selfinite}). (1) By definition, the action of $G_K$ on $M$ is continuous when $G_K$ has the Krull topology and $M$ has the discrete topology. Hence, if we fix $m\in M$, the map
 			\begin{align*}
 				G_K\times \{m\}&\rightarrow M\\
 				(\sigma,m)&\mapsto m^\sigma
 			\end{align*}
 			is continuous. Since $M$ is discrete, the stabilizer of $m$ in $G_K$, denoted by $G_m$, is an open subgroup, because it is the preimage of $m$ by this map. Since $M$ is finite, the set
 			\begin{equation*}
-				H:=\cap_{m\in M}G_m
+				H:=\bigcap_{m\in M}G_m
 			\end{equation*}
 			is a subgroup of $G_K$, because it is an intersection of subgroups; and it is open, because it is a finite intersection of open sets. In addition, we have by construction that $m^\sigma=m$ for all $m\in M$ and $\sigma\in H$. 
 			
@@ -1193,15 +1482,15 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 					& H^1(G_L,M)
 				\end{tikzcd}
 			\end{equation*}
-			to observe that if we know the result for a finite extension of $K$, then it also holds for $K$. Therefore we may assume, by the above argument, that $G_K$ acts trivially on $M$. In this case, a $1$-cocycle satisfies:
+			to observe that if we know the result for a finite extension of $K$, then it also holds for $K$. Therefore we may assume, by the above argument, that $G_K$ acts trivially on $M$. In this case, a $1$-cocycle satisfies
 			\begin{equation*}
 				\phi(\sigma\tau)=\phi(\sigma)^\tau+\phi(\tau)=\phi(\sigma)+\phi(\tau),
 			\end{equation*}
-			so cocycles are just group morphisms from $G_K$ to $M$. Moreover, a coboundary has the form:
+			so cocycles are just group morphisms from $G_K$ to $M$. Moreover, a coboundary has the form
 			\begin{equation*}
 				\phi(\sigma)=m^\sigma-m=m-m=0,\text{ for some } m\in M,
 			\end{equation*}
-			so there are no nontrivial 1-coboundaries. Therefore, we deduce that $H^1(G_K,M)=\Hom(G_K,M)$. Let $m$ be the exponent of $M$ (that is, the smallest positive integer such that every element in $M$ annihilated by $m$). As we saw in the previous chapter, elements in $\Hom(G_K,M)$ correspond to abelian subgroups of finite index in $G_K$ of exponent $m$. By the Fundamental Theorem of Galois Theory, these subgroups correspond to finite abelian extensions of $K$ of exponent $m$. Moreover, elements in $H^1_S(G_K,M)$ correspond to finite abelian extensions of $K$ of exponent $m$ and unramified outside of $S$.
+			so there are no nontrivial 1-coboundaries. Therefore, we deduce that $H^1(G_K,M)=\Hom(G_K,M)$. Let $m$ be the exponent of $M$ (that is, the smallest positive integer such that every element in $M$ is annihilated by $m$). As we saw in the previous chapter, elements in $\Hom(G_K,M)$ correspond to abelian subgroups of finite index in $G_K$ of exponent $m$. By the Fundamental Theorem of Galois Theory, these subgroups correspond to finite abelian extensions of $K$ of exponent $m$. Moreover, elements in $H^1_S(G_K,M)$ correspond to finite abelian extensions of $K$ of exponent $m$ and unramified outside of $S$.
 			
 			All these extensions lie, by definition, inside the maximal abelian extension of exponent $m$ unramified outside $S$. By \thmref{maxabextension}, this extension is finite so it has a finite number of subextensions, and thus we conclude that $H^1_S(G_K,M)$ is finite.
 			
@@ -1218,8 +1507,7 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 			\begin{equation*}
 				J[m]\rightarrow \tilde{J}(\widetilde{k}_\P)
 			\end{equation*}
-			is injective, so (the restriction to the inertia subgroup of) $\phi(\sigma)$ is equal to zero. In particular it represents the zero class in cohomology so we are done.
-
+			is injective, so (the restriction to the inertia subgroup of) $\phi(\sigma)$ is equal to zero. In particular, it represents the zero class in cohomology, so we are done.
 	\end{proof}
 	Even if we know that the Selmer group is finite, in principle we still have to check an infinite number of conditions to determine whether a cohomology class is in $S^m(J/K)$, one for each prime $\P$ of $K$. Nevertheless, if we choose a set of primes $S$ as in \propref{selfinite}, we have:
 	\begin{equation*}
@@ -1240,7 +1528,7 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 		where the map is the product of the restriction maps in cohomology.
 	\end{definition}
 	
-	By the diagram \eqref{seldiag}, we have that $H^1(G_K,J[m])$ maps surjectively to $\Sh(J/K)[m]$, but in fact it is $S^m(J/K)$ the one that maps surjectively to $\Sh(J/K)[m]$: if $\xi\in\Sh(J/K)[m]$, choose some $\phi\in H^1(G_K,J[m])$ that maps to $\xi$. Then we have, for each prime $\P$:
+	By diagram \eqref{seldiag}, we have that $H^1(G_K,J[m])$ maps surjectively to $\Sh(J/K)[m]$, but in fact, it is $S^m(J/K)$ the one that maps surjectively to $\Sh(J/K)[m]$: if $\xi\in\Sh(J/K)[m]$, choose some $\phi\in H^1(G_K,J[m])$ that maps to $\xi$. Then we have, for each prime $\P$:
 	\begin{align*}
 		\iota_\P\circ\text{res}_\P(\phi)=\text{res}_\P(\xi)=0,
 	\end{align*}
@@ -1251,7 +1539,7 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 			&J(K)/mJ(K)\arrow{r}{\delta}
 			&S^m(J/K)\arrow{r}
 			&\Sh(J/K)[m]\arrow{r}
-			&0
+			&0.
 		\end{tikzcd}
 	\end{equation*}
 	
@@ -1261,6 +1549,7 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 	\end{conjecture}
 	
 	\subsection{An effective algorithm}
+	\markright{\thesubsection. An effective algorithm}
 	
 	Now that we have established the Selmer group as the space that we want to compute, we will explain a series of results given by Schaefer in \cite{Schaefer_1995} to translate our computations into the language of linear algebra over a finite field, and also to replace the cohomology groups with certain finite-dimensional algebras. Specifically, we will work from this point on with the weak Mordell-Weil group for $m=2$, that is, $J(K)/2J(K)$.
 	
@@ -1269,10 +1558,10 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 	Since we are fixing $\infty$ as the base point, the embedding of $C$ into $J$ is given by:
 	\begin{align*}
 		\iota:C&\hookrightarrow J\\
-		P&\mapsto [P-\infty]
+		P&\mapsto [P-\infty].
 	\end{align*}
 	
-	Let $\{\alpha_1\ldots,\alpha_d\}$ be the $d$ distinct roots of $f(x)$ in $\overline{K}$. Then the divisors including $[(\alpha_i,0)-\infty]$, for $i=1,\ldots,d-1$ form a basis for $J[2]\cong (\Zmod{2})^{d-1}$. The remaining divisor $[(\alpha_d,0)-\infty]$ satisfies:
+	Let $\{\alpha_1\ldots,\alpha_d\}$ be the $d$ distinct roots of $f(x)$ in $\overline{K}$. Then, the divisors including $[(\alpha_i,0)-\infty]$, for $i=1,\ldots,d-1$ form a basis for $J[2]\cong (\Zmod{2})^{d-1}$. The remaining divisor $[(\alpha_d,0)-\infty]$ satisfies:
 	\begin{equation*}
 		[(\alpha_d,0)-\infty]=\sum_{i=1}^{d-1}[(\alpha_i,0)-\infty],
 	\end{equation*}
@@ -1291,7 +1580,7 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 	\begin{equation*}
 		h(T)=\sum_{j=1}^d\lambda_j l_j(T),\text{ with } l_j(T)=\prod_{m\neq j}\frac{T-\alpha_m}{\alpha_j-\alpha_m},
 	\end{equation*}
-	satisfies that $h(\alpha_i)=\lambda_i$ for each $1\le i \le d$, because $l_j(\alpha_i)=\delta_{ij}$. We have then found that the class of $h(T)$ maps to $(\lambda_1,\ldots,\lambda_d)$. By the numbering that we have fixed on the roots $\alpha_i$, each $\sigma\in G_K$ defines a certain permutation of the symmetric group $\Sigma_d$ that we write as $\alpha_i^\sigma=\alpha_{\sigma(i)}$. Then the action of $\sigma$ at $l_j(T)$ is:
+	which satisfies that $h(\alpha_i)=\lambda_i$ for each $1\le i \le d$, because $l_j(\alpha_i)=\delta_{ij}$. We have then found that the class of $h(T)$ maps to $(\lambda_1,\ldots,\lambda_d)$. By the numbering that we have fixed on the roots $\alpha_i$, each $\sigma\in G_K$ defines a certain permutation of the symmetric group $\Sigma_d$ that we write as $\alpha_i^\sigma=\alpha_{\sigma(i)}$. Then, the action of $\sigma$ at $l_j(T)$ is:
 	\begin{equation*}
 		l_j^\sigma(T)=\prod_{m\neq j}\frac{T-\alpha_{\sigma(m)}}{\alpha_{\sigma(j)}-\alpha_{\sigma(m)}}=l_{\sigma(j)}(T),
 	\end{equation*}
@@ -1299,52 +1588,63 @@ Now we consider all the primes of $K$ simultaneously: for each prime $\P$ of $K$
 	\begin{equation*}
 		h^\sigma(T)=\sum_{j=1}^d \lambda_j^\sigma l_{\sigma(j)}(T).
 	\end{equation*}
-	Therefore the action on $(\lambda_1,\ldots,\lambda_d)$ is:
+	Therefore, the action on $(\lambda_1,\ldots,\lambda_d)$ is:
 	\begin{equation*}
 		(\lambda_1,\ldots,\lambda_d)^\sigma=\varphi([h(T)])^\sigma=\varphi([h^\sigma(T)])=(h^\sigma(\alpha_1),\ldots,h^\sigma(\alpha_d)).
 	\end{equation*}
 	Finally, observe that $l_{\sigma(j)}(\alpha_{\sigma(i)})=\delta_{ij}$ because $\sigma$ is bijective, so $l_{\sigma(j)}(\alpha_i)=l_{\sigma(j)}(\alpha_{\sigma\sigma^{-1}(i)})=\delta_{\sigma^{-1}(i)j}$.
 	
-	Thus we obtain:
+	Thus, we obtain:
 	\begin{equation*}
 		(\lambda_1,\ldots,\lambda_d)^\sigma=(\lambda_{\sigma^{-1}(1)}^\sigma,\ldots,\lambda_{\sigma^{-1}(d)}^\sigma).
 	\end{equation*}
 	
-	In particular we see that the action on $\overline{K}^d$ permutes each $\overline{K}$. We can think of $L$ as the elements in $\overline{L}$ that are invariant by this action of $G_K$. Whether we talk about tuples of points, divisors or functions we will have fixed the same permutation of the Galois action. For instance, we consider the $d$-tuple of divisors $([(\alpha_1,0)-\infty],\ldots,[(\alpha_d,0)-\infty])$, which we call $P_T$. Applying any $\sigma\in G_K$ to this tuple, we get:
+	In particular, we see that the action on $\overline{K}^d$ permutes each $\overline{K}$. We can think of $L$ as the elements in $\overline{L}$ that are invariant by this action of $G_K$. Whether we talk about tuples of points, divisors or functions, we will have fixed the same permutation of the Galois action. For instance, we consider the $d$-tuple of divisors $([(\alpha_1,0)-\infty],\ldots,[(\alpha_d,0)-\infty])$, which we call $P_T$. Applying any $\sigma\in G_K$ to this tuple, we get:
 	\begin{align*}
 		([(\alpha_1,0)-\infty],\ldots,[(\alpha_d,0)-\infty])^\sigma&=([(\alpha_{\sigma^{-1}(1)},0)-\infty]^\sigma,\ldots,[(\alpha_{\sigma^{-1}(d)},0)-\infty]^\sigma)\\
-		&=([(\alpha_1,0)-\infty],\ldots,[(\alpha_d,0)-\infty])
+		&=([(\alpha_1,0)-\infty],\ldots,[(\alpha_d,0)-\infty]),
 	\end{align*}
 	so it is a $G_K$ invariant tuple. In addition, each divisor $[(\alpha_i,0)-\infty]$ is of 2-torsion in $J$. Consider the square roots of unity in $\overline{L}$, which we denote by $\mu_2(\overline{L})$. By the isomorphism $\varphi$, we have that $\mu_2(\overline{L})$ is isomorphic to $(\pm 1)^d$. We now recall the definition and basic properties of the Weil pairing in the following proposition.
 	\begin{proposition}\label{Weilpairing}
-		Let $J=\Jac(C)$ for some smooth projective curve $C$ of genus $g\ge 0$. Let $T\in J[2]$ be a 2-torsion point. Then there exists a function $f\in\overline{K}(C)$ such that:
+		Let $J=\Jac(C)$ for some smooth projective curve $C$ of genus $g\ge 0$. Let $P,Q\in J[m]$ be $m$-torsion points. We can find divisors $D_P,D_Q\in\Div(C)$ representing $P$ and $Q$, respectively, with disjoint support. There exists rational functions $f_P,f_Q$ on $C$ such that:
 		\begin{equation*}
-			\Div(f)=2T-2\infty.
+			\Div(f_P)=mD_P,\quad \Div(f_Q)=mD_Q.
 		\end{equation*}
-		Moreover,
-		
-		
-		
+		Then we define:
+		\begin{equation*}
+			e_m(P,Q)=\frac{f_Q(D_P)}{f_P(D_Q)}.
+		\end{equation*}
+				
 		The pairing
 		\begin{align*}
-			J[m]\times J[m]&\rightarrow \mu_2(\overline{K})=\{\pm 1\}\\
-			(T,S)&\mapsto e_2(T,S)
+			J[m]\times J[m]&\rightarrow \mu_m(\overline{K})\\
+			(P,Q)&\mapsto e_m(P,Q)
 		\end{align*}
-		called the Weil pairing, has the following properties:
+		called the Weil pairing, is well defined (it is independent on the choices of $D_P,D_Q,f_P,f_Q$) and has the following properties:
 		\begin{enumerate}
-			\item a
+			\item (Bilinearity) For all $P,P_1,P_2,Q,Q_1,Q_2\in J[m]$:
+			\begin{gather*}
+				e_m(P_1+P_2,Q)=e_m(P_1,Q)e_m(P_2,Q),\\
+				e_m(P,Q_1+Q_2)=e_m(P,Q_1)e_m(P,Q_2).
+			\end{gather*}
+			\item (Skew-symmetry) For all $P,Q\in J[m]$:
+			\begin{equation*}
+				e_m(P,Q)=e_m(Q,P)^{-1}.
+			\end{equation*}
+			\item (Non degeneracy) If $e_m(P,Q)=1$ for all $Q\in J[m]$, then $P=0$.
+			\item (Galois invariance) For all $\sigma\in G_K$, $P,Q\in J[m]$:
+			\begin{equation*}
+				e_m(P,Q)^\sigma=e_m(P^\sigma,Q^\sigma).
+			\end{equation*}
 		\end{enumerate}
 	\end{proposition}
 		
-	\begin{remark}
-		The Weil pairing can be defined on the $m$-torsion of $J$ for any $m$. The property that the pairing is symmetric is exclusive to $m=2$.
-	\end{remark}
-	For a proof of all these claims, we refer the reader to .
+	For a proof of all these claims and further details, we refer the reader to \cite{Hindry_Silverman_2000}.
 	
 	We can then define a map
 	\begin{gather*}
 		w:J[2]	\rightarrow\mu_2(\overline{L})\\
-		P\mapsto (e_2(P,[(\alpha_1,0)-\infty]),\ldots, e_2(P,[(\alpha_d,0)-\infty]))
+		P\mapsto (e_2(P,[(\alpha_1,0)-\infty]),\ldots, e_2(P,[(\alpha_d,0)-\infty])),
 	\end{gather*}
 	which is a homomorphism of groups by bilinearity of the Weil pairing. Moreover, it is a morphism of $G_K$ modules: if $P\in J[2]$ and $\sigma\in G_K$,
 	\begin{align*}
@@ -1369,7 +1669,7 @@ Observe that we have the following exact sequence of $G_K$-modules:
 		&0,
 	\end{tikzcd}
 \end{equation*}
-where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G_K$ invariants we obtain the long exact sequence in cohomology:
+where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then, by taking $G_K$ invariants we obtain the long exact sequence in cohomology:
 \begin{equation*}
 	\begin{tikzcd}
 		0\arrow{r}
@@ -1380,7 +1680,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		\\ \arrow{r}{\delta}
 		&H^1(G_K,\mu_2(\overline{K}))\arrow{r}
 		&H^1(G_K,\overline{K}^*)\arrow{r}
-		& \ldots,
+		& \cdots.
 	\end{tikzcd}
 \end{equation*}
 	We remark that this situation is completely analogous to the one in \eqref{kummersequence}. By Hilbert's Theorem 90, we have $H^1(G_K,\overline{K}^*)=\{0\}$ (it follows from the case when $G$ is finite because $G_K$ is constructed as a projective limit of finite groups, which commutes with Galois cohomology). Therefore, the map $\delta$ is surjective. The kernel of this map is, by exactness, the image of the map $z\mapsto z^2$, which is by definition $(K^*)^2$, so we obtain an isomorphism between $K^*/(K^*)^2$ and $H^1(G_K,\mu_2(\overline{K}))$. Since $\overline{L}$ is a finite dimensional $\overline{K}$-algebra (of dimension $d$) and it has a unit (the tuple with 1 in each component), we deduce that $H^1(G_K,\overline{L}^*)=\{0\}$ (see \cite{Serre_1979}, page 152). By the same reasoning as above, we obtain an isomorphism between $H^1(G_K,\mu_2(\overline{L}))$ and $L^*/(L^*)^2$, which we denote by $\kappa$. This isomorphism is the inverse of the map that sends $a\in L^*/(L^*)^2$ to the 1-cocycle represented by $\sigma\mapsto b^\sigma/b$, where $b\in\overline{L}$ is such that $b^2=a$.
@@ -1388,24 +1688,24 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 	We have to define one more map, coming from the norm function:
 	\begin{align*}
 		N:\overline{L}&\rightarrow\overline{K}\\
-		(\lambda_1,\ldots,\lambda_d)&\mapsto \lambda_1\cdot\ldots\cdot\lambda_d
+		(\lambda_1,\cdots,\lambda_d)&\mapsto \lambda_1\cdots\lambda_d,
 	\end{align*}
-	which clearly maps $\overline{L}^*$ to $\overline{K}^*$. If $\lambda=(\lambda_1,\ldots,\lambda_d)$ is in $\overline{L}$, then we find that, for any $\sigma\in G_K$:
+	which clearly maps $\overline{L}^*$ to $\overline{K}^*$. If $\lambda=(\lambda_1,\cdots,\lambda_d)$ is in $\overline{L}$, then we find that, for any $\sigma\in G_K$:
 	\begin{align*}
-		N(\lambda^\sigma)&=N(\lambda_{\sigma^{-1}(1)}^\sigma,\ldots,\lambda_{\sigma^{-1}(d)}^\sigma)\\
-		&=\lambda_{\sigma^{-1}(1)}^\sigma\cdot\ldots\cdot\lambda_{\sigma^{-1}(d)}^\sigma\\
-		&=\lambda_1^\sigma\cdot\ldots\cdot\lambda_d^\sigma\quad(\sigma\text{ is bijective})\\
-		&=(\lambda_1\cdot\ldots\cdot\lambda_d)^\sigma=N(\lambda)^\sigma
+		N(\lambda^\sigma)&=N(\lambda_{\sigma^{-1}(1)}^\sigma,\cdots,\lambda_{\sigma^{-1}(d)}^\sigma)\\
+		&=\lambda_{\sigma^{-1}(1)}^\sigma\cdots\lambda_{\sigma^{-1}(d)}^\sigma\\
+		&=\lambda_1^\sigma\cdots\lambda_d^\sigma\quad(\sigma\text{ is bijective})\\
+		&=(\lambda_1\cdots\lambda_d)^\sigma=N(\lambda)^\sigma,
 	\end{align*}
-	so $N$ is a morphism of $G_K$-modules. In particular, if $\lambda$ is in $L$, so it is invariant by $G_K$, then $N(\lambda)$ is invariant by $G_K$ so it is in $K$. Therefore the norm descends to a map $N:L^*\rightarrow K^*$. If we now compose this map with the projection $K^*\rightarrow K^*/(K^*)^2$, we see that $(L^*)^2$ is in the kernel of the composition so finally obtain a map:
+	so $N$ is a morphism of $G_K$-modules. In particular, if $\lambda$ is in $L$, so it is invariant by $G_K$, then $N(\lambda)$ is invariant by $G_K$, so it is in $K$. Therefore, the norm descends to a map $N:L^*\rightarrow K^*$. If we now compose this map with the projection $K^*\rightarrow K^*/(K^*)^2$, we see that $(L^*)^2$ is in the kernel of the composition, so we finally obtain a map:
 	\begin{equation*}
-		L^*/(L^*)^2\rightarrow K^*/(K^*)^2
+		L^*/(L^*)^2\rightarrow K^*/(K^*)^2,
 	\end{equation*}
 	that we call again $N$. Similarly, the norm $\overline{L}\rightarrow \overline{K}$ restricts well to the second roots of unity $\mu_2(\overline{L})\rightarrow\mu_2(\overline{K})$, so we get an induced map in cohomology $H^1(G_K,\mu_2(\overline{L}))\rightarrow H^1(G_K,\mu_2(\overline{K}))$. We will call all these maps $N$, but it will be clear from the context which one we are using in any case.
 	
-	The key point now is that it is easy to work in the space $L^*/(L^*)^2$ and moreover in the kernel of $N$, because $d-1$ components of a tuple determine the remaining one. The following theorem allows us to replace the cohomology group $H^1(G_K,J[2])$ (so in particular the $2$-Selmer group) with this nice space.
+	The key point now is that it is easy to work in the space $L^*/(L^*)^2$, and moreover in the kernel of $N$, because $d-1$ components of a tuple determine the remaining one. The following theorem allows us to replace the cohomology group $H^1(G_K,J[2])$ (so, in particular, the $2$-Selmer group) with this nice space.
 	\begin{theorem}\label{kwisomorphism}
-		The composition of the maps $\kappa\circ w$ is an isomorphism between $H^1(G_K),J[2])$ and the kernel of the norm $N:L^*/(L^*)^2\rightarrow K^*/(K^*)^2$.
+		The composition of the maps $\kappa\circ w$ is an isomorphism between $H^1(G_K,J[2])$ and the kernel of the norm $N:L^*/(L^*)^2\rightarrow K^*/(K^*)^2$.
 	\end{theorem}
 	\begin{proof}
 		We claim that
@@ -1418,14 +1718,14 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 				&1
 			\end{tikzcd}
 		\end{equation*}
-		is an exact sequence of $G_K$-modules, the action on $J[2]$, $\mu_2(\overline{L})$ and $\mu_2(\overline{K})$ being the same one as on $J(\overline{K})$, $\overline{L}$ and $\overline{K}$, respectively, as subsets. We have already seen that $w$ and $N$ are morphisms of $G_K$-modules. First, we prove that $w$ is injective. Let $P\in J[2]$ be a 2-torsion point such that $w(P)=1$. By definition, we have that $e_2(P,[(\alpha_j,0)]-\infty)=1$, for all $j$. Since the divisors $[(\alpha_j,0)]-\infty$ form a basis for $J[2]$ and $e_2$ is bilinear, we find that $e_2(P,T)=1$ for all $T\in J[2]$. Since $e_2$ is non-degenerate, this implies that $P=0$.
+		is an exact sequence of $G_K$-modules, the action on $J[2]$, $\mu_2(\overline{L})$ and $\mu_2(\overline{K})$ being the same one as on $J(\overline{K})$, $\overline{L}$ and $\overline{K}$, respectively, as subsets. We have already seen that $w$ and $N$ are morphisms of $G_K$-modules. First, we prove that $w$ is injective. Let $P\in J[2]$ be a 2-torsion point such that $w(P)=1$. By definition, we have that $e_2(P,[(\alpha_j,0)-\infty])=1$, for all $j$. Since the divisors $[(\alpha_j,0)-\infty]$ form a basis for $J[2]$ and $e_2$ is bilinear, we find that $e_2(P,T)=1$ for all $T\in J[2]$. Since $e_2$ is non-degenerate, this implies that $P=0$.
 		
 		The norm is clearly surjective, since the tuple $(-1,1,\ldots,1)$ maps to $-1$.
 		
 		Next, we see that the image of $w$ is contained in the kernel of $N$. Let $P$ be a point of 2-torsion. Then, we compute:
 		\begin{align*}
-			N(w(P))&=\prod_{i=1}^d e_2(P,[(\alpha_i,0)]-\infty)\\
-			&=e_2\left(P,\sum_{i=1}^d [(\alpha_i,0)]-\infty\right)    \quad (e_2 \text{ is bilinear})\\
+			N(w(P))&=\prod_{i=1}^d e_2(P,[(\alpha_i,0)-\infty])\\
+			&=e_2\left(P,\sum_{i=1}^d [(\alpha_i,0)-\infty]\right)    \quad (e_2 \text{ is bilinear})\\
 			&=e_2(P,0)=1,
 		\end{align*}
 		which shows what we wanted. To prove the reverse inclusion, we notice that each term in the sequence is a finitely dimensional vector space over $\mathbb{F}_2$. Concretely, $J[2]$ has $2$-rank $2g=d-1$, $\mu_2(\overline{L})$ has 2-rank $d$ and $\mu_2(\overline{K})$ has 2-rank 1. By the Rank-Nullity theorem, we have:
@@ -1436,7 +1736,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		\begin{equation*}		
 			\dim_2(\Ker(N))=\dim_2(\mu_2(\overline{L}))-\dim_2(\Im(N))=d-1 \quad (N\text{ is surjective}),
 		\end{equation*}
-		so we must have $\Im(w)=\Ker(N)$. Now we deduce that there is a long exact sequence in cohomology by taking $G_K$ invariants:
+		so we must have $\Im(w)=\Ker(N)$. Now, we deduce that there is a long exact sequence in cohomology by taking $G_K$ invariants:
 		\begin{equation*}
 			\begin{tikzcd}
 				0\arrow{r}
@@ -1448,7 +1748,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 				&H^1(G_K,J[2])\arrow{r}{w}
 				&H^1(G_K,\mu_2(\overline{L}))\arrow{r}{N}
 				&H^1(G_K,\mu_2(\overline{K}))\arrow{r}
-				& \ldots
+				& \cdots.
 			\end{tikzcd}
 		\end{equation*}
 		The tuple $(-1,\ldots,-1)\in\mu_2(\overline{L})$ is clearly $G_K$ invariant, so it lies in $\mu_2(L)$. Its norm is $(-1)^d$ and, since $d$ is odd, it is $-1$ so the norm $\mu_2(L)\rightarrow\mu_2(K)$ is surjective. Therefore, the induced map $w:H^1(G_K,J[2])\rightarrow H^1(G_K,\mu_2(\overline{L}))$ is injective, so it is an isomorphism between $H^1(G_K,J[2])$ and $\Im(w)=\Ker(N)$. But we have the following commutative diagram:
@@ -1461,7 +1761,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 			1\arrow{r}
 			&H^1(G_K,\mu_2(\overline{K}))\arrow{r}
 			&K^*/(K^*)^2\arrow{r}
-			&1
+			&1,
 		\end{tikzcd}
 		\end{equation*}
 		so we can replace $H^1(G_K,\mu_2(\overline{L}))$ by $L^*/(L^*)^2$ using $\kappa$ and deduce that $\kappa\circ w$ is an isomorphism between $H^1(G_K,J[2])$ and the kernel of the norm from $L^*/(L^*)^2$ to $K^*/(K^*)^2$, as we wanted.
@@ -1469,7 +1769,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 	
 	The next step in our work is to replace the map $\delta:J(K)/2J(K)\rightarrow H^1(G_K,J[2])$ from the previous section by a suitable map that provides the same information but is easier to compute.
 	
-	In general, let $f$ be a function on $C$ and $R=\sum n_iR_i$ be a divisor whose support is disjoint from $\Div(f)$. Then we can define $f(R)$ to be $\prod f(R_i)^{n_i}$, which is an element in $\overline{K}^*$ ($f$ has no poles or zeros among the $R_i$).
+	In general, let $f$ be a function on $C$ and $R=\sum n_iR_i$ be a divisor whose support is disjoint from $\Div(f)$. Then, we can define $f(R)$ to be $\prod f(R_i)^{n_i}$, which is an element in $\overline{K}^*$ ($f$ has no poles or zeros among the $R_i$).
 	
 	In particular, consider the function $(x-\alpha_j)$, whose divisor has support $(\alpha_j,0)$ and $\infty$. Let $R=\sum n_i R_i$ be a divisor on $C$ of degree 0 which is defined over $K$. Recall that $R$ is defined over $K$ if, for all $\sigma\in G_K$, we have $R^\sigma=\sum n_iR_i^\sigma=R$, which is a weaker assertion than requiring each $R_i$ to be a point in $C(K)$. Assume further that none of the points $R_i$ is a Weierstrass point, i.e., none of the $R_i$ are the point at infinity nor they have $0$ as $y$-coordinate. Then the support of $R$ is disjoint from $\Div(x-\alpha_j)$, for each $j$. We can therefore define, for each $j$:
 	\begin{equation*}
@@ -1477,7 +1777,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 	\end{equation*}
 	which is an element in $\overline{K}^*$. Since the isomorphism $\varphi$ maps $T$ to the tuple $(\alpha_1,\ldots,\alpha_d)$, we can define a function $(x-T)$ only on these kind of divisors with values on $\overline{L}^*$ as:
 	\begin{equation*}
-		(x-T)(R)=\prod (x(R_i)-T)^{n_i}
+		(x-T)(R)=\prod (x(R_i)-T)^{n_i},
 	\end{equation*}
 	which maps to $(x-\alpha_j)(R)$ in each $\overline{K}^*$ through $\varphi$.
 	
@@ -1529,7 +1829,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		\end{equation*}
 	\end{lemma}
 	\begin{proof}
-		Consider a point in $J(K)$ represented by a divisor whose support contains some Weierstrass point. We will find a linearly equivalent divisor (so it represents the same point in $J(K)$) whose support does not contain any Weierstrass points. Fix a point $Q_1$ in the support of this divisor distinct from $\infty$, and let $Q_1^{\sigma_1},\ldots,Q_1^{\sigma_r}$ be the $r$ distinct conjugates of $Q_1$ over $K$, with $\sigma_i\in G_K$. Then the divisor
+		Consider a point in $J(K)$ represented by a divisor whose support contains some Weierstrass point. We will find a linearly equivalent divisor (so it represents the same point in $J(K)$) whose support does not contain any Weierstrass points. Fix a point $Q_1$ in the support of this divisor distinct from $\infty$, and let $Q_1^{\sigma_1},\ldots,Q_1^{\sigma_r}$ be the $r$ distinct conjugates of $Q_1$ over $K$, with $\sigma_i\in G_K$. Then, the divisor
 		\begin{equation*}
 			D=\left(\sum_{i=1}^r Q_1^{\sigma_i}\right) -r\infty
 		\end{equation*}
@@ -1541,7 +1841,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		
 		If $y_1$ is not zero, then we have to get rid of the point at infinity in $D$. Counted with multiplicities, the equation $y_1^2=f(T)$ has $d$ solutions, that correspond to points $Q_1,\ldots,Q_d$ with $y$-coordinate $y_1$. Let $R_1=(x_1,-y_1)$. Then we have the following identities:
 		\begin{equation*}
-			\Div(y-y_1^{\sigma_i})=\left(\sum_{j=1}^d Q_j^{\sigma_i}\right)-d\infty
+			\Div(y-y_1^{\sigma_i})=\left(\sum_{j=1}^d Q_j^{\sigma_i}\right)-d\infty,
 		\end{equation*}
 		and
 		\begin{equation*}
@@ -1549,13 +1849,13 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		\end{equation*}
 		Therefore with the notation fixed above, we have:
 		\begin{equation*}
-				\Div\left(\prod_{i=1}^r \frac{1}{y-y_1^{\sigma_i}}\right)=dr\infty-\overline{Q_1}-\ldots-\overline{Q_d}
+				\Div\left(\prod_{i=1}^r \frac{1}{y-y_1^{\sigma_i}}\right)=dr\infty-\overline{Q_1}-\ldots-\overline{Q_d},
 		\end{equation*}
 		and
 		\begin{equation*}
 			\Div\left(\prod_{i=1}^r (x-x_1^{\sigma_i})^g\right)=g\overline{Q_1}+g\overline{R_1}-2gr\infty.
 		\end{equation*}
-		and these two functions are defined over $K$. By adding their divisors to $D$, we have:
+		These two functions are defined over $K$. By adding their divisors to $D$, we have:
 		\begin{align*}
 			D=\overline{Q_1}-r\infty&\sim \overline{Q_1}-r\infty+dr\infty-\overline{Q_1}-\ldots-\overline{Q_d}+g\overline{Q_1}+g\overline{R_1}-2gr\infty\\
 			&=g\overline{Q_1}+g\overline{R_1}-\overline{Q_2}-\ldots-\overline{Q_d},
@@ -1569,7 +1869,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 			&\equiv \prod_{i=1}^r \frac{(x(Q_1^{\sigma_i})-T)(x(Q_1^{\sigma_i})-T)^{2g}}{(y(Q_1^{\sigma_i}))^2}\quad (f(T)\text{ is zero in } L)\\
 			&\equiv \prod_{i=1}^r (x(Q_1^{\sigma_i})-T)\pmod{(L^*)^2}.
 		\end{align*}
-	Now we deal with the case $y_1=0$. We have $Q_1=(\alpha_1,0)$, where $\alpha_1$ is one of the roots of $f(T)$. If $\alpha_1$ has $d$ conjugates over $K$, then $D=\overline{Q_1}-d\infty=\Div(y)$, which is zero. We can thus assume that $r$, the number of conjugates of $\alpha_1$ over $K$, is strictly less than $d$. Observe that the function $\prod_{i=r+1}^d (x-\alpha_i)/y$ has divisor:
+	Now we deal with the case $y_1=0$. We have $Q_1=(\alpha_1,0)$, where $\alpha_1$ is one of the roots of $f(T)$. If $\alpha_1$ has $d$ conjugates over $K$, then $D=\overline{Q_1}-d\infty=\Div(y)$, which is zero. We can thus assume that $r$, the number of conjugates of $\alpha_1$ over $K$, is strictly less than $d$. Observe that the function $\prod_{i=r+1}^d (x-\alpha_i)/y$ has divisor
 	\begin{align*}
 		\Div\left(\prod_{i=r+1}^d(x-\alpha_i)/y\right)&=\sum_{i=r+1}^d 2(\alpha_i,0)-2(d-r)\infty-\sum_{i=1}^d(\alpha_i,0)+d\infty\\
 		&=\sum_{i=r+1}^d(\alpha_i,0)-\sum_{i=1}^r(\alpha_i,0)+(-d+2r)\infty.
@@ -1586,11 +1886,11 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 	\begin{equation*}
 		\Div(g)=(\alpha_1,0)+\ldots+(\alpha_r,0)+\sum_{i=r+1}^d P_i-d\infty,
 	\end{equation*}
-	where $P_i=(x_i,y_i)$ are points with $y_i\neq 0$ and $x_i$ are the roots of the polynomial:
+	where $P_i=(x_i,y_i)$ are points with $y_i\neq 0$ and $x_i$ are the roots of the polynomial
 	\begin{equation*}
 		\prod_{i=r+1}^d(x-\alpha_i)-\prod_{i=1}^r(x-\alpha_i).
 	\end{equation*}
-	(Note that our assumption $r<d/2$ implies that this polynomial has degree $d-r$). The presence of the points $P_i$ in the divisor of $g$ is explained as follows: if $x_i$ is as above, then the equation $y^2=f(x_i)$ has two solutions corresponding to the points $(x_i,\pm y_i)$. Then we have:
+	Note that our assumption $r<d/2$ implies that this polynomial has degree $d-r$. The presence of the points $P_i$ in the divisor of $g$ is explained as follows: if $x_i$ is as above, then the equation $y^2=f(x_i)$ has two solutions corresponding to the points $(x_i,\pm y_i)$. Then, we have:
 	\begin{align*}
 		\left(y_i-\prod_{i=1}^r(x_i-\alpha_i)\right)&\cdot\left(-y_i-\prod_{i=1}^r(x_i-\alpha_i)\right)=\prod_{i=1}^r(x_i-\alpha_i)\prod_{i=1}^r(x_i-\alpha_i)-y_i^2\\
 		&=\prod_{i=1}^r(x_i-\alpha_i)\prod_{i=r+1}^d(x_i-\alpha_i)-y_i^2\quad(\text{By definition of the }x_i)\\
@@ -1616,9 +1916,9 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 	where the last equality follows from the fact that $d$ is odd.
 	\end{proof}
 	
-	The formula to compute $x-T$ is now the following: for any point in $J(K)$, we can find a divisor representing it of the desired form, by \lemref{x-Tdeformation}. The choice of such a divisor is not important by \lemref{x-Twelldefined}. Then the value of $x-T$ is given again in \lemref{x-Tdeformation}.
+	The formula to compute $x-T$ is now the following: for any point in $J(K)$, we can find a divisor representing it of the desired form, by \lemref{x-Tdeformation}. The choice of such a divisor is not important by \lemref{x-Twelldefined}. Then, the value of $x-T$ is given again in \lemref{x-Tdeformation}.
 	
-	Now that we have obtained a well defined function from $J(K)$ to $L^*/(L^*)^2$, observe the following: if $P\in 2J(K)$, find $Q\in J(K)$ such that $P=2Q$. By \lemref{x-Tdeformation}, we can assume that $P$ has disjoint support from the Weierstrass points (thus the same holds for $Q$) so we can compute:
+	Now that we have obtained a well defined function from $J(K)$ to $L^*/(L^*)^2$, observe the following: if $P\in 2J(K)$, find $Q\in J(K)$ such that $P=2Q$. By \lemref{x-Tdeformation}, we can assume that $P$ has disjoint support from the Weierstrass points (thus the same holds for $Q$), so we can compute:
 	\begin{equation*}
 		(x-T)(P)=(x-T)(2Q)=((x-T)(Q))^2=1\pmod {(L^*)^2},
 	\end{equation*}
@@ -1629,21 +1929,21 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		The maps $x-T$ and $\kappa\circ w\circ \delta$ are identical as injections from $J(K)/2J(K)$ to $L^*/(L^*)^2$.
 	\end{theorem}
 	\begin{proof}
-		Let $P$ be a degree 0 divisor defined over $K$ and whose support is disjoint from the Weierstrass points. By \lemref{x-Tdeformation}, such a choice of $P$ can represent any point in $J(K)$, and by \lemref{x-Twelldefined} the precise choice of $P$ is not important. We will compute first the value of $\kappa\circ w\circ \delta(P)$. To compute $\delta(P$, we must choose a divisor $Q$ (defined over $\overline{K})$ such that $2Q=P$. Also by \lemref{x-Tdeformation}, we can choose $Q$ with support disjoint from the Weierstrass points. Then by definition, $\delta(P)$ is the class of the cocycle $\sigma\mapsto Q^\sigma-Q$. Then $w\circ\delta(P)$ is the class of the cocycle $\sigma\mapsto w(Q^\sigma-Q)$. We thus have to compute
+		Let $P$ be a degree 0 divisor defined over $K$ and whose support is disjoint from the Weierstrass points. By \lemref{x-Tdeformation}, such a choice of $P$ can represent any point in $J(K)$, and by \lemref{x-Twelldefined} the precise choice of $P$ is not important. We will compute first the value of $\kappa\circ w\circ \delta(P)$. To compute $\delta(P)$, we must choose a divisor $Q$ (defined over $\overline{K})$ such that $2Q=P$. Also by \lemref{x-Tdeformation}, we can choose $Q$ with support disjoint from the Weierstrass points. Then by definition, $\delta(P)$ is the class of the cocycle $\sigma\mapsto Q^\sigma-Q$. Then, $w\circ\delta(P)$ is the class of the cocycle $\sigma\mapsto w(Q^\sigma-Q)$. We thus have to compute
 		\begin{equation*}
 			e_2(Q^\sigma-Q,[(\alpha_j,0)]-\infty),
 		\end{equation*}
-		for all $j$. By definition of the Weil pairing, we have two find functions $h_1,h_2$ such that
+		for all $j$. By definition of the Weil pairing, we have to find functions $h_1,h_2$ such that
 		\begin{equation*}
-			\Div(h_1)=2Q^\sigma-2Q
+			\Div(h_1)=2Q^\sigma-2Q,
 		\end{equation*}
 		and
 		\begin{equation*}
 			\Div(h_2)=2[(\alpha_j,0)]-2\infty.
 		\end{equation*}
-		We know that there is a function $g$ on $C$ such that $\Div(g)=2Q-P$. Then we have that $\Div(g^\sigma)=2Q^\sigma-P$, so $\Div(g^\sigma/g)=2Q^\sigma-P-2Q+P=2Q^\sigma-2Q$. Also recall that $\Div(x-\alpha_j)=2[(\alpha_j,0)]-2\infty$. Then we have that
+		We know that there is a function $g$ on $C$ such that $\Div(g)=2Q-P$. Then, we have that $\Div(g^\sigma)=2Q^\sigma-P$, so $\Div(g^\sigma/g)=2Q^\sigma-P-2Q+P=2Q^\sigma-2Q$. Also, recall that $\Div(x-\alpha_j)=2[(\alpha_j,0)]-2\infty$. Then we have that
 		\begin{equation*}
-			e_2(Q^\sigma-Q,[(\alpha_j,0)]-\infty)=\frac{(x-\alpha_j)(Q^\sigma-Q)}{(g^\sigma/g)([(\alpha_j,0)]-\infty)}.
+			e_2(Q^\sigma-Q,[(\alpha_j,0)-\infty])=\frac{(x-\alpha_j)(Q^\sigma-Q)}{(g^\sigma/g)([(\alpha_j,0)-\infty])}.
 		\end{equation*}
 		We can collect these equalities for each $j$ in the following equality of $d$-tuples:
 		\begin{equation}
@@ -1661,7 +1961,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		\end{align*}
 		so $\kappa\circ w\circ\delta(p)\equiv (x-T)(P)\pmod{(L^*)^2}$, as we wanted.
 	\end{proof}
-	Combining \thmref{kwisomorphism} with \thmref{x-Tinjection}, we can finally obtain a description of the Selmer group $S^2(J/K)$ which is easier to compute. Using the isomorphism $\kappa\circ w$, we can replace the term $H^1(G_K,J[2])$ in \eqref{seldiag} by the kernel of the norm in $L^*/(L^*)^2$. Then we replace the composition $\kappa\circ w\circ\delta$ by $x-T$. The exact same reasoning applies to $K_\P$ for all $\P$, so if we denote by $L_\P$ the algebra $K_\P[T](f(T))$ we obtain a commutative diagram:
+	Combining \thmref{kwisomorphism} with \thmref{x-Tinjection}, we can finally obtain a description of the Selmer group $S^2(J/K)$, which is easier to compute. Using the isomorphism $\kappa\circ w$, we can replace the term $H^1(G_K,J[2])$ in \eqref{seldiag} by the kernel of the norm in $L^*/(L^*)^2$. Then we replace the composition $\kappa\circ w\circ\delta$ by $x-T$. The exact same reasoning applies to $K_\P$ for all $\P$, so if we denote by $L_\P$ the algebra $K_\P[T](f(T))$, we obtain a commutative diagram:
 	\begin{equation*}
 		\begin{tikzcd}
 			0\arrow[r]
@@ -1670,7 +1970,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 			\\
 			0\arrow[r]
 			&\displaystyle \prod_\P J(K_\P)/2J(K_\P)\arrow{r}{x-T}
-			&\displaystyle \prod_\P L_\P^*/(L_\P^*)^2
+			&\displaystyle \prod_\P L_\P^*/(L_\P^*)^2.
 		\end{tikzcd}
 	\end{equation*}
 	Tracing the definitions of the maps involved, we find that the Selmer group $S^2(J/K)$ is (isomorphic to) the subgroup of the kernel of the norm from $L^*/(L^*)^2$ to $K^*/(K^*)^2$ whose restriction to each $L_\P^*/(L_P^*)^2$ lies in the image of $x-T$. Moreover, we can study the image of $H^1_S(G_K,J[2])$ through the isomorphism $\kappa\circ w$. The algebra $L$ can be written as a product of fields $L_i$ that are finite extensions of $K$. The number of fields in this product is at most $d$, since $f(T)$ may have nonlinear irreducible factors over $K[T]$. The image of $H^1_S(G_K,J[2])$ is then the group of elements in the kernel of the norm of $L^*/(L^*)^2$ with the following property: if $\lambda\in L$ and $\lambda_i$ is its image in the field $L_i$, the extension $L_i(\sqrt{\lambda_i})$ is ramified only at the primes of $S$. Since we know that the Selmer group lies inside $H^1_S(G_K,J[2])$, the elements of the Selmer group also have this property. We will use these tools in the next chapter to compute the Selmer group of some Jacobian varieties.
@@ -1693,16 +1993,18 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 	
 	
 	\newpage
-	\section{Families}
-	
-	In this chapter, we will use the theoretical tools that we have developed in the previous chapters to give some bounds on the rank of a family of hyperelliptic curves.
+	\thispagestyle{plain}
+	\section{A family of hyperelliptic curves}
+	\markleft{\thesection. A family of hyperelliptic curves}
+	\markright{}
+	In this chapter, we will use the theoretical tools that we have developed in the previous chapters to give some bounds on the rank of a family of hyperelliptic curves. We will specifically work in the field of rational numbers $\Q$, so at some points we write $J$ to mean $J(\Q)$, when it is understood from the context.
 	
 	
 	Consider the following situation: $r,s$ are distinct odd prime numbers, so we assume without loss of generality that $r>s$, and such that $r+s=2^a\cdot p$ and $r-s=2^b\cdot q$, where $a,b$ are integers and $p,q$ are either odd primes or 1.
 	
 	We then consider the family of hyperelliptic curves:
 	\begin{equation*}
-		C_{r,s}: y^2=x\cdot(x^2-(r+s)^2)\cdot(x^2-(r-s)^2)
+		C_{r,s}: y^2=x\cdot(x^2-(r+s)^2)\cdot(x^2-(r-s)^2).
 	\end{equation*}
 	
 	Throughout the discussion, we will denote:
@@ -1710,7 +2012,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		f_{r,s}(x)=x\cdot(x^2-(r+s)^2)\cdot(x^2-(r-s)^2),
 	\end{equation*}
 	
-	so that $C_{r,s}:y^2=f_{r,s}$. We will study the group $J_{r,s}(\Q)$, where $J_{r,s}$ is the Jacobian of the curve $C_{r,s}$. Specifically, we will give bounds for the Mordell-Weil of $J_{r,s}(\Q)$ depending on some congruence relations for $r,s,p,q,a$ and $b$.
+	so that $C_{r,s}:y^2=f_{r,s}$. We will study the group $J_{r,s}(\Q)$, where $J_{r,s}$ is the Jacobian of the curve $C_{r,s}$. Specifically, we will give bounds for the Mordell-Weil rank of $J_{r,s}(\Q)$ depending on some congruence relations for $r,s,p,q,a$ and $b$.
 	
 	To begin with, note that the 2-torsion of $J_{r,s}(\Q)$ is isomorphic to $(\Zmod{2})^4$, with a basis given by $(0,0)-\infty$, $(r+s,0)-\infty$, $(-r-s,0)-\infty$ and $(r-s,0)-\infty$. Observe that the 2-torsion point corresponding to the fifth root of $f_{r,s}$ is a linear combination of the other given 2-torsion points, since:
 	\begin{equation*}
@@ -1718,24 +2020,14 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 	\end{equation*}
 	where the $\alpha_i$ are the distinct roots of $f_{r,s}$.
 	
-	
-	\textcolor{red}{COMENTARI SOBRE LA TORSIÓ}
-	
-	
-	
-	By the Mordell-Weil theorem, \textcolor{red}{FALTA CITAR} we have
+	Since $f_{r,s}$ is the product of five linear factors, we have the natural decomposition of the étale algebra:
 	\begin{equation*}
-		J_{r,s}(\Q)\cong \Z^r\oplus \left( \Zmod{2}\right)^4,
+		L=\Q[T]/(f_{r,s}(T))\cong \Q^5,
 	\end{equation*}
-	for some $r\ge 0$. Therefore, we have that:
+	which descends to a decomposition
 	\begin{equation*}
-		2J_{r,s}(\Q)\cong (2\Z)^r,
+		L^*/(L^*)^2\cong \Q^*/(\Q^*)^2\oplus \overset{(5}{\cdots}\oplus \Q^*/(\Q^*)^2.
 	\end{equation*}
-	so we find that:
-	\begin{equation*}
-		J_{r,s}/2J_{r,s}\cong (\Zmod{2})^r\oplus(\Zmod{2})^4\cong (\Zmod{2})^{r+4}.
-	\end{equation*}
-	For this reason, in order to calculate the Mordell-Weil rank of $J_{r,s}$ we have to compute 2-dimension of the group $J_{r,s}/2J_{r,s}$.
 	
 	We will first explain some considerations on the parameters $r,s,p,q,a$ and $b$. Since $r$ and $s$ are odd and $r>s$, the values $r+s$ and $r-s$ are even and strictly positive. Since $p$ and $q$ are odd, this forces that $a,b\ge 1$. Next we will show that except for a particular case, the values $r,s,p,q$ are different.
 	
@@ -1752,7 +2044,7 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		s=2^{a-1}-1\equiv -1\equiv 1\pmod 2,\\
 		s=2^{a-1}-1\equiv (-1)^{a-1}-1\equiv -2\equiv 1\pmod 3,
 	\end{gather*}
-	so $s\equiv 1\pmod 6$. Therefore, $r=s+2\equiv 3\pmod6$, which is only prime if $r=3$ but then $s=1$ which is impossible. In conclusion, except for the case $C1$, $p$ and $q$ are different. Now we rule out every other possibility:
+	so $s\equiv 1\pmod 6$. Therefore, $r=s+2\equiv 3\pmod6$, which is only prime if $r=3$. But then $s=1$ which is impossible. In conclusion, except for the case $C1$, $p$ and $q$ are different. Now we rule out every other possibility:
 	
 	Assume that $p$ is equal to $r$. Then $2r>r+s=2^ar$, so $1>2^{a-1}\ge 1$, which is impossible.
 	
@@ -1763,35 +2055,113 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 	Finally, assume that $q$ is equal to $r$. Then $2^br=r-s<r<2^br$, which is impossible.
 	
 	
-	Now our choice for the pairs $r$ and $s$ will become clear: we want to determine the prime of bad reduction for $J_{r,s}$, which correspond to the primes dividing the discriminant of $f_{r,s}(x)$, so we compute it:
+	Now our choice for the pairs $r$ and $s$ will become clear: we want to determine the primes of bad reduction for $J_{r,s}$, which correspond to the primes dividing the discriminant of $f_{r,s}(x)$, so we compute it:
 	\begin{equation*}
 		\Delta_{r,s}=(r+s)^6\cdot(r-s)^6\cdot s^4\cdot r^4\cdot 2^{12}.
 	\end{equation*}
 	
 	From our initial assumption on the values of $r+s$ and $r-s$, we find that the only primes dividing $\Delta_{r,s}$ are $r,s,p,q$ and $2$. From our previous discussion, except for a specific case these five numbers are distinct from each other. Therefore our family of hyperelliptic curves has a uniform bound on the number of primes of bad reduction, which will be useful for our computations.
 	
-	We now will deal with the specific case $C1$: $r=5$, $s=3$, so that the curve becomes:
+	In addition, we observe the following: since $r>s$, we cannot have $r=3$, because $r$ and $s$ are assumed to be odd. Then, $r\equiv 1\pmod{3}$ or $r\equiv 2\pmod{3}$. In either case, $r^2\equiv 1\pmod{3}$. If $s=3$, then 3 is a prime of bad reduction for $J_{r,s}$. If not, then by the same argument $s^2\equiv 1\pmod{3}$. Therefore, we deduce
+	\begin{equation*}
+		0\equiv 1-1\equiv r^2-s^2=(r-s)(r+s)\pmod{3},
+	\end{equation*}
+	so either $r+s$ or $r-s$ is a multiple of $3$. Hence, 3 is always in the set of primes of bad reduction for $J_{r,s}$, independently of $r$ and $s$.
+	
+	We shall briefly explain a computation to determine the full torsion subgroup of $J_{r,s}$. Additionally, we provide a code that makes this computation in Appendix B. The strategy is to repeatedly use \thmref{torsioninjects} to deduce enough properties of $J_{r,s}(\Q)_\text{tors}$. We know that the primes of bad reduction for $J_{r,s}$ are $r,s,p,q,2$. Assume, for instance, that 5 is not among these primes, so $J_{r,s}$ has good reduction at 5. In this case, we observe that none of the roots of $f_{r,s}$ can be congruent modulo 5: for example if $r+s$ were congruent to $r-s$ modulo 5, we would have
+	\begin{align*}
+		2s&\equiv 0\pmod 5, \text{ so}\\
+		s&\equiv 0\pmod 5,
+	\end{align*}
+	which is impossible. The argument for the other pairs of roots is analogous. With this, we find that $C_{r,s}$ reduces to the curve
+	\begin{equation*}
+		y^2\equiv x(x-1)(x-2)(x-3)(x-4)\pmod 5.
+	\end{equation*}
+	By computing the (finite) number of points of $\tilde{C}_{r,s}$ over $\mathbb{F}_5$ and over $\mathbb{F}_{5^2}$, we can deduce the number of points of $\tilde{J}_{r,s}$ over $\mathbb{F}_5$. In general, for curves of genus 2, the number of points in the Jacobian variety $J=\Jac(C)$ over a finite field of $p$ elements is determined by the number of points in the curve $C$ over $\mathbb{F}_p$ and $\mathbb{F}_{p^2}$, through the following formula
+	\begin{equation}\label{formulaJp}
+		|\tilde{J}(\mathbb{F}_p)|=\frac{1}{2}\left(|\tilde{C}(\mathbb{F}_p)|^2+|\tilde{C}(\mathbb{F}_{p^2})|\right)-p.
+	\end{equation}
+	Essentially, this identity comes from the characteristic polynomial of the Frobenius endomorphism of the curve for $p$. More precisely, the number of points of a Jacobian variety over $\mathbb{F}_p$ is exactly $\chi(1)$, where $\chi(t)$ is the characteristic polynomial of $\text{Frob}_p$ (see \cite{Gaudry_Harley_2000}). This method of computation is faster than the naive count of points in the affine curves of \eqref{formulaJp}, so we will use it for our purposes.
+	
+	In our case, it is easy to see that both $\tilde{C}_{r,s}(\mathbb{F}_p)$ and $\tilde{C}_{r,s}(\mathbb{F}_{p^2})$ have 6 points (5 affine points and the point at infinity), so \eqref{formulaJp} yields
+	\begin{equation*}
+		|\tilde{J}_{r,s}(\mathbb{F}_p)|=\frac{1}{2}(36+6)-5=21-5=16.
+	\end{equation*}
+	Since the torsion group injects into $\tilde{J}_{r,s}(\mathbb{F}_p)$, and it already contains a subgroup of order 16, we deduce that the full torsion is
+	\begin{equation*}
+		J_{r,s}(\Q)_\text{tors}=J_{r,s}(\Q)[2]\cong\left(\Zmod{2}\right)^4.
+	\end{equation*}
+	Now we want to obtain a similar result without the assumption that $J_{r,s}$ has good reduction at 5. We proceed as follows: first, we define a finite set of primes $T$ consisting of all primes between 5 and some fixed value $\max_p$, which will be determined a posteriori. Then, we define a function that gives the number of points of the Jacobian of $y^2=x\cdot(x^2-a)\cdot(x^2-b)$, for $a,b\in\mathbb{F}_p$, using the Frobenius polynomial.
+	
+	Next, we compute, for each pair of integers $2\le a\le \max_p,1\le b\le a$, the number of points of the Jacobian $J$ of $y^2=x\cdot(x^2-a^2)\cdot(x^2-b^2)$ over $\mathbb{F}_p$, for each $p\in T$ where the curve has good reduction. We thus obtain a list of values that are orders of groups where the torsion of $J$ injects. We compute the greatest common divisor of these values and expect to obtain 16, for each $a,b$. In this case, we would conclude as above that the full torsion is $\left(\Zmod{2}\right)^4$. Then, we observe that any curve of our family $C_{r,s}$ reduces to one on the list that we have given. If we can find a suitable value of $\max_p$ such that we obtain a g.c.d. of 16 for all $a,b$ in our list, then we could deduce that the torsion subgroup of all the Jacobians $J_{r,s}$ is isomorphic to $\left(\Zmod{2}\right)^4$.	
+	
+	Unfortunately, the curve with parameters $a=25,b=7$ yields a greatest common divisor of 32, even for large values of $\max_p$. We conjecture that this g.c.d. is always 32, for any prime $\max_p$. Remarkably, using the software Magma, we compute that the Jacobian of the curve $y^2=x\cdot (x^2-25^2)\cdot(x^2-7^2)$ over $\Q$ has torsion subgroup isomorphic to $\left(\Zmod{2}\right)^4$, which suggests that in this case \thmref{torsioninjects} is not enough to compute the torsion. Using $\max_p=41$ in our code gives us this curve $a=25,b=7$ as the only parameter which does not yield 16. For this reason, we can only deduce that the torsion of $J_{r,s}$ is $\left(\Zmod{2}\right)^4$ if the curve does not reduce to the one with parameters $a=25,b=7$.
+	
+	For curves that reduce to the case $a=25,b=7$, we can only conclude that the torsion subgroup is either $\left(\Zmod{2}\right)^4$ or $\left(\Zmod{2}\right)^3\oplus\Zmod{4}$. In any case, we are able to deduce the rank of $J_{r,s}$ over $\Q$ in terms of the structure of the group $J_{r,s}(\Q)/2J_{r,s}(\Q)$: by the Mordell-Weil theorem (\thmref{mordellweiltheorem}), we have
+	\begin{equation*}
+		J_{r,s}(\Q)\cong \Z^r\oplus J_{r,s}(\Q)_{\text{tors}},
+	\end{equation*}
+	for some $r\ge 0$. Therefore, we have that:
+	\begin{equation*}
+		2J_{r,s}(\Q)\cong (2\Z)^r\oplus 2J_{r,s}(\Q)_{\text{tors}}.
+	\end{equation*}
+	If $J_{r,s}(\Q)_{\text{tors}}\cong \left(\Zmod{2}\right)^4$, so $2J_{r,s}(\Q)_{\text{tors}}=0$, we find that:
+	\begin{equation*}
+		J_{r,s}/2J_{r,s}\cong (\Zmod{2})^r\oplus(\Zmod{2})^4\cong (\Zmod{2})^{r+4}.
+	\end{equation*}
+	If $J_{r,s}(\Q)_{\text{tors}}\cong \left(\Zmod{2}\right)^3\oplus\Zmod{4}$, so $2J_{r,s}(\Q)_{\text{tors}}\cong\Zmod{2}$, we find that:
+	\begin{equation*}
+		J_{r,s}/2J_{r,s}\cong (\Zmod{2})^r\oplus(\Zmod{2})^4\cong (\Zmod{2})^{r+4},
+	\end{equation*}
+	so in either case the weak Mordell-Weil group is the same. For this reason, in order to calculate the Mordell-Weil rank of $J_{r,s}$ we have to compute the 2-dimension of the group $J_{r,s}/2J_{r,s}$. Since the weak Mordell-Weil group is contained in the Selmer group, computing or bounding the size of the Selmer group will bound the rank of $J_{r,s}$ over $\Q$.
+	
+	Before we delve into the computations, let us give some general considerations. We know that the Jacobian $J_{r,s}$ has bad reduction at most at the primes $2,r,s,p,q$ (it could be less because we consider the cases $p=1$ or $q=1$). In order to compute the Selmer group, we have to consider a finite set of primes that includes the archimedeann primes, the primes dividing $2$ and the primes of bad reduction for $J_{r,s}$. Therefore, we will choose the set $S$ consisting of the prime $\infty$, the prime $2$, and the primes $r,s,p,q$ (if they are indeed primes). Consider the subgroup $H$ of $\Q^*/(\Q^*)^2$ generated by the class of $-1$ and the class of the non-archimedean primes of $S$. Then $H$ has the property that when one adjoins the square root of an element in $H$ to $\Q$, one obtains an extension unramified outside $S$. Therefore, the image of $H^1_S(G_\Q,J_{r,s}[2])$ inside $L^*/(L^*)^2$ is contained in $H\oplus\overset{(5}{\cdots}\oplus H$. Note in particular that the number of generators of $H$ is $|S|$, so it is isomorphic as a $\GF{2}$-vector space to $\GF{2}^{|S|}$. We will work in the vector space $H^5$, specifically in the subgroup $G$ which is the kernel of the norm function. In the group $G$, one of the five components in $H$ is determined by the other four, since their product is equal to one. The 2-dimension of $H^5$ is $5\cdot|S|$, hence, the dimension of $G$ as a $\GF{2}$-vector space is $4\cdot|S|$. Since the Selmer group is contained in $G$, we deduce the naive bound
+	\begin{equation*}
+		\dim_2 S^2(J_{r,s}/\Q)\le 4\cdot|S|.
+	\end{equation*}
+	Since we have the relation $\text{rank}(J_{r,s})+4\le \dim_2S^2(J_{r,s}/\Q)$, we find the bound
+	\begin{equation*}
+		\text{rank}(J_{r,s})\le 4\cdot(|S|-1).
+	\end{equation*}
+	We remark that this bound is already finer than the one we gave at the end of section 3.1., which would tell us that $\text{rank}(J_{r,s})\le 4\cdot|S|$. Furthermore, we observe that the size of $S$ is uniformly bounded throughout all the Jacobians $J_{r,s}$ by $|S|\le 6$. Hence, we obtain the bound
+	\begin{equation*}
+		\text{rank}(J_{r,s})\le 20.
+	\end{equation*}
+	Even though these groups are abelian, we will write all of their equations in multiplicative notation, for clarity.
+	
+	To compute the Selmer group, we must use the local conditions at the primes of $S$. The crucial fact is that for an abelian variety $A$, the quotient group $A(K)/2A(K)$, where $K$ is a complete field of characteristic zero, has a specific size that is independent of the Mordell-Weil rank. For this reason, we will be able to compute the full quotient groups $J_{r,s}(K)/2J_{r,s}$ with $K$ complete, not just the subgroup generated by the known points as in the case of $\Q$. We gather the properties that we need in the following proposition, which is a consequence of Mattuck's theorem \cite{Mattuck_1955}.
+	
+	\begin{proposition}
+		Let $A$ be an abelian variety defined over $\Q$ of dimension $g$.
+		\begin{itemize}
+			\item[(a)] The size of the group $A(\mathbb{R})/2A(\mathbb{R})$ is $|A(\mathbb{R})[2]|/2^g$.
+			\item[(b)] The size of the group $A(\Q_p)/2A(\Q_p)$, where $p$ is an odd prime, is $|A(\Q_p)[2]|$.
+			\item[(c)] The size of the group $A(\Q_2)/2A(\Q_2)$ is $|A(\Q_2)[2]|\cdot 2^g$.
+		\end{itemize}
+	\end{proposition}
+	
+	In our particular case, the size of $J_{r,s}(\mathbb{R})/2J_{r,s}(\mathbb{R})$ is $2^2$, the size of $J_{r,s}(\Q_p)/2J_{r,s}(\Q_p)$ for odd $p$ is $2^4$, and the size of $J_{r,s}(\Q_2)/2J_{r,s}(\Q_2)$ is $2^6$. 
+	
+	It will happen in many cases that we do not have enough rational points to generate these quotient groups. In general, this will be the reason for which we obtain bounds and not precise values. In some particular cases, we are able to find additional points in the $p$-adic fields just by searching. The simple approach that we take is to evaluate the polynomial $f_{r,s}(x)$ at distinct integer values of $x$ other than the roots of $f_{r,s}(x)$ and check whether the resulting integer is a square in the $p$-adic field that we are working with. In that case, Hensel's lemma ensures us that there is some $p$-adic number $y$ such that $(x,y)$ satisfies $y^2=f_{r,s}(x)$ in $\Q_p$. Since $y$ is distinct from zero, we are able to compute the value of $x-T$ at $(x,y)-\infty$ just by knowing $x$, which is an integer.
+	
+	For an odd prime $p$, an integer $n$ is a square in $\Q_p$ if, and only if, its $p$-adic valuation is even and its prime-to-p part is congruent$\pmod p$ to a square in $\mathbb{F}_p$.
+	
+	An integer $n$ is a square in $\Q_2$ if, and only if, its $2$-adic valuation is even and its prime-to-2 part is congruent to 1$\pmod8$.
+	
+	Moreover, the structure of $\Q_p^*/(\Q_p^*)^2$ is easy to determine for every $p$. The group $\mathbb{R}^*/(\mathbb{R}^*)^2$ is isomorphic to $\Zmod{2}$, and we may take $-1$ as a generator. The group $\Q_2^*/(\Q_2^*)^2$ is isomorphic to $\left(\Zmod{2}\right)^3$, and we may take $-1,2,3$ as a set of generators. For an odd prime $p$, the group $\Q_p^*/(\Q_p^*)^2$ is isomorphic to $\left(\Zmod{2}\right)^2$. If $p\equiv 3\pmod4$, so $-1$ is not a square in $\GF{p}$, we may take $-1$ and $p$ as a set of generators. If $p\equiv 1\pmod4$, $-1$ is a square in $\GF{p}$, so we must find a $p$-adic unit $u$ which is not a square in $\GF{p}$. Then, we may take $u$ and $p$ as a set of generators. For instance, if $p\equiv 5\pmod8$, we may take $2$ and $p$ as generators.
+	
+	If we are given specific values of $r$ and $s$, then we are able to compute the corresponding Selmer group. Since these computations involve arithmetic relations, we can expect to obtain general bounds on the size of the Selmer group if we impose some congruence relations between our parameters.
+	
+	We will now deal with the specific case C1: $r=5$, $s=3$, so that the curve becomes:
 	\begin{equation*}
 		C_{5,3}: y^2=x\cdot(x^2-8^2)\cdot(x^2-2^2).
 	\end{equation*}
-	Since $p=q=1$, the primes of bad reduction for $J_{r,s}$ are just $2,3$ and $5$. In the notation of the previous chapter, we take $S=\{\infty,2,3,5\}$ and $H=\langle -1,2,3,5\rangle$, which is isomorphic to $\GF2^4$. We will work in the vector space $H^5\cong \GF2^{20}$, specifically in the subgroup $G$ which is the kernel of the norm function. Since we are working with a specific equation, we can find an extra point of the curve: when $x=-4$, the equation becomes $y^2=2304$, which has two solutions $y=\pm 48$ in $\Q$. We will be able to see that $J_{5,3}$ has rank 1 and that the point $(-4,48)-\infty$ is a generator.
+	Since $p=q=1$, the primes of bad reduction for $J_{5,3}$ are just $2,3$ and $5$. In the notation of the previous chapter, we take the finite set of primes $S=\{\infty,2,3,5\}$. We take the group $H=\langle -1,2,3,5\rangle$ inside $\Q^*/(\Q^*)^2$, which is isomorphic to $\GF2^4$. In this case, the group $G$ is isomorphic to $\GF{2}^{16}$. Since we are working with a specific equation, we can find an extra point of the curve: when $x=-4$, the equation becomes $y^2=2304$, which has two solutions $y=\pm 48$ in $\Q$. We will be able to see that $J_{5,3}$ has rank 1 and that the point $(-4,48)-\infty$ is a generator of the free part.
 	
-	We now compute the image of the known rational points inside $H^5$, and present the results in a table. Since we have the natural decomposition:
-	\begin{equation*}
-		L=\Q[T]/(f_{r,s}(T))\cong \Q^5
-	\end{equation*}
-	which descends to a decomposition
-	\begin{equation*}
-		L^*/(L^*)^2\cong \Q^*/(\Q^*)^2\oplus \overset{(5}{\ldots}\oplus \Q^*/(\Q^*)^2,
-	\end{equation*}
-	we can compute the map $X-T$ from Chapter \textcolor{red}{NUMERO DEL CAPITOL ANTERIOR}
+	We now compute the image inside $H^5$ of the known rational points by the map $X-T$ from chapter 4, and present the results in a table. As we proved in chapter 4, we know how to compute this map for any divisor.
 	
-	
-	Rational points
-	
-	
-	{
-		\centering
+	\begin{table}[h!]
+		\begin{center}
 		\begin{tabular}{c|c|c|c|c|c}
 			 & $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
 			$(-8,0)-\infty$&$30$ & $-6$ & $-2$ & $-10$ & $-1$\\ \hline
@@ -1799,26 +2169,48 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 			$(0,0)-\infty$&$2$ & $2$ & $1$ & $-2$ & $-2$\\ \hline
 			$(2,0)-\infty$&$10$ & $1$ & $2$ & $-30$ & $-6$\\ \hline
 			$(-4,48)-\infty$&$1$ & $-2$ & $-1$ & $-6$ & $-3$
-		\end{tabular}\par
-	}
+		\end{tabular}
+		\vspace{10pt}
+		\caption{Image of the known rational points in $G$.}
+		\end{center}
+		\end{table}
 	
-	Real points
+	We can easily see that these vectors are linearly independent. Let $v_1,\ldots,v_5$ be the five vectors of $G$ in the above table. Suppose that we have a trivial linear combination of the form
+	\begin{equation*}
+		v_1^{\lambda_1}\cdots v_5^{\lambda_5}=(1,\ldots,1), \quad\lambda_i\in\GF{2}.
+	\end{equation*}
+	Then, the first column tells us that
+	\begin{equation*}
+		2^{\lambda_1+\lambda_2+\lambda_3+\lambda_4}\cdot 3^{\lambda_1+\lambda_2}\cdot 5^{\lambda_1+\lambda_4}=1,
+	\end{equation*}
+	from which we deduce that $\lambda_1=\lambda_2=\lambda_3=\lambda_4$.
+	The second column tells us that
+	\begin{equation*}
+		(-1)^{\lambda_1+\lambda_2+\lambda_5}\cdot2^{\lambda_1+\lambda_2+\lambda_3+\lambda_5}\cdot 3^{\lambda_1+\lambda_2}\cdot 5^{\lambda_2}=1.
+	\end{equation*}
+	Since $\lambda_2$ must be zero, $\lambda_1,\lambda_3$ and $\lambda_4$ must also be zero. Since $\lambda_1+\lambda_2+\lambda_5=0$, we find that $\lambda_5=0$, so we are done. This shows that the known rational points are independent, so in particular the point $(-4,48)-\infty$ has infinite order. We obtain that the subgroup generated by the known rational points has 2-dimension 5. We will usually skip the proof of linear independence for other sets of vectors in the following, since the computations are easy to verify and do not require any more ideas.
 	
+	Our objective now is to show that the Selmer group has 2-dimension 5. If we are able to do this, we will deduce that the weak Mordell-Weil group has 2-dimension 5, so we will conclude that $J_{5,3}$ has rank 1.
+
+	We do not have enough rational points to generate the group $J_{5,3}(\Q_2)/2J_{5,3}(\Q_2)$, so we use our code to find a point defined over $\Q_2$ with coordinates $(-3,\varepsilon)$, with $\varepsilon\in\Q_2^*$.
 	
-	{
-	\centering
+	We present in the following tables the images of the known points in each of the algebras $L_p^*/(L_p^*)^2$, for $p\in S$. It turns out that they are linearly independent, so in each case we are able to determine the full quotient group. For $\Q_3^*/(\Q_3^*)^2$, we take $-1$ and $3$ as generators. For $\Q_p^*/(\Q_p^*)^2$, we take $2$ and $5$ as generators.
+	
+	\begin{table}[h!]
+		\begin{center}
 	\begin{tabular}{c|c|c|c|c|c}
 		& $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
 		$(-2,0)-\infty$&$1$ & $-1$ & $-1$ & $-1$ & $-1$\\ \hline
 		$(0,0)-\infty$&$1$ & $1$ & $1$ & $-1$ & $-1$\\ \hline
-	\end{tabular}\par
-}	
+	\end{tabular}
+	\vspace{10pt}
+	\caption{Image of the known rational points in $L_\infty^*/(L_\infty^*)^2$.}
+	\label{tableinfinity}
+	\end{center}
+\end{table}
 	
-	$\Q_2$ points
-	
-	
-{
-	\centering
+\begin{table}[h!]
+	\begin{center}
 	\begin{tabular}{c|c|c|c|c|c}
 		& $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
 		$(-8,0)-\infty$&$-2$ & $-6$ & $-2$ & $6$ & $-1$\\ \hline
@@ -1827,13 +2219,15 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		$(2,0)-\infty$&$-6$ & $1$ & $2$ & $2$ & $-6$\\ \hline
 		$(-4,48)-\infty$&$1$ & $-2$ & $-1$ & $-6$ & $-3$\\ \hline
 		$(-3,\varepsilon)-\infty$ &$-3$ & $-1$ & $-3$ & $3$ & $-3$
-	\end{tabular}\par
-}
+	\end{tabular}
+	\vspace{10pt}
+	\caption{Image of the known rational points in $L_2^*/(L_2^*)^2$.}
+	\label{tabletwo}
+	\end{center}
+\end{table}
 
-	$\Q_3$ points
-
-{
-	\centering
+\begin{table}[h!]
+	\begin{center}
 	\begin{tabular}{c|c|c|c|c|c}
 		& $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
 		$(-8,0)-\infty$&$3$ & $3$ & $1$ & $-1$ & $-1$\\ \hline
@@ -1841,13 +2235,15 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		$(0,0)-\infty$&$-1$ & $-1$ & $1$ & $1$ & $1$\\ \hline
 		$(2,0)-\infty$&$1$ & $1$ & $-1$ & $-3$ & $3$\\ \hline
 		$(-4,48)-\infty$&$1$ & $1$ & $-1$ & $3$ & $-3$
-	\end{tabular}\par
-}
+	\end{tabular}
+	\vspace{10pt}
+	\caption{Image of the known rational points in $L_3^*/(L_3^*)^2$.}
+	\label{tablethree}
+	\end{center}
+\end{table}
 
-	$\Q_5$ points
-
-{
-	\centering
+\begin{table}[h!]
+	\begin{center}
 	\begin{tabular}{c|c|c|c|c|c}
 		& $X+8$ & $X+2$ & $X-0$ & $X-2$ & $X-8$\\ \hline
 		$(-8,0)-\infty$&$5$ & $1$ & $2$ & $10$ & $1$\\ \hline
@@ -1855,10 +2251,14 @@ where the action on $\mu_2(\overline{K})=\{\pm1\}$ is trivial. Then by taking $G
 		$(0,0)-\infty$&$2$ & $2$ & $1$ & $2$ & $2$\\ \hline
 		$(2,0)-\infty$&$10$ & $1$ & $2$ & $5$ & $1$\\ \hline
 		$(-4,48)-\infty$&$1$ & $2$ & $1$ & $1$ & $2$
-	\end{tabular}\par
-}
+	\end{tabular}
+	\vspace{10pt}
+	\caption{Image of the known rational points in $L_5^*/(L_5^*)^2$.}
+	\label{tablefive}
+	\end{center}
+\end{table}
 
-Basis for $\Q$ points that begin with 1:
+From Table \ref{tableinfinity}, we observe that the first component of an element in the Selmer group must be positive. In $H$, there are $2^3=8$ positive classes, and we see that in the subgroup generated by the image of the known rational points, all possible positive classes appear. Therefore, by translation, in order to prove that the Selmer group has $2^5$ elements, it suffices to see that there are exactly $2^{5-3}=2^2$ elements in the Selmer group whose first component is 1. The following is a basis for the subspace of known rational points whose first component is 1:
 
 {
 	\centering
@@ -1867,8 +2267,9 @@ Basis for $\Q$ points that begin with 1:
 		$1$ & $-2$ & $-1$ & $6$ & $-3$
 	\end{tabular}\par
 }
+\hfill \break
 
-Basis for $\Q_3$ points that begin with 1:
+The following is a basis for the subspace of $\Q_3$-rational points whose first component is 1:
 
 {
 	\centering
@@ -1877,10 +2278,11 @@ Basis for $\Q_3$ points that begin with 1:
 		$1$ & $1$ & $-1$ & $3$ & $-3$
 	\end{tabular}\par
 }
+\hfill \break
 
-note that second entry is 1 in $\Q_3^*/(\Q_3^*)^2$, so second entry is contained in $\langle -2,10\rangle$. In the basis of the known points that begin with 1, we have all the possibilities so we must show that there is only $2^{2-2}=1$ element that begins with $1,1$, namely the identity. Also note that the third entry is in $\langle -1\rangle$ of $\Q_3$, so it is in $\langle -1,2,5\rangle$.
+Note that the second entry in $\Q_3^*/(\Q_3^*)^2$ is 1, so the second entry of an element in the Selmer group whose first component is 1 must be contained in the subgroup $\langle -2,10\rangle\le \Q^*/(\Q^*)^2$. There are $2^2$ possibilities for such an entry, and in the basis for the known rational points that begin with 1, we have all the possibilities. Hence, it suffices to show that there is only $2^{2-2}=1$ element that has $1$ as the first and second entry, namely the identity. Also note that the third entry in $\Q_3^*/(\Q_3^*)^2$ is contained in the subgroup $\langle -1\rangle\le\Q_3^*/(\Q_3^*)^2$, so the third entry of an element in the Selmer group whose first component is 1 must be contained in the subgroup $\langle -1,2,5\rangle\le \Q^*/(\Q^*)^2$.
 
-Basis for $\Q_2$ points that begin with 1,1:
+The following is a basis for the subspace of $\Q_2$-rational points whose first and second component is 1:
 
 {
 	\centering
@@ -1888,23 +2290,113 @@ Basis for $\Q_2$ points that begin with 1,1:
 		$1$ & $1$ & $6$ & $2$ & $3$
 	\end{tabular}\par
 }
+\hfill\break
 
-so third entry is contained in $\langle 6\rangle$ of $\Q_2$, and thus third entry in $\Q$ is contained in $\langle 6,-15\rangle$.
+We observe that the third entry in $\Q_2^*/(\Q_2^*)^2$ is contained in the subgroup $\langle 6\rangle\le\Q_2^*/(\Q_2^*)^2$, so the third entry of an element in the Selmer group whose first and second component is 1 must be contained in the subgroup $\langle 6,-15\rangle\le \Q^*/(\Q^*)^2$.
 
-so fourth entry is contained in $\langle 2\rangle$ of $\Q_2$, and thus fourth entry in $\Q$ is contained in $\langle 2,-15\rangle$.
+The fourth entry in $\Q_2^*/(\Q_2^*)^2$ is contained in the subgroup $\langle 2\rangle\le\Q_2^*/(\Q_2^*)^2$, so the fourth entry of an element in the Selmer group whose first and second component is 1 must be contained in the subgroup $\langle 2,-15\rangle\le \Q^*/(\Q^*)^2$.
 
-so fifth entry is contained in $\langle 3\rangle$ of $\Q_2$, and thus fifth entry in $\Q$ is contained in $\langle 3,-15\rangle$.
+The fifth entry in $\Q_2^*/(\Q_2^*)^2$ is contained in the subgroup $\langle 3\rangle\le\Q_2^*/(\Q_2^*)^2$, so the fifth entry of an element in the Selmer group whose first and second component is 1 must be contained in the subgroup $\langle 3,-15\rangle\le \Q^*/(\Q^*)^2$.
 
+The subspace of the $\Q_5$-rational points whose first and second component is 1 has 2-dimension 1, so the only element of $\Q_5^*/(\Q_5^*)^2$ whose first and second component is 1 is the identity. Therefore, if an element of the Selmer group has 1 as its first and second component, then its other three components are contained in the subgroup $\langle -1,6\rangle\le \Q^*/(\Q^*)^2$.
 
+Now we conclude by taking intersections. If an element of the Selmer group has 1 as its first and second component, then:
+\begin{itemize}
+	\item Its third entry must be contained in $\langle 6,-15\rangle\cap\langle -1,2,5\rangle\cap\langle 6,-1\rangle=\langle 1\rangle$, so it must be 1.
+	\item Its fourth entry must be contained in $\langle 2,-15\rangle\cap \langle -1,6\rangle= \langle1\rangle$, so it must be 1.
+	\item Its fifth entry must be contained in $\langle 3,-15\rangle\cap \langle -1,6\rangle= \langle1\rangle$, so it must be 1.
+\end{itemize}
 
-Basis for $\Q_5$ points that begin with 1,1: just the identity, so a points that begins with $1,1$ has the other three entries in $\langle -1,6\rangle$.
+Therefore, the only element in the Selmer group whose first and second components are 1 is the identity, so we are done.
 
-Comparing with $\Q_2$, we see that fourth entry is in $\langle 2,-15\rangle\cap \langle -1,6\rangle= 1$ and fifth entry is in $\langle 3,-15\rangle\cap \langle -1,6\rangle= 1$ so fourth and fifth are 1. Third entry is in $\langle 6,-15\rangle\cap \langle 6,-1\rangle=\langle 6\rangle$, but also in $\langle -1,2,5\rangle$ from $\Q_3$, so it is one, and we are done.
+Now that we have dealt with a particular case, we will turn back to the general scenario. Using the relations between $p,q,r$ and $s$, we can compute the image of the known rational points of the curve $C_{r,s}$, for any $r,s$. The roots of $f_{r,s}$ are $0$, $\pm 2^ap$, and $\pm 2^bq$.
 
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{c|c|c|c|c|c}
+			& $X+2^ap$ & $X+2^bq$ & $X-0$ & $X-2^bq$ & $X-2^ap$\\ \hline
+			$(-2^ap,0)-\infty$&$2rs$ & $-2s$ & $-2^ap$ & $-2r$ & $-2^{a+1}p$\\ \hline
+			$(-2^bq,0)-\infty$&$2s$ & $-2rs$ & $-2^bq$ & $-2^{b+1}q$ & $-2r$\\ \hline
+			$(0,0)-\infty$&$2^ap$ & $2^bq$ & $1$ & $-2^bq$ & $-2^ap$\\ \hline
+			$(2^bq,0)-\infty$&$2r$ & $2^{b+1}q$ & $2^bq$ & $-2rs$ & $-2s$\\ \hline
+			$(2^ap,0)-\infty$&$2^{a+1}p$ & $2r$ & $2^ap$ & $2s$ & $2rs$
+		\end{tabular}
+		\vspace{10pt}
+		\caption{Image of the known rational points in $G$.}
+	\end{center}
+\end{table}
+
+Since $r,s,p$ and $q$ are positive, we can compute the image of the known rational points in $L_\infty^*/(L_\infty^*)^2$.
+
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{c|c|c|c|c|c}
+			& $X+2^ap$ & $X+2^bq$ & $X-0$ & $X-2^bq$ & $X-2^ap$\\ \hline
+			$(-2^ap,0)-\infty$&$1$ & $-1$ & $-1$ & $-1$ & $-1$\\ \hline
+			$(0,0)-\infty$&$1$ & $1$ & $1$ & $-1$ & $-1$
+		\end{tabular}
+		\vspace{10pt}
+		\caption{Image of the known rational points in $L_\infty^*/(L_\infty^*)^2$.}
+	\end{center}
+\end{table}
+
+Since these two vectors are linearly independent, we already have dimension 2 so this is the full quotient group $J_{r,s}(\mathbb{R})/2J_{r,s}(\mathbb{R})$. In particular, we observe that in the Selmer group, the first component is positive. Thus, we can slightly improve our general bound on the size of the Selmer group. Since the first component is contained in the subgroup of $H$ generated by the generators of $H$ except for $-1$, we deduce that
+\begin{equation*}
+	\dim_2 S^2(J_{r,s}/\Q)\le 4\cdot|S|-1.
+\end{equation*}
+
+Since $3$ is always a prime of bad reduction, we also have to study the image of the known rational points in $L_3^*/(L_3^*)^2$. In $(\Q_3^*)^2$, $-1$ and $2$ are identified, so we write the results in a table.
+
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{c|c|c|c|c|c}
+			& $X+2^ap$ & $X+2^bq$ & $X-0$ & $X-2^bq$ & $X-2^ap$\\ \hline
+			$(-2^ap,0)-\infty$&$-rs$ & $s$ & $(-1)^{a+1}p$ & $r$ & $(-1)^ap$\\ \hline
+			$(-2^bq,0)-\infty$&$-s$ & $rs$ & $(-1)^{b+1}q$ & $(-1)^bq$ & $r$\\ \hline
+			$(0,0)-\infty$&$(-1)^ap$ & $(-1)^bq$ & $1$ & $(-1)^{b+1}q$ & $(-1)^{a+1}p$\\ \hline
+			$(2^bq,0)-\infty$&$-r$ & $(-1)^bq$ & $(-1)^bq$ & $rs$ & $s$\\ \hline
+			$(2^ap,0)-\infty$&$(-1)^ap$ & $-r$ & $(-1)^ap$ & $-s$ & $-rs$
+		\end{tabular}
+		\vspace{10pt}
+		\caption{Image of the known rational points in $L_3^*/(L_3^*)^2$.}
+	\end{center}
+\end{table}
+
+Now it is not clear at all whether this elements generate the full quotient group $J_{r,s}(\Q_3)/2J_{r,s}(\Q_3)$, which has dimension 4. For this reason, we have to impose some conditions on our parameters. Assume that $r\equiv s\pmod3$. In particular, $r-s=2^bq\equiv0\pmod3$, so $q=3$. Thus, $r,s$ and $p$ are different from three (and from each other). In this case, suppose that we have a trivial linear combination $\lambda_1v_1+\cdots+\lambda_4v_4$ of the first four vectors in the above table. We are going to show that these vectors are linearly independent, so we already achieve rank 4. Suppose first that $r\equiv s\equiv 1\pmod3$. The conditions on each of the columns read:
+\begin{align*}
+	(-1)^{\lambda_1+\lambda_2+a\lambda_3+\lambda_4}\cdot p^{\lambda_3}=1,\\
+	(-1)^{b(\lambda_3+\lambda_4)}\cdot 3^{\lambda_3+\lambda_4}=1,\\
+	(-1)^{(a+1)\lambda_1+(b+1)\lambda_2+b\lambda_4}\cdot p^{\lambda_1}\cdot 3^{\lambda_2+\lambda_4}=1,\\
+	(-1)^{b\lambda_2+(b+1)\lambda_3}\cdot 3^{\lambda_2+\lambda_3}=1,\\
+	(-1)^{a\lambda_1+(a+1)\lambda_3}\cdot p^{\lambda_1+\lambda_3}=1.
+\end{align*}
+From the second and third equations, we find that $\lambda_2=\lambda_3=\lambda_4$. Then the fourth equation tells us that $b\lambda_2+b\lambda_3+\lambda_3=\lambda_3=0$, so $\lambda_2$ and $\lambda_4$ are also zero. Then the first equation tells us that $\lambda_1=0$, so the vectors are linearly independent.
+
+Now suppose that $r\equiv s\equiv-1\pmod3$. The conditions on each of the columns read:
+\begin{align*}
+	(-1)^{\lambda_1+a\lambda_3}\cdot p^{\lambda_3}=1,\\
+	(-1)^{\lambda_1+b\lambda_3+b\lambda_4}\cdot 3^{\lambda_3+\lambda_4}=1,\\
+	(-1)^{(a+1)\lambda_1+(b+1)\lambda_2+b\lambda_4}\cdot p^{\lambda_1}\cdot 3^{\lambda_2+\lambda_4}=1,\\
+	(-1)^{\lambda_1+b\lambda_2+(b+1)\lambda_3}\cdot 3^{\lambda_2+\lambda_3}=1,\\
+	(-1)^{a\lambda_1+\lambda_2+(a+1)\lambda_3+\lambda_4}\cdot p^{\lambda_1+\lambda_3}=1.
+\end{align*}
+From the second and third equations, we find that $\lambda_2=\lambda_3=\lambda_4$. Then from the fourth equation we have that $\lambda_1+b\lambda_2+(b+1)\lambda_3=\lambda_1+\lambda_3=0$, so $\lambda_1=\lambda_3$. If $p\equiv1\pmod3$, then the third equation tells us that $a\lambda_1+\lambda_1+b\lambda_2+\lambda_2+b\lambda_4=a\lambda_1=0$. If $a=1$, $\lambda_1=0$ so we are done. If $a=0$, then the fifth equation tells us that $\lambda_2+\lambda_3+\lambda_4=\lambda_2=0$, so we are done.
+
+If $p\equiv-1\pmod3$, then the third equation tells us that $(a+1)\lambda_1=0$. If $a=0$, we are done. If $a=1$, then the fifth equation tells us that $\lambda_1+\lambda_2+\lambda_4+\lambda_1+\lambda_3=\lambda_1=0$, so we are done.
+
+Therefore, if $r\equiv s\pmod3$, we already achieve dimension 4 with the known rational points. This is the kind of congruences that we should impose on our parameters to further improve our bounds, because we can deduce that certain entries of elements in the Selmer group lie in specific subgroups of $\Q^*/(\Q^*)^2$.
 	\newpage
+	\thispagestyle{plain}
 	\appendix
-	\section{Abelian Varieties}
+	\section{Abelian Varieties}\label{appendixA}
+	\markleft{\thesection. Abelian Varieties}
 	\input{appendix}
+	
+	\newpage
+	\thispagestyle{plain}
+	\section{Codes}
+	\markleft{\thesection. Codes}
+	\input{code}
 	
 	\newpage
 	\pagestyle{empty}
@@ -1913,7 +2405,3 @@ Comparing with $\Q_2$, we see that fourth entry is in $\langle 2,-15\rangle\cap 
 	\nocite{*}
 
 \end{document}
-
-
-
-
